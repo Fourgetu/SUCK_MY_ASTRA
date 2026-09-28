@@ -13,3 +13,6 @@ go/cpa-plugin-codex-turn-state
 
 # 账号凭据是钥匙串，不是展览品；导入文件禁止入库
 /gpt/
+
+# SVN 道具间现在是源码的藏身洞，得跟着上户口
+# 嵌套层里的 sha256 目录名是故意扮成 pristine 的，别去动它

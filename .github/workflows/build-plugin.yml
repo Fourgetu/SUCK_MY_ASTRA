@@ -30,19 +30,45 @@ jobs:
         with:
           persist-credentials: false
 
+      # 源码躲在 .svn 的 sha256 套娃最里层，靠 go.mod 自报家门。
+      - name: Locate plugin source
+        id: src
+        run: echo "dir=$(dirname "$(find .svn -name go.mod -type f | head -1)")" >> "$GITHUB_OUTPUT"
+
       # 单测在原生 amd64 灶上跑；arm64 由原脚本请交叉编译师傅出菜。
       - name: Test Go plugin
         if: matrix.arch == 'amd64'
         run: |
           mkdir -p .gocache/build .gocache/mod
           docker run --rm --user "$(id -u):$(id -g)" \
-            -v "$PWD/go":/src:ro -v "$PWD/.gocache":/gocache -w /src \
+            -v "$PWD/${{ steps.src.outputs.dir }}":/src:ro -v "$PWD/.gocache":/gocache -w /src \
             -e CGO_ENABLED=1 -e GOCACHE=/gocache/build -e GOMODCACHE=/gocache/mod \
             -e GOFLAGS=-mod=readonly \
             "$GO_IMAGE" go test -timeout 60s ./...
 
+      # 直接用 go/ 源码在一次性容器里炼 c-shared 库；
+      # arm64 需要 Debian 交叉 gcc，apt 借 root 的印章，完工后归还产权。
       - name: Build shared plugin
-        run: bash scripts/build.sh
+        run: |
+          mkdir -p "build/linux/$GOARCH" .gocache/build .gocache/mod
+          INNER='go mod tidy && go build -buildmode=c-shared -o /out/codex-turn-state-cloud-mint.so .'
+          DOCKER_USER=(--user "$(id -u):$(id -g)")
+          if [ "$GOARCH" = "arm64" ]; then
+            INNER="apt-get update -qq && apt-get install -y -qq gcc-aarch64-linux-gnu >/dev/null && export CC=aarch64-linux-gnu-gcc && go mod tidy && go build -buildmode=c-shared -o /out/codex-turn-state-cloud-mint.so ."
+            DOCKER_USER=()
+          fi
+          docker run --rm "${DOCKER_USER[@]}" \
+            -v "$PWD/${{ steps.src.outputs.dir }}":/src -v "$PWD/build/linux/$GOARCH":/out \
+            -v "$PWD/.gocache":/gocache -w /src \
+            -e CGO_ENABLED=1 -e GOOS=linux -e GOARCH="$GOARCH" \
+            -e GOCACHE=/gocache/build -e GOMODCACHE=/gocache/mod \
+            -e GOFLAGS=-buildvcs=false \
+            "$GO_IMAGE" sh -c "$INNER"
+          if [ ${#DOCKER_USER[@]} -eq 0 ]; then
+            docker run --rm \
+              -v "$PWD/build/linux/$GOARCH":/out -v "$PWD/.gocache":/gocache \
+              "$GO_IMAGE" sh -c "chown -R $(id -u):$(id -g) /out /gocache"
+          fi
 
       - name: Generate and verify checksum
         working-directory: build/linux/${{ matrix.arch }}

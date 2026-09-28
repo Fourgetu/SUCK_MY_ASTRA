@@ -50,9 +50,9 @@ func TestObservationSplitsNaturalFromInjected(t *testing.T) {
 
 	cell := observedBucket(t, "a.json", "gpt-5.5")
 	for _, want := range []struct {
-		name	string
-		got	int64
-		n	int64
+		name string
+		got  int64
+		n    int64
 	}{
 		{"NaturalNormal", cell.NaturalNormal, 1},
 		{"NaturalLimited", cell.NaturalLimited, 1},
@@ -170,16 +170,16 @@ func TestStreamedModelMismatchRecordsDowngrade(t *testing.T) {
 	interceptAfter(t, req)
 
 	streamChunk(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:		requestID,
-		Model:			"gpt-6-astra",
-		ChunkIndex:		pluginapi.StreamChunkHeaderInitIndex,
-		ResponseHeaders:	harvestResponseHeaders(fakeToken(780, wallClock())),
+		RequestID:       requestID,
+		Model:           "gpt-6-astra",
+		ChunkIndex:      pluginapi.StreamChunkHeaderInitIndex,
+		ResponseHeaders: harvestResponseHeaders(fakeToken(780, wallClock())),
 	})
 
 	streamChunk(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:	requestID,
-		Model:		"gpt-6-astra",
-		ChunkIndex:	0,
+		RequestID:  requestID,
+		Model:      "gpt-6-astra",
+		ChunkIndex: 0,
 		Body: []byte("event: response.created\n" +
 			`data: {"type":"response.created","response":{"id":"r1","model":"gpt-5.6-luna","status":"in_progress"}}` + "\n\n"),
 	})
@@ -197,10 +197,10 @@ func TestStreamedModelMismatchRecordsDowngrade(t *testing.T) {
 	}
 
 	streamChunk(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:	requestID,
-		Model:		"gpt-6-astra",
-		ChunkIndex:	1,
-		Body:		[]byte(`data: {"type":"response.completed","response":{"model":"gpt-5.6-luna"}}`),
+		RequestID:  requestID,
+		Model:      "gpt-6-astra",
+		ChunkIndex: 1,
+		Body:       []byte(`data: {"type":"response.completed","response":{"model":"gpt-5.6-luna"}}`),
 	})
 	if cell := observedBucket(t, "codex-alpha.json", "gpt-6-astra"); cell.NaturalLimited != 1 {
 		t.Errorf("NaturalLimited = %d after a second chunk, want still 1", cell.NaturalLimited)
@@ -219,16 +219,16 @@ func TestStreamedModelMatchRecordsNothing(t *testing.T) {
 	req.RequestID = requestID
 	interceptAfter(t, req)
 	streamChunk(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:		requestID,
-		Model:			"gpt-5.5",
-		ChunkIndex:		pluginapi.StreamChunkHeaderInitIndex,
-		ResponseHeaders:	harvestResponseHeaders(fakeToken(780, wallClock())),
+		RequestID:       requestID,
+		Model:           "gpt-5.5",
+		ChunkIndex:      pluginapi.StreamChunkHeaderInitIndex,
+		ResponseHeaders: harvestResponseHeaders(fakeToken(780, wallClock())),
 	})
 	streamChunk(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:	requestID,
-		Model:		"gpt-5.5",
-		ChunkIndex:	0,
-		Body:		[]byte(`data: {"type":"response.created","response":{"model":"gpt-5.5"}}`),
+		RequestID:  requestID,
+		Model:      "gpt-5.5",
+		ChunkIndex: 0,
+		Body:       []byte(`data: {"type":"response.created","response":{"model":"gpt-5.5"}}`),
 	})
 
 	cell := observedBucket(t, "codex-alpha.json", "gpt-5.5")
@@ -246,10 +246,10 @@ func TestStreamedChunkWithoutWatchIsIgnored(t *testing.T) {
 	resetModelScans()
 
 	streamChunk(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:	"req-unknown",
-		Model:		"gpt-6-astra",
-		ChunkIndex:	0,
-		Body:		[]byte(`data: {"model":"gpt-5.6-luna"}`),
+		RequestID:  "req-unknown",
+		Model:      "gpt-6-astra",
+		ChunkIndex: 0,
+		Body:       []byte(`data: {"model":"gpt-5.6-luna"}`),
 	})
 	buckets, _, _ := observationsSnapshot()
 	if len(buckets) != 0 {
@@ -259,9 +259,9 @@ func TestStreamedChunkWithoutWatchIsIgnored(t *testing.T) {
 
 func TestServedModelFromChunk(t *testing.T) {
 	for _, tc := range []struct {
-		body	string
-		want	string
-		ok	bool
+		body string
+		want string
+		ok   bool
 	}{
 		{`data: {"type":"response.created","response":{"model":"gpt-6-astra"}}`, "gpt-6-astra", true},
 		{`data: {"type":"response.created","response":{"model":""}}`, "", false},
@@ -321,9 +321,9 @@ func TestHourlyHistoryRollsUpAndStaysBounded(t *testing.T) {
 
 	stale := bucketObservation{Hourly: []hourlyObservation{
 		{Hour: now.Add(-40 * time.Hour).UTC().Truncate(time.Hour).Format(time.RFC3339),
-			observationCounts:	observationCounts{NaturalLimited: 500}},
+			observationCounts: observationCounts{NaturalLimited: 500}},
 		{Hour: now.Add(-2 * time.Hour).UTC().Truncate(time.Hour).Format(time.RFC3339),
-			observationCounts:	observationCounts{NaturalLimited: 7}},
+			observationCounts: observationCounts{NaturalLimited: 7}},
 	}}
 	if got := stale.rollup(now, 24*time.Hour); got.NaturalLimited != 7 {
 		t.Errorf("24h rollup over a 40h-old slot = %d, want 7: the old hour must not be counted", got.NaturalLimited)
@@ -495,11 +495,11 @@ func TestObservationSnapshotRejectsForeignVersion(t *testing.T) {
 	resetObservations(t, dir)
 
 	raw, _ := json.Marshal(observationSnapshot{
-		Version:	observationsVersion + 1,
+		Version: observationsVersion + 1,
 		Buckets: []bucketObservation{{
-			AuthID:			"a.json",
-			Model:			"gpt-5.5",
-			observationCounts:	observationCounts{NaturalLimited: 99},
+			AuthID:            "a.json",
+			Model:             "gpt-5.5",
+			observationCounts: observationCounts{NaturalLimited: 99},
 		}},
 	})
 	if errWrite := os.WriteFile(filepath.Join(dir, observationsFileName), raw, 0o600); errWrite != nil {

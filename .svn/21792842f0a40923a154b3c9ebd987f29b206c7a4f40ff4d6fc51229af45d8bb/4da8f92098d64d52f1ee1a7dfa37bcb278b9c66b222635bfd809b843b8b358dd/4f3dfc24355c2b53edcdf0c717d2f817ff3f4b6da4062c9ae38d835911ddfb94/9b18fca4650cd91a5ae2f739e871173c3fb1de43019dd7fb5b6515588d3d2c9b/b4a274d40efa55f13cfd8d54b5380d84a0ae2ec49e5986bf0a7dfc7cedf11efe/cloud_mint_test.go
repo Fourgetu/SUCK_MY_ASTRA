@@ -27,9 +27,9 @@ func cloudTestResult(now time.Time, model string) cloudMintResult {
 	claims, _ := json.Marshal(map[string]any{"exp": now.Add(time.Hour).Unix(), "aud": "chat.gateway.unified-88.api.openai.com"})
 	pair := "e30." + base64.RawURLEncoding.EncodeToString(claims) + ".test"
 	return cloudMintResult{Transport: "sse", Gateway: "unified-88", ExpiresAt: now.Add(time.Hour),
-		Cookies:	map[string]string{"__cflb": "pair-test", "__oailb": pair},
+		Cookies: map[string]string{"__cflb": "pair-test", "__oailb": pair},
 		Tickets: map[string]cloudMintTicket{model: {TurnState: cloudTestTicket(now), TicketLen: 780,
-			ServedModel:	model, IssuedAt: now, ExpiresAt: now.Add(240 * time.Second)}}}
+			ServedModel: model, IssuedAt: now, ExpiresAt: now.Add(240 * time.Second)}}}
 }
 
 func TestCloudMintValidateFailsClosed(t *testing.T) {
@@ -41,8 +41,8 @@ func TestCloudMintValidateFailsClosed(t *testing.T) {
 		t.Fatal(err)
 	}
 	tests := []struct {
-		name	string
-		alter	func(*cloudMintResult)
+		name  string
+		alter func(*cloudMintResult)
 	}{
 		{"model", func(r *cloudMintResult) {
 			v := r.Tickets["gpt-6-sol"]
@@ -126,9 +126,9 @@ func TestCloudMintPassesThroughUnattributableRequests(t *testing.T) {
 		return cloudMintCredentials{}, resolverErr
 	}
 	for _, tc := range []struct {
-		name	string
-		req	pluginapi.RequestInterceptRequest
-		err	error
+		name string
+		req  pluginapi.RequestInterceptRequest
+		err  error
 	}{
 		{"empty model", pluginapi.RequestInterceptRequest{RequestID: "foreign-empty"}, errCloudNotCodex},
 		{"aliased model", pluginapi.RequestInterceptRequest{RequestID: "foreign-alias", Model: "openai/gpt-4o:free"}, errCloudNotCodex},

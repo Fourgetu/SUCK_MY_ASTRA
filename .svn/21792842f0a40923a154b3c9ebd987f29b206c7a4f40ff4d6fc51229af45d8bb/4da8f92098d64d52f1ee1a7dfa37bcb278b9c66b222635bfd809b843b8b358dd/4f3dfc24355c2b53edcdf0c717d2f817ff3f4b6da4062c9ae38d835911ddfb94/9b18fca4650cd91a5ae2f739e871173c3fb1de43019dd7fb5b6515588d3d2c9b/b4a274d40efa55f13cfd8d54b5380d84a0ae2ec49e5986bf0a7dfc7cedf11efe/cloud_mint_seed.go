@@ -7,8 +7,8 @@ import (
 )
 
 type cloudMintRoute struct {
-	Model	string
-	Cookie	string
+	Model  string
+	Cookie string
 }
 
 func cloudMintSeedCookie(raw, gateway string, now time.Time) (string, error) {

@@ -17,97 +17,97 @@ import (
 )
 
 const (
-	mgmtStatusPath		= "/v0/management/codex-turn-state/status"
-	mgmtClearPath		= "/v0/management/codex-turn-state/buckets/clear"
-	mgmtSelftestPath	= "/v0/management/codex-turn-state/selftest"
-	mgmtConfigPath		= "/v0/management/codex-turn-state/config"
-	mgmtResourcePath	= "/v0/resource/plugins/codex-turn-state/"
+	mgmtStatusPath   = "/v0/management/codex-turn-state/status"
+	mgmtClearPath    = "/v0/management/codex-turn-state/buckets/clear"
+	mgmtSelftestPath = "/v0/management/codex-turn-state/selftest"
+	mgmtConfigPath   = "/v0/management/codex-turn-state/config"
+	mgmtResourcePath = "/v0/resource/plugins/codex-turn-state/"
 
-	opsProbeStartPath	= mgmtResourcePath + "ops/probe/start"
-	opsProbeCancelPath	= mgmtResourcePath + "ops/probe/cancel"
+	opsProbeStartPath  = mgmtResourcePath + "ops/probe/start"
+	opsProbeCancelPath = mgmtResourcePath + "ops/probe/cancel"
 
-	opsChoicesPath	= mgmtResourcePath + "ops/choices"
+	opsChoicesPath = mgmtResourcePath + "ops/choices"
 )
 
 type mgmtResponse struct {
-	StatusCode	int		`json:"StatusCode"`
-	Headers		http.Header	`json:"Headers"`
-	Body		[]byte		`json:"Body"`
+	StatusCode int         `json:"StatusCode"`
+	Headers    http.Header `json:"Headers"`
+	Body       []byte      `json:"Body"`
 }
 
 type mgmtRoute struct {
-	Method		string	`json:"Method"`
-	Path		string	`json:"Path"`
-	Menu		string	`json:"Menu"`
-	Description	string	`json:"Description"`
+	Method      string `json:"Method"`
+	Path        string `json:"Path"`
+	Menu        string `json:"Menu"`
+	Description string `json:"Description"`
 }
 
 type mgmtRegistration struct {
-	Routes		[]mgmtRoute	`json:"routes"`
-	Resources	[]mgmtRoute	`json:"resources"`
+	Routes    []mgmtRoute `json:"routes"`
+	Resources []mgmtRoute `json:"resources"`
 }
 
 type mgmtBucket struct {
-	AuthID		string	`json:"auth_id"`
-	Model		string	`json:"model"`
-	Ready		bool	`json:"ready"`
-	Len		int	`json:"len"`
-	Enabled		bool	`json:"enabled"`
-	IssuedAt	string	`json:"issued_at"`
-	ExpiresAt	string	`json:"expires_at"`
-	SecondsLeft	int64	`json:"seconds_left"`
+	AuthID      string `json:"auth_id"`
+	Model       string `json:"model"`
+	Ready       bool   `json:"ready"`
+	Len         int    `json:"len"`
+	Enabled     bool   `json:"enabled"`
+	IssuedAt    string `json:"issued_at"`
+	ExpiresAt   string `json:"expires_at"`
+	SecondsLeft int64  `json:"seconds_left"`
 
-	Observed	*mgmtObserved	`json:"observed"`
+	Observed *mgmtObserved `json:"observed"`
 }
 
 type mgmtObserved struct {
-	NaturalNormal	int64	`json:"natural_normal"`
-	NaturalLimited	int64	`json:"natural_limited"`
-	InjectedSilent	int64	`json:"injected_silent"`
-	InjectedLimited	int64	`json:"injected_limited"`
-	LastKind	string	`json:"last_kind"`
-	LastWrote	bool	`json:"last_wrote"`
-	LastNaturalKind	string	`json:"last_natural_kind"`
-	LastNaturalAt	string	`json:"last_natural_at"`
+	NaturalNormal   int64  `json:"natural_normal"`
+	NaturalLimited  int64  `json:"natural_limited"`
+	InjectedSilent  int64  `json:"injected_silent"`
+	InjectedLimited int64  `json:"injected_limited"`
+	LastKind        string `json:"last_kind"`
+	LastWrote       bool   `json:"last_wrote"`
+	LastNaturalKind string `json:"last_natural_kind"`
+	LastNaturalAt   string `json:"last_natural_at"`
 }
 
 type mgmtObservationEvent struct {
-	AuthID	string	`json:"auth_id"`
-	Model	string	`json:"model"`
-	Len	int	`json:"len"`
-	Wrote	bool	`json:"wrote"`
-	Kind	string	`json:"kind"`
+	AuthID string `json:"auth_id"`
+	Model  string `json:"model"`
+	Len    int    `json:"len"`
+	Wrote  bool   `json:"wrote"`
+	Kind   string `json:"kind"`
 }
 
 type mgmtCounters struct {
-	Harvest	int64	`json:"harvest"`
-	Steer	int64	`json:"steer"`
-	Pass	int64	`json:"pass"`
-	Skip	int64	`json:"skip"`
+	Harvest int64 `json:"harvest"`
+	Steer   int64 `json:"steer"`
+	Pass    int64 `json:"pass"`
+	Skip    int64 `json:"skip"`
 }
 
 type mgmtStatus struct {
-	Role		string		`json:"role"`
-	DryRun		bool		`json:"dry_run"`
-	TTLSeconds	int		`json:"ttl_seconds"`
-	TemplateLength	int		`json:"template_length"`
-	ReplaceLength	int		`json:"replace_length"`
-	StoreDir	string		`json:"store_dir"`
-	Models		[]string	`json:"models"`
-	Buckets		[]mgmtBucket	`json:"buckets"`
-	TargetsTotal	int		`json:"targets_total"`
-	TargetsReady	int		`json:"targets_ready"`
+	Role           string       `json:"role"`
+	DryRun         bool         `json:"dry_run"`
+	TTLSeconds     int          `json:"ttl_seconds"`
+	TemplateLength int          `json:"template_length"`
+	ReplaceLength  int          `json:"replace_length"`
+	StoreDir       string       `json:"store_dir"`
+	Models         []string     `json:"models"`
+	Buckets        []mgmtBucket `json:"buckets"`
+	TargetsTotal   int          `json:"targets_total"`
+	TargetsReady   int          `json:"targets_ready"`
 
-	AccountsSource		string			`json:"accounts_source"`
-	AccountsError		string			`json:"accounts_error"`
-	StoreError		string			`json:"store_error"`
-	Counters		mgmtCounters		`json:"counters"`
-	ObservationsSince	string			`json:"observations_since"`
-	ObservationFeed		[]mgmtObservationEvent	`json:"observation_feed"`
-	ProbeAccounts		[]string		`json:"probe_accounts"`
+	AccountsSource    string                 `json:"accounts_source"`
+	AccountsError     string                 `json:"accounts_error"`
+	StoreError        string                 `json:"store_error"`
+	Counters          mgmtCounters           `json:"counters"`
+	ObservationsSince string                 `json:"observations_since"`
+	ObservationFeed   []mgmtObservationEvent `json:"observation_feed"`
+	ProbeAccounts     []string               `json:"probe_accounts"`
 
-	ProbeProxyCount	int		`json:"probe_proxy_count"`
-	ProbeProxies	[]string	`json:"probe_proxies"`
+	ProbeProxyCount int      `json:"probe_proxy_count"`
+	ProbeProxies    []string `json:"probe_proxies"`
 }
 
 type mgmtClearResult struct {
@@ -115,25 +115,25 @@ type mgmtClearResult struct {
 }
 
 type mgmtSelftestResult struct {
-	Reached		bool	`json:"reached"`
-	StatusCode	int	`json:"status_code"`
-	Model		string	`json:"model"`
-	AuthID		string	`json:"auth_id"`
-	Targeted	bool	`json:"targeted"`
-	Harvested	bool	`json:"harvested"`
-	Note		string	`json:"note"`
-	Error		string	`json:"error"`
+	Reached    bool   `json:"reached"`
+	StatusCode int    `json:"status_code"`
+	Model      string `json:"model"`
+	AuthID     string `json:"auth_id"`
+	Targeted   bool   `json:"targeted"`
+	Harvested  bool   `json:"harvested"`
+	Note       string `json:"note"`
+	Error      string `json:"error"`
 }
 
 func decodeMgmtEnvelope(t *testing.T, raw []byte) json.RawMessage {
 	t.Helper()
 	var env struct {
-		OK	bool		`json:"ok"`
-		Result	json.RawMessage	`json:"result"`
-		Error	*struct {
-			Code	string	`json:"code"`
-			Message	string	`json:"message"`
-		}	`json:"error"`
+		OK     bool            `json:"ok"`
+		Result json.RawMessage `json:"result"`
+		Error  *struct {
+			Code    string `json:"code"`
+			Message string `json:"message"`
+		} `json:"error"`
 	}
 	if err := json.Unmarshal(raw, &env); err != nil {
 		t.Fatalf("decode envelope: %v (raw: %s)", err, truncateMgmtLog(raw))
@@ -155,11 +155,11 @@ func truncateMgmtLog(raw []byte) string {
 func driveManagement(t *testing.T, method, path string, body []byte) mgmtResponse {
 	t.Helper()
 	raw, err := json.Marshal(map[string]any{
-		"Method":	method,
-		"Path":		path,
-		"Headers":	http.Header{},
-		"Query":	url.Values{},
-		"Body":		body,
+		"Method":  method,
+		"Path":    path,
+		"Headers": http.Header{},
+		"Query":   url.Values{},
+		"Body":    body,
 	})
 	if err != nil {
 		t.Fatalf("marshal management request: %v", err)
@@ -193,9 +193,9 @@ func driveManagementJSON(t *testing.T, method, path string, payload any) mgmtRes
 func driveManagementRegister(t *testing.T) mgmtRegistration {
 	t.Helper()
 	raw, err := json.Marshal(map[string]any{
-		"Plugin":		map[string]any{"Name": "codex-turn-state"},
-		"BasePath":		"/v0/management",
-		"ResourceBasePath":	"/v0/resource/plugins/codex-turn-state",
+		"Plugin":           map[string]any{"Name": "codex-turn-state"},
+		"BasePath":         "/v0/management",
+		"ResourceBasePath": "/v0/resource/plugins/codex-turn-state",
 	})
 	if err != nil {
 		t.Fatalf("marshal management registration request: %v", err)
@@ -369,8 +369,8 @@ func TestRegistrationAdvertisesManagementAPI(t *testing.T) {
 	mustConfigure(t, probeRoleConfig(dir))
 
 	raw, err := json.Marshal(map[string]any{
-		"config_yaml":		[]byte(probeRoleConfig(dir)),
-		"schema_version":	6,
+		"config_yaml":    []byte(probeRoleConfig(dir)),
+		"schema_version": 6,
 	})
 	if err != nil {
 		t.Fatalf("marshal register request: %v", err)
@@ -503,9 +503,9 @@ func TestClearBucketRejectsPathTraversal(t *testing.T) {
 	seedMgmtBucket(t, dir, "codex-alpha.json", "gpt-5.5", wallClock().Add(-time.Minute))
 
 	cases := []struct {
-		name	string
-		authID	string
-		model	string
+		name   string
+		authID string
+		model  string
 	}{
 		{"parent via auth", "..", "sentinel"},
 		{"parent via model", "codex-alpha.json", "../sentinel"},
@@ -519,8 +519,8 @@ func TestClearBucketRejectsPathTraversal(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			resp := driveManagementJSON(t, http.MethodPost, mgmtClearPath, map[string]any{
-				"auth_id":	tc.authID,
-				"model":	tc.model,
+				"auth_id": tc.authID,
+				"model":   tc.model,
 			})
 			if resp.StatusCode < 400 || resp.StatusCode >= 500 {
 				t.Errorf("traversal accepted: status %d, want 4xx", resp.StatusCode)
@@ -543,8 +543,8 @@ func TestClearBucketRejectsMalformedBody(t *testing.T) {
 	before := observedCellCount()
 
 	cases := []struct {
-		name	string
-		body	[]byte
+		name string
+		body []byte
 	}{
 		{"not json", []byte("this is not json")},
 		{"empty body", nil},
@@ -570,8 +570,8 @@ func TestClearBucketRejectsMalformedBody(t *testing.T) {
 
 func TestSelftestWorksRegardlessOfRole(t *testing.T) {
 	for _, tc := range []struct {
-		name	string
-		cfg	func(dir string) string
+		name string
+		cfg  func(dir string) string
 	}{
 		{"probe", probeRoleConfig},
 		{"business", func(dir string) string { return businessConfigWithModels(dir) }},
@@ -640,8 +640,8 @@ func TestSelftestRejectsMalformedBody(t *testing.T) {
 	mustConfigure(t, probeRoleConfig(dir))
 
 	cases := []struct {
-		name	string
-		body	[]byte
+		name string
+		body []byte
 	}{
 		{"not json", []byte("nope")},
 		{"empty body", nil},
@@ -664,8 +664,8 @@ func TestSelftestRejectsUnsafeAuthID(t *testing.T) {
 	mustConfigure(t, probeRoleConfig(dir))
 
 	cases := []struct {
-		name	string
-		authID	string
+		name   string
+		authID string
 	}{
 		{"parent", ".."},
 		{"nested parent", "../.."},
@@ -678,8 +678,8 @@ func TestSelftestRejectsUnsafeAuthID(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			resp := driveManagementJSON(t, http.MethodPost, mgmtSelftestPath, map[string]any{
-				"model":	"gpt-5.5",
-				"auth_id":	tc.authID,
+				"model":   "gpt-5.5",
+				"auth_id": tc.authID,
 			})
 
 			if resp.StatusCode != http.StatusBadRequest {
@@ -690,8 +690,8 @@ func TestSelftestRejectsUnsafeAuthID(t *testing.T) {
 	}
 
 	ok := driveManagementJSON(t, http.MethodPost, mgmtSelftestPath, map[string]any{
-		"model":	"gpt-5.5",
-		"auth_id":	"codex-alpha.json",
+		"model":   "gpt-5.5",
+		"auth_id": "codex-alpha.json",
 	})
 	if ok.StatusCode == http.StatusBadRequest {
 		t.Errorf("a well-formed auth_id was rejected as unsafe: %s", truncateMgmtLog(ok.Body))
@@ -767,13 +767,15 @@ func TestSelftestEchoesTargetingHonestly(t *testing.T) {
 	}
 	literal := body[at : at+end]
 
-	if !strings.Contains(literal, "AuthID:") {
+	squashed := strings.Join(strings.Fields(literal), " ")
+
+	if !strings.Contains(squashed, "AuthID:") {
 		t.Error("the selftestResponse does not set AuthID, so the caller is never told which account was targeted")
-	} else if !strings.Contains(literal, "AuthID:    authID") && !strings.Contains(literal, "AuthID: authID") {
+	} else if !strings.Contains(squashed, "AuthID: authID") {
 		t.Errorf("AuthID is not echoed verbatim from the request; literal was:\n%s", literal)
 	}
 
-	if !strings.Contains(literal, `Targeted:  authID != ""`) && !strings.Contains(literal, `Targeted: authID != ""`) {
+	if !strings.Contains(squashed, `Targeted: authID != ""`) {
 		t.Errorf(`Targeted is not derived from 'authID != ""'; it must say whether the caller asked, not anything about the outcome. Literal was:`+"\n%s", literal)
 	}
 }
@@ -988,56 +990,56 @@ func TestStatusBucketLenIsALengthNotAValue(t *testing.T) {
 }
 
 const (
-	msgOverloaded	= `host_call_failed: {"error":{"type":"service_unavailable_error","code":"server_is_overloaded","message":"Our servers are currently overloaded. Please try again later.","param":null},"sequence_number":2}`
+	msgOverloaded = `host_call_failed: {"error":{"type":"service_unavailable_error","code":"server_is_overloaded","message":"Our servers are currently overloaded. Please try again later.","param":null},"sequence_number":2}`
 
-	msgServerError	= `host_call_failed: {"error":{"type":"server_error","code":"server_error","message":"An error occurred while processing your request.","param":null},"sequence_number":1}`
+	msgServerError = `host_call_failed: {"error":{"type":"server_error","code":"server_error","message":"An error occurred while processing your request.","param":null},"sequence_number":1}`
 )
 
 func TestUpstreamErrorClassification(t *testing.T) {
 	cases := []struct {
-		name		string
-		message		string
-		wantBody	bool
-		wantCode	string
-		wantType	string
-		wantStatus	int
-		wantOKStat	bool	//nolint:revive // mirrors the classifier's second return
+		name       string
+		message    string
+		wantBody   bool
+		wantCode   string
+		wantType   string
+		wantStatus int
+		wantOKStat bool
 	}{
 		{
 
-			name:		"overloaded, no status",
-			message:	msgOverloaded,
-			wantBody:	true,
-			wantCode:	"server_is_overloaded",
-			wantType:	"service_unavailable_error",
+			name:     "overloaded, no status",
+			message:  msgOverloaded,
+			wantBody: true,
+			wantCode: "server_is_overloaded",
+			wantType: "service_unavailable_error",
 		},
 		{
-			name:		"server_error, no status",
-			message:	msgServerError,
-			wantBody:	true,
-			wantCode:	"server_error",
-			wantType:	"server_error",
+			name:     "server_error, no status",
+			message:  msgServerError,
+			wantBody: true,
+			wantCode: "server_error",
+			wantType: "server_error",
 		},
 		{
-			name:		"body and status together",
-			message:	`host_call_failed: {"error":{"type":"rate_limit_error","code":"rate_limit_exceeded","message":"slow down"}} failed with status 429`,
-			wantBody:	true,
-			wantCode:	"rate_limit_exceeded",
-			wantType:	"rate_limit_error",
-			wantStatus:	429,
-			wantOKStat:	true,
+			name:       "body and status together",
+			message:    `host_call_failed: {"error":{"type":"rate_limit_error","code":"rate_limit_exceeded","message":"slow down"}} failed with status 429`,
+			wantBody:   true,
+			wantCode:   "rate_limit_exceeded",
+			wantType:   "rate_limit_error",
+			wantStatus: 429,
+			wantOKStat: true,
 		},
 		{
-			name:		"status only, no body",
-			message:	"host_call_failed: request failed with status 502",
-			wantBody:	false,
-			wantStatus:	502,
-			wantOKStat:	true,
+			name:       "status only, no body",
+			message:    "host_call_failed: request failed with status 502",
+			wantBody:   false,
+			wantStatus: 502,
+			wantOKStat: true,
 		},
 		{
 
-			name:		"transport failure",
-			message:	"host_call_failed: dial tcp 127.0.0.1:8317: connect: connection refused",
+			name:    "transport failure",
+			message: "host_call_failed: dial tcp 127.0.0.1:8317: connect: connection refused",
 		},
 	}
 
@@ -1109,10 +1111,10 @@ func TestStatusFromExecutionErrorRequiresTheFullPhrase(t *testing.T) {
 	}
 
 	accepted := map[string]int{
-		"host_call_failed: request failed with status 429":	429,
-		"host_call_failed: request failed with status 500":	500,
-		"host_call_failed: request failed with status 100":	100,
-		"host_call_failed: request failed with status 599":	599,
+		"host_call_failed: request failed with status 429": 429,
+		"host_call_failed: request failed with status 500": 500,
+		"host_call_failed: request failed with status 100": 100,
+		"host_call_failed: request failed with status 599": 599,
 	}
 	for message, want := range accepted {
 		t.Run(message, func(t *testing.T) {
@@ -1352,9 +1354,9 @@ func TestProbeKeysAreNeverDisplayedOrLogged(t *testing.T) {
 	}
 
 	for name, path := range map[string]string{
-		"management status":	mgmtStatusPath,
-		"anonymous status":	mgmtResourcePath + "status",
-		"config":		mgmtConfigPath,
+		"management status": mgmtStatusPath,
+		"anonymous status":  mgmtResourcePath + "status",
+		"config":            mgmtConfigPath,
 	} {
 		resp := driveManagement(t, http.MethodGet, path, nil)
 		if resp.StatusCode != http.StatusOK {
@@ -1431,16 +1433,16 @@ func TestProbeRunRoutesAreKeylessResourcesGuardedByConfirm(t *testing.T) {
 type choicesCPAFile map[string]any
 
 type choicesCPA struct {
-	server	*httptest.Server
+	server *httptest.Server
 
-	mu	sync.Mutex
+	mu sync.Mutex
 
-	status	int
-	files	[]choicesCPAFile
+	status int
+	files  []choicesCPAFile
 
-	hold	chan struct{}
+	hold chan struct{}
 
-	authSeen	[]string
+	authSeen []string
 }
 
 func newChoicesCPA(t *testing.T, files ...choicesCPAFile) *choicesCPA {
@@ -1494,12 +1496,12 @@ func (f *choicesCPA) authHeaders() []string {
 }
 
 const (
-	choicesAuthPro	= "codex-620f5a42-luo.swmu@example.com-pro.json"
-	choicesAuthPlus	= "codex-aa11bb22-someone@example.com-plus.json"
+	choicesAuthPro  = "codex-620f5a42-luo.swmu@example.com-pro.json"
+	choicesAuthPlus = "codex-aa11bb22-someone@example.com-plus.json"
 
-	choicesAuthBak	= "codex-620f5a42-luo.swmu@example.com-pro.json.bak"
+	choicesAuthBak = "codex-620f5a42-luo.swmu@example.com-pro.json.bak"
 
-	choicesAuthOther	= "gemini-someone@example.com.json"
+	choicesAuthOther = "gemini-someone@example.com.json"
 )
 
 func choicesConfig(dir, baseURL, mgmtKey string, accounts, models []string) string {
@@ -1508,8 +1510,8 @@ func choicesConfig(dir, baseURL, mgmtKey string, accounts, models []string) stri
 	fmt.Fprintf(&b, "probe_base_url: %q\n", baseURL)
 	fmt.Fprintf(&b, "probe_management_key: %q\n", mgmtKey)
 	for _, block := range []struct {
-		key	string
-		values	[]string
+		key    string
+		values []string
 	}{{"probe_accounts", accounts}, {"models", models}} {
 		if len(block.values) == 0 {
 			continue
@@ -1523,21 +1525,21 @@ func choicesConfig(dir, baseURL, mgmtKey string, accounts, models []string) stri
 }
 
 type mgmtChoiceAccount struct {
-	Name		string	`json:"name"`
-	Label		string	`json:"label"`
-	Disabled	bool	`json:"disabled"`
-	Selected	bool	`json:"selected"`
+	Name     string `json:"name"`
+	Label    string `json:"label"`
+	Disabled bool   `json:"disabled"`
+	Selected bool   `json:"selected"`
 }
 
 type mgmtChoiceModel struct {
-	Name		string	`json:"name"`
-	Selected	bool	`json:"selected"`
+	Name     string `json:"name"`
+	Selected bool   `json:"selected"`
 }
 
 type mgmtChoices struct {
-	Accounts	[]mgmtChoiceAccount	`json:"accounts"`
-	Models		[]mgmtChoiceModel	`json:"models"`
-	Error		string			`json:"error"`
+	Accounts []mgmtChoiceAccount `json:"accounts"`
+	Models   []mgmtChoiceModel   `json:"models"`
+	Error    string              `json:"error"`
 }
 
 func mustChoices(t *testing.T) (mgmtChoices, mgmtResponse) {
@@ -1648,8 +1650,8 @@ func TestChoicesListsCPACredentialsAndMarksTheScope(t *testing.T) {
 	}
 
 	wantModels := []struct {
-		name		string
-		selected	bool
+		name     string
+		selected bool
 	}{
 		{"gpt-5.5", true},
 		{"gpt-5.6-sol", false},
@@ -1688,41 +1690,41 @@ func TestChoicesListsCPACredentialsAndMarksTheScope(t *testing.T) {
 
 func TestMaskAuthLabel(t *testing.T) {
 	cases := []struct {
-		name	string
-		in	string
-		want	string
+		name string
+		in   string
+		want string
 	}{
 		{
-			name:	"the normal codex-<hex>-<email>-<tier>.json shape",
-			in:	"codex-620f5a42-luo.swmu@gmail.com-pro.json",
-			want:	"620f5a42…pro",
+			name: "the normal codex-<hex>-<email>-<tier>.json shape",
+			in:   "codex-620f5a42-luo.swmu@gmail.com-pro.json",
+			want: "620f5a42…pro",
 		},
 		{
-			name:	"no email in the name at all",
-			in:	"codex-620f5a42-pro.json",
-			want:	"620f5a42…pro",
-		},
-		{
-
-			name:	"extra dashes around the email",
-			in:	"codex-620f5a42-luo-swmu@gmail.com-team-pro.json",
-			want:	"620f5a42…pro",
-		},
-		{
-			name:	"empty string",
-			in:	"",
-			want:	"",
+			name: "no email in the name at all",
+			in:   "codex-620f5a42-pro.json",
+			want: "620f5a42…pro",
 		},
 		{
 
-			name:	"email in the final position",
-			in:	"codex-620f5a42-luo@gmail.com.json",
-			want:	"620f5a42",
+			name: "extra dashes around the email",
+			in:   "codex-620f5a42-luo-swmu@gmail.com-team-pro.json",
+			want: "620f5a42…pro",
 		},
 		{
-			name:	"nothing but an email",
-			in:	"codex-luo@gmail.com.json",
-			want:	"…",
+			name: "empty string",
+			in:   "",
+			want: "",
+		},
+		{
+
+			name: "email in the final position",
+			in:   "codex-620f5a42-luo@gmail.com.json",
+			want: "620f5a42",
+		},
+		{
+			name: "nothing but an email",
+			in:   "codex-luo@gmail.com.json",
+			want: "…",
 		},
 	}
 	for _, c := range cases {
@@ -1795,16 +1797,16 @@ func TestChoicesDoesNotHangOnUnresponsiveCPA(t *testing.T) {
 	t.Cleanup(func() { choicesFetchTimeout = previous })
 
 	request, errMarshal := json.Marshal(map[string]any{
-		"Method":	http.MethodGet, "Path": opsChoicesPath,
-		"Headers":	http.Header{}, "Query": url.Values{}, "Body": nil,
+		"Method": http.MethodGet, "Path": opsChoicesPath,
+		"Headers": http.Header{}, "Query": url.Values{}, "Body": nil,
 	})
 	if errMarshal != nil {
 		t.Fatalf("marshal resource request: %v", errMarshal)
 	}
 
 	type outcome struct {
-		raw	[]byte
-		err	error
+		raw []byte
+		err error
 	}
 	done := make(chan outcome, 1)
 	go func() {

@@ -14,11 +14,11 @@ import (
 const opsProxyCheckPath = mgmtResourcePath + "ops/proxy-check"
 
 type fakeCheckUpstream struct {
-	mu		sync.Mutex
-	status		int
-	authSeen	[]string
-	hdrSeen		[]http.Header
-	server		*httptest.Server
+	mu       sync.Mutex
+	status   int
+	authSeen []string
+	hdrSeen  []http.Header
+	server   *httptest.Server
 }
 
 func newFakeCheckUpstream(t *testing.T, status int) *fakeCheckUpstream {
@@ -46,13 +46,13 @@ func (u *fakeCheckUpstream) auths() []string {
 }
 
 type fakeTrace struct {
-	mu	sync.Mutex
-	ip	string
-	loc	string
-	colo	string
-	status	int
-	calls	int
-	server	*httptest.Server
+	mu     sync.Mutex
+	ip     string
+	loc    string
+	colo   string
+	status int
+	calls  int
+	server *httptest.Server
 }
 
 func newFakeTrace(t *testing.T) *fakeTrace {
@@ -124,9 +124,9 @@ func TestProxyCheckRequiresConfirm(t *testing.T) {
 func TestProxyCheckVerdictsFollowTheUpstreamStatus(t *testing.T) {
 
 	tests := []struct {
-		name	string
-		status	int
-		verdict	string
+		name    string
+		status  int
+		verdict string
 	}{
 		{"401 means the exit reached OpenAI", http.StatusUnauthorized, proxyVerdictOK},
 		{"403 means the exit is refused", http.StatusForbidden, proxyVerdictBlocked},
@@ -331,9 +331,9 @@ func TestProxyCheckIsRegisteredKeylessWithoutAMenu(t *testing.T) {
 }
 
 type rotatingTrace struct {
-	mu	sync.Mutex
-	n	int
-	server	*httptest.Server
+	mu     sync.Mutex
+	n      int
+	server *httptest.Server
 }
 
 func newRotatingTrace(t *testing.T) *rotatingTrace {

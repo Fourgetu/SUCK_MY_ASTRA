@@ -20,35 +20,35 @@ const cloudWorkersMax = 4
 const cloudFailureCooldown = 30 * time.Second
 
 type cloudMintJob struct {
-	row	cloudDashboardRow
-	done	chan struct{}
-	entry	cloudMintEntry
-	err	error
+	row   cloudDashboardRow
+	done  chan struct{}
+	entry cloudMintEntry
+	err   error
 }
 type cloudMintCached struct {
-	row	cloudDashboardRow
-	entry	cloudMintEntry
-	err	error
-	until	time.Time
+	row   cloudDashboardRow
+	entry cloudMintEntry
+	err   error
+	until time.Time
 }
 type cloudMintService struct {
-	mu	sync.Mutex
-	ctx	context.Context
-	cancel	context.CancelFunc
-	cache	map[string]cloudMintCached
-	jobs	map[string]*cloudMintJob
-	busy	map[string]bool
+	mu     sync.Mutex
+	ctx    context.Context
+	cancel context.CancelFunc
+	cache  map[string]cloudMintCached
+	jobs   map[string]*cloudMintJob
+	busy   map[string]bool
 }
 
 func newCloudMintService() *cloudMintService {
 	ctx, cancel := context.WithCancel(context.Background())
 	return &cloudMintService{ctx: ctx, cancel: cancel, cache: map[string]cloudMintCached{}, jobs: map[string]*cloudMintJob{}, busy: map[string]bool{}}
 }
-func (s *cloudMintService) close()	{ s.cancel() }
+func (s *cloudMintService) close() { s.cancel() }
 
 var cloudServiceState = struct {
 	sync.Mutex
-	service	*cloudMintService
+	service *cloudMintService
 }{service: newCloudMintService()}
 
 func resetCloudMintService() {
@@ -64,11 +64,11 @@ func currentCloudMintService() *cloudMintService {
 }
 
 type cloudMintWork struct {
-	cfg			cloudMintConfig
-	creds			cloudMintCredentials
-	model, key, id, group	string
-	proxyURL		string
-	seedCookie		string
+	cfg                   cloudMintConfig
+	creds                 cloudMintCredentials
+	model, key, id, group string
+	proxyURL              string
+	seedCookie            string
 }
 
 func (w cloudMintWork) cacheKey() string {
@@ -257,6 +257,6 @@ func mintUnavailableReason(err error) string {
 func cloudMintUnavailable(reason string) pluginapi.RequestInterceptResponse {
 	return pluginapi.RequestInterceptResponse{Terminate: true, StatusCode: http.StatusServiceUnavailable,
 		ResponseHeaders: http.Header{"Content-Type": []string{"application/json"}, "Retry-After": []string{"2"},
-			"X-Mint-Reason":	[]string{reason}},
-		ResponseBody:	[]byte(`{"error":{"code":"cloud_mint_unavailable","reason":"` + reason + `","message":"ticket not ready; retry later"}}`)}
+			"X-Mint-Reason": []string{reason}},
+		ResponseBody: []byte(`{"error":{"code":"cloud_mint_unavailable","reason":"` + reason + `","message":"ticket not ready; retry later"}}`)}
 }

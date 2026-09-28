@@ -16,15 +16,15 @@ const cloudDashboardBuild = "cloud-mint-ui-20260927-steer-gate"
 const cloudDashboardLogLimit = 80
 
 type cloudDashboardLog struct {
-	At		time.Time	`json:"at"`
-	Kind		string		`json:"kind"`
-	Message		string		`json:"message"`
-	requestSequence	uint64
+	At              time.Time `json:"at"`
+	Kind            string    `json:"kind"`
+	Message         string    `json:"message"`
+	requestSequence uint64
 }
 
 var cloudDashboardLogs = struct {
 	sync.Mutex
-	items	[]cloudDashboardLog
+	items []cloudDashboardLog
 }{items: []cloudDashboardLog{}}
 
 func cloudRecordLog(kind, format string, args ...any) {
@@ -56,7 +56,7 @@ func cloudUpsertRequestLog(sequence uint64, at time.Time, kind, message string, 
 		return false
 	}
 	cloudDashboardLogs.items = append(cloudDashboardLogs.items, cloudDashboardLog{
-		At:	at, Kind: kind, Message: message, requestSequence: sequence,
+		At: at, Kind: kind, Message: message, requestSequence: sequence,
 	})
 	if len(cloudDashboardLogs.items) > cloudDashboardLogLimit {
 		cloudDashboardLogs.items = append([]cloudDashboardLog(nil), cloudDashboardLogs.items[len(cloudDashboardLogs.items)-cloudDashboardLogLimit:]...)
@@ -65,14 +65,14 @@ func cloudUpsertRequestLog(sequence uint64, at time.Time, kind, message string, 
 }
 
 type cloudDashboardRow struct {
-	Account		string	`json:"account"`
-	Model		string	`json:"model"`
-	Transport	string	`json:"transport"`
-	State		string	`json:"state"`
-	Gateway		string	`json:"gateway"`
-	Fingerprint	string	`json:"fingerprint"`
-	Length		int	`json:"length"`
-	SecondsLeft	int64	`json:"seconds_left"`
+	Account     string `json:"account"`
+	Model       string `json:"model"`
+	Transport   string `json:"transport"`
+	State       string `json:"state"`
+	Gateway     string `json:"gateway"`
+	Fingerprint string `json:"fingerprint"`
+	Length      int    `json:"length"`
+	SecondsLeft int64  `json:"seconds_left"`
 }
 
 func cloudWorkRow(work cloudMintWork) cloudDashboardRow {
@@ -120,10 +120,10 @@ func handleCloudDashboardStatus() pluginapi.ManagementResponse {
 	cloudDashboardLogs.Unlock()
 	sort.SliceStable(logs, func(i, j int) bool { return logs[i].At.Before(logs[j].At) })
 	return jsonResponse(http.StatusOK, map[string]any{
-		"plugin_id":	currentCloudPluginID(), "build": cloudDashboardBuild, "enabled": cfg.CloudMint.Enabled, "role": cfg.Role, "dry_run": cfg.DryRun,
+		"plugin_id": currentCloudPluginID(), "build": cloudDashboardBuild, "enabled": cfg.CloudMint.Enabled, "role": cfg.Role, "dry_run": cfg.DryRun,
 		"effective": map[string]any{"enabled": cfg.CloudMint.Enabled, "transport": cfg.CloudMint.Transport, "gateway": cfg.CloudMint.Gateway,
-			"ticket_length":	cfg.CloudMint.TicketLength, "ttl_seconds": cfg.CloudMint.TTLSeconds, "wait_ms": cfg.CloudMint.WaitMS,
-			"timeout_ms":	cfg.CloudMint.TimeoutMS, "fail_closed": cfg.CloudMint.FailClosed},
-		"rows":	rows, "logs": logs, "worker_limit": cloudWorkersMax,
+			"ticket_length": cfg.CloudMint.TicketLength, "ttl_seconds": cfg.CloudMint.TTLSeconds, "wait_ms": cfg.CloudMint.WaitMS,
+			"timeout_ms": cfg.CloudMint.TimeoutMS, "fail_closed": cfg.CloudMint.FailClosed},
+		"rows": rows, "logs": logs, "worker_limit": cloudWorkersMax,
 	})
 }

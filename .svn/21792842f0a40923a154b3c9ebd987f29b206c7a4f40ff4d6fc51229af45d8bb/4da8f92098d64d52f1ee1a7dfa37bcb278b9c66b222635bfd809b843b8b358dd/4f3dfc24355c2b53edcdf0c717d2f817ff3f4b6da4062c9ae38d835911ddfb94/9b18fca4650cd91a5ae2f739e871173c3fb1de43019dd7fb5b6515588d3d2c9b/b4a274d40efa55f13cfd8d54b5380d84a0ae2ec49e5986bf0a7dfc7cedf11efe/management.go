@@ -19,30 +19,30 @@ import (
 var dashboardHTML []byte
 
 const (
-	routeStatus		= "/codex-turn-state/status"
-	routeBucketsClear	= "/codex-turn-state/buckets/clear"
+	routeStatus       = "/codex-turn-state/status"
+	routeBucketsClear = "/codex-turn-state/buckets/clear"
 
-	routeSelftest	= "/codex-turn-state/selftest"
+	routeSelftest = "/codex-turn-state/selftest"
 
-	routeDashboard	= "/dashboard"
+	routeDashboard = "/dashboard"
 
-	routeStatusResource	= "/status"
+	routeStatusResource = "/status"
 
-	routeConfig	= "/codex-turn-state/config"
+	routeConfig = "/codex-turn-state/config"
 
-	routeOpsDryRun		= "/ops/dry-run"
-	routeOpsRole		= "/ops/role"
-	routeOpsClear		= "/ops/clear"
-	routeOpsSelftest	= "/ops/selftest"
+	routeOpsDryRun   = "/ops/dry-run"
+	routeOpsRole     = "/ops/role"
+	routeOpsClear    = "/ops/clear"
+	routeOpsSelftest = "/ops/selftest"
 
-	routeOpsScope	= "/ops/scope"
+	routeOpsScope = "/ops/scope"
 
-	routeOpsProbeStart	= "/ops/probe/start"
-	routeOpsProbeCancel	= "/ops/probe/cancel"
+	routeOpsProbeStart  = "/ops/probe/start"
+	routeOpsProbeCancel = "/ops/probe/cancel"
 
-	routeOpsProxyCheck	= "/ops/proxy-check"
+	routeOpsProxyCheck = "/ops/proxy-check"
 
-	routeOpsChoices	= "/ops/choices"
+	routeOpsChoices = "/ops/choices"
 )
 
 func managementRegister(raw []byte) ([]byte, error) {
@@ -65,14 +65,14 @@ func managementRegister(raw []byte) ([]byte, error) {
 		Resources: []pluginapi.ResourceRoute{
 			{
 
-				Path:		routeDashboard,
-				Menu:		"云端打票",
-				Description:	"云端打票：真实任务、脱敏流水与打票设置",
+				Path:        routeDashboard,
+				Menu:        "云端打票",
+				Description: "云端打票：真实任务、脱敏流水与打票设置",
 			},
 			{
 
-				Path:		routeStatusResource,
-				Description:	"只读状态（无需鉴权），供看板拉取",
+				Path:        routeStatusResource,
+				Description: "只读状态（无需鉴权），供看板拉取",
 			},
 
 			{Path: routeOpsDryRun, Description: "翻转 dry_run（无需鉴权，需 confirm=1）"},
@@ -175,15 +175,15 @@ func isResourcePath(path string) bool {
 
 func handleDashboard() pluginapi.ManagementResponse {
 	return pluginapi.ManagementResponse{
-		StatusCode:	http.StatusOK,
+		StatusCode: http.StatusOK,
 		Headers: http.Header{
-			"Content-Type":	[]string{"text/html; charset=utf-8"},
+			"Content-Type": []string{"text/html; charset=utf-8"},
 
-			"Cache-Control":	[]string{"no-store"},
+			"Cache-Control": []string{"no-store"},
 
-			"X-Content-Type-Options":	[]string{"nosniff"},
+			"X-Content-Type-Options": []string{"nosniff"},
 		},
-		Body:	[]byte(strings.Replace(string(dashboardHTML), `name="cpa-plugin-id" content="codex-turn-state"`, `name="cpa-plugin-id" content="`+currentCloudPluginID()+`"`, 1)),
+		Body: []byte(strings.Replace(string(dashboardHTML), `name="cpa-plugin-id" content="codex-turn-state"`, `name="cpa-plugin-id" content="`+currentCloudPluginID()+`"`, 1)),
 	}
 }
 
@@ -230,15 +230,15 @@ func handleProbeStartResource() pluginapi.ManagementResponse {
 }
 
 type probeCancelResponse struct {
-	Cancelled	bool		`json:"cancelled"`
-	ProbeRun	probeRunState	`json:"probe_run"`
+	Cancelled bool          `json:"cancelled"`
+	ProbeRun  probeRunState `json:"probe_run"`
 }
 
 func handleProbeCancelResource() pluginapi.ManagementResponse {
 	cancelled := probeRunCancel()
 	return jsonResponse(http.StatusOK, probeCancelResponse{
-		Cancelled:	cancelled,
-		ProbeRun:	probeRunSnapshot(),
+		Cancelled: cancelled,
+		ProbeRun:  probeRunSnapshot(),
 	})
 }
 
@@ -247,23 +247,23 @@ var knownCodexModels = []string{"gpt-5.5", "gpt-5.6-sol", "gpt-6-astra"}
 var choicesFetchTimeout = 5 * time.Second
 
 type choiceAccount struct {
-	Name	string	`json:"name"`
-	Label	string	`json:"label"`
+	Name  string `json:"name"`
+	Label string `json:"label"`
 
-	Disabled	bool	`json:"disabled"`
+	Disabled bool `json:"disabled"`
 
-	Selected	bool	`json:"selected"`
+	Selected bool `json:"selected"`
 }
 
 type choiceModel struct {
-	Name		string	`json:"name"`
-	Selected	bool	`json:"selected"`
+	Name     string `json:"name"`
+	Selected bool   `json:"selected"`
 }
 
 type choicesResponse struct {
-	Accounts	[]choiceAccount	`json:"accounts"`
-	Models		[]choiceModel	`json:"models"`
-	Error		string		`json:"error"`
+	Accounts []choiceAccount `json:"accounts"`
+	Models   []choiceModel   `json:"models"`
+	Error    string          `json:"error"`
 }
 
 func handleChoicesResource() pluginapi.ManagementResponse {
@@ -273,8 +273,8 @@ func handleChoicesResource() pluginapi.ManagementResponse {
 
 	out := choicesResponse{
 
-		Accounts:	[]choiceAccount{},
-		Models:		modelChoices(cfg.Models),
+		Accounts: []choiceAccount{},
+		Models:   modelChoices(cfg.Models),
 	}
 
 	accounts, errAccounts := choiceAccounts(cfg)
@@ -312,10 +312,10 @@ func choiceAccounts(cfg pluginConfig) ([]choiceAccount, error) {
 	out := make([]choiceAccount, 0, len(files))
 	for _, file := range files {
 		out = append(out, choiceAccount{
-			Name:		file.Name,
-			Label:		maskAuthLabel(file.Name),
-			Disabled:	file.Disabled,
-			Selected:	selected[file.Name],
+			Name:     file.Name,
+			Label:    maskAuthLabel(file.Name),
+			Disabled: file.Disabled,
+			Selected: selected[file.Name],
 		})
 	}
 	return out, nil
@@ -389,16 +389,16 @@ func maskAuthLabel(name string) string {
 
 func clearRequestFromQuery(q url.Values) clearRequest {
 	return clearRequest{
-		AuthID:	strings.TrimSpace(q.Get("auth_id")),
-		Model:	strings.TrimSpace(q.Get("model")),
-		All:	queryTrue(q.Get("all")),
+		AuthID: strings.TrimSpace(q.Get("auth_id")),
+		Model:  strings.TrimSpace(q.Get("model")),
+		All:    queryTrue(q.Get("all")),
 	}
 }
 
 func selftestRequestFromQuery(q url.Values) selftestRequest {
 	return selftestRequest{
-		Model:	strings.TrimSpace(q.Get("model")),
-		AuthID:	strings.TrimSpace(q.Get("auth_id")),
+		Model:  strings.TrimSpace(q.Get("model")),
+		AuthID: strings.TrimSpace(q.Get("auth_id")),
 	}
 }
 
@@ -456,10 +456,10 @@ func handleRoleResource(q url.Values) pluginapi.ManagementResponse {
 		log.Printf(logPrefix+"role set to %s via dashboard (keyless)", role)
 	}
 	return jsonResponse(http.StatusOK, map[string]any{
-		"role":		role,
-		"persisted":	persisted,
-		"warning":	warning,
-		"note":		"若切换后发现钩子没被重新协商（probe 采不到 / business 不替换），重启一次 CPA。",
+		"role":      role,
+		"persisted": persisted,
+		"warning":   warning,
+		"note":      "若切换后发现钩子没被重新协商（probe 采不到 / business 不替换），重启一次 CPA。",
 	})
 }
 
@@ -482,53 +482,53 @@ func parseBoolParam(v string) (value bool, ok bool) {
 }
 
 type statusBucket struct {
-	AuthID	string	`json:"auth_id"`
-	Model	string	`json:"model"`
-	Ready	bool	`json:"ready"`
+	AuthID string `json:"auth_id"`
+	Model  string `json:"model"`
+	Ready  bool   `json:"ready"`
 
-	Len	int	`json:"len"`
+	Len int `json:"len"`
 
-	Enabled	bool	`json:"enabled"`
+	Enabled bool `json:"enabled"`
 
-	RouteCookiesSecondsLeft	int64	`json:"route_cookies_seconds_left,omitempty"`
+	RouteCookiesSecondsLeft int64 `json:"route_cookies_seconds_left,omitempty"`
 
-	Observed	*observationSummary	`json:"observed,omitempty"`
+	Observed *observationSummary `json:"observed,omitempty"`
 }
 
 type statusResponse struct {
-	Role		string		`json:"role"`
-	DryRun		bool		`json:"dry_run"`
-	TTLSeconds	int		`json:"ttl_seconds"`
-	TemplateLength	int		`json:"template_length"`
-	ReplaceLength	int		`json:"replace_length"`
-	StoreDir	string		`json:"store_dir"`
-	Models		[]string	`json:"models"`
-	Buckets		[]statusBucket	`json:"buckets"`
-	TargetsTotal	int		`json:"targets_total"`
-	TargetsReady	int		`json:"targets_ready"`
+	Role           string         `json:"role"`
+	DryRun         bool           `json:"dry_run"`
+	TTLSeconds     int            `json:"ttl_seconds"`
+	TemplateLength int            `json:"template_length"`
+	ReplaceLength  int            `json:"replace_length"`
+	StoreDir       string         `json:"store_dir"`
+	Models         []string       `json:"models"`
+	Buckets        []statusBucket `json:"buckets"`
+	TargetsTotal   int            `json:"targets_total"`
+	TargetsReady   int            `json:"targets_ready"`
 
-	AccountsSource	string			`json:"accounts_source"`
-	AccountsError	string			`json:"accounts_error,omitempty"`
-	Counters	decisionCounters	`json:"counters"`
-	CountersSince	string			`json:"counters_since"`
-	GeneratedAt	string			`json:"generated_at"`
-	StoreError	string			`json:"store_error,omitempty"`
+	AccountsSource string           `json:"accounts_source"`
+	AccountsError  string           `json:"accounts_error,omitempty"`
+	Counters       decisionCounters `json:"counters"`
+	CountersSince  string           `json:"counters_since"`
+	GeneratedAt    string           `json:"generated_at"`
+	StoreError     string           `json:"store_error,omitempty"`
 
-	ProbeAccounts	[]string	`json:"probe_accounts"`
-	ProbeProxyCount	int		`json:"probe_proxy_count"`
+	ProbeAccounts   []string `json:"probe_accounts"`
+	ProbeProxyCount int      `json:"probe_proxy_count"`
 
-	ProbeProxies	[]string	`json:"probe_proxies"`
+	ProbeProxies []string `json:"probe_proxies"`
 
-	ProbeProxyRotatingCount	int		`json:"probe_proxy_rotating_count"`
-	ProbeProxiesRotating	[]string	`json:"probe_proxies_rotating"`
+	ProbeProxyRotatingCount int      `json:"probe_proxy_rotating_count"`
+	ProbeProxiesRotating    []string `json:"probe_proxies_rotating"`
 
-	ConfigErrors	[]string	`json:"config_errors,omitempty"`
+	ConfigErrors []string `json:"config_errors,omitempty"`
 
-	ProbeRun	probeRunState	`json:"probe_run"`
+	ProbeRun probeRunState `json:"probe_run"`
 
-	ObservationsSince	string	`json:"observations_since,omitempty"`
+	ObservationsSince string `json:"observations_since,omitempty"`
 
-	ObservationFeed	[]observationEvent	`json:"observation_feed"`
+	ObservationFeed []observationEvent `json:"observation_feed"`
 }
 
 func handleStatus() pluginapi.ManagementResponse {
@@ -542,27 +542,27 @@ func handleStatus() pluginapi.ManagementResponse {
 	state.mu.Unlock()
 
 	out := statusResponse{
-		Role:		cfg.Role,
-		DryRun:		cfg.DryRun,
-		TTLSeconds:	cfg.TTLSeconds,
-		TemplateLength:	cfg.TemplateLength,
-		ReplaceLength:	cfg.ReplaceLength,
-		StoreDir:	cfg.StoreDir,
-		Models:		append([]string(nil), cfg.Models...),
-		Counters:	counts,
-		CountersSince:	countsAt.UTC().Format(time.RFC3339),
-		GeneratedAt:	now.UTC().Format(time.RFC3339),
-		Buckets:	[]statusBucket{},
-		ProbeAccounts:	append([]string(nil), cfg.ProbeAccounts...),
+		Role:           cfg.Role,
+		DryRun:         cfg.DryRun,
+		TTLSeconds:     cfg.TTLSeconds,
+		TemplateLength: cfg.TemplateLength,
+		ReplaceLength:  cfg.ReplaceLength,
+		StoreDir:       cfg.StoreDir,
+		Models:         append([]string(nil), cfg.Models...),
+		Counters:       counts,
+		CountersSince:  countsAt.UTC().Format(time.RFC3339),
+		GeneratedAt:    now.UTC().Format(time.RFC3339),
+		Buckets:        []statusBucket{},
+		ProbeAccounts:  append([]string(nil), cfg.ProbeAccounts...),
 
-		ProbeProxyCount:	len(cfg.ProbeProxies),
-		ProbeProxies:		append([]string(nil), cfg.ProbeProxies...),
+		ProbeProxyCount: len(cfg.ProbeProxies),
+		ProbeProxies:    append([]string(nil), cfg.ProbeProxies...),
 
-		ProbeProxyRotatingCount:	len(cfg.ProbeProxiesRotating),
-		ProbeProxiesRotating:		append([]string(nil), cfg.ProbeProxiesRotating...),
-		ConfigErrors:			configErrors,
+		ProbeProxyRotatingCount: len(cfg.ProbeProxiesRotating),
+		ProbeProxiesRotating:    append([]string(nil), cfg.ProbeProxiesRotating...),
+		ConfigErrors:            configErrors,
 
-		ProbeRun:	probeRunSnapshot(),
+		ProbeRun: probeRunSnapshot(),
 	}
 	if out.Models == nil {
 		out.Models = []string{}
@@ -689,16 +689,16 @@ func handleStatus() pluginapi.ManagementResponse {
 }
 
 type configResponse struct {
-	Role		string		`json:"role"`
-	StoreDir	string		`json:"store_dir"`
-	Models		[]string	`json:"models"`
-	ProbeAccounts	[]string	`json:"probe_accounts"`
-	ProbeProxies	[]string	`json:"probe_proxies"`
-	DryRun		bool		`json:"dry_run"`
-	TTLSeconds	int		`json:"ttl_seconds"`
-	TemplateLength	int		`json:"template_length"`
-	ReplaceLength	int		`json:"replace_length"`
-	ConfigErrors	[]string	`json:"config_errors,omitempty"`
+	Role           string   `json:"role"`
+	StoreDir       string   `json:"store_dir"`
+	Models         []string `json:"models"`
+	ProbeAccounts  []string `json:"probe_accounts"`
+	ProbeProxies   []string `json:"probe_proxies"`
+	DryRun         bool     `json:"dry_run"`
+	TTLSeconds     int      `json:"ttl_seconds"`
+	TemplateLength int      `json:"template_length"`
+	ReplaceLength  int      `json:"replace_length"`
+	ConfigErrors   []string `json:"config_errors,omitempty"`
 }
 
 func handleConfig() pluginapi.ManagementResponse {
@@ -708,16 +708,16 @@ func handleConfig() pluginapi.ManagementResponse {
 	state.mu.Unlock()
 
 	out := configResponse{
-		Role:		cfg.Role,
-		StoreDir:	cfg.StoreDir,
-		Models:		append([]string(nil), cfg.Models...),
-		ProbeAccounts:	append([]string(nil), cfg.ProbeAccounts...),
-		ProbeProxies:	append([]string(nil), cfg.ProbeProxies...),
-		DryRun:		cfg.DryRun,
-		TTLSeconds:	cfg.TTLSeconds,
-		TemplateLength:	cfg.TemplateLength,
-		ReplaceLength:	cfg.ReplaceLength,
-		ConfigErrors:	configErrors,
+		Role:           cfg.Role,
+		StoreDir:       cfg.StoreDir,
+		Models:         append([]string(nil), cfg.Models...),
+		ProbeAccounts:  append([]string(nil), cfg.ProbeAccounts...),
+		ProbeProxies:   append([]string(nil), cfg.ProbeProxies...),
+		DryRun:         cfg.DryRun,
+		TTLSeconds:     cfg.TTLSeconds,
+		TemplateLength: cfg.TemplateLength,
+		ReplaceLength:  cfg.ReplaceLength,
+		ConfigErrors:   configErrors,
 	}
 	if out.Models == nil {
 		out.Models = []string{}
@@ -732,17 +732,17 @@ func handleConfig() pluginapi.ManagementResponse {
 }
 
 type scopeSaveResponse struct {
-	Saved			bool		`json:"saved"`
-	Fields			[]string	`json:"fields"`
-	ProbeAccounts		[]string	`json:"probe_accounts"`
-	Models			[]string	`json:"models"`
-	ProbeProxyCount		int		`json:"probe_proxy_count"`
-	ProbeProxiesMasked	[]string	`json:"probe_proxies_masked"`
-	RotatingCount		int		`json:"probe_proxy_rotating_count"`
-	RotatingMasked		[]string	`json:"probe_proxies_rotating_masked"`
-	TargetsTotal		int		`json:"targets_total"`
-	ConfigErrors		[]string	`json:"config_errors,omitempty"`
-	Note			string		`json:"note"`
+	Saved              bool     `json:"saved"`
+	Fields             []string `json:"fields"`
+	ProbeAccounts      []string `json:"probe_accounts"`
+	Models             []string `json:"models"`
+	ProbeProxyCount    int      `json:"probe_proxy_count"`
+	ProbeProxiesMasked []string `json:"probe_proxies_masked"`
+	RotatingCount      int      `json:"probe_proxy_rotating_count"`
+	RotatingMasked     []string `json:"probe_proxies_rotating_masked"`
+	TargetsTotal       int      `json:"targets_total"`
+	ConfigErrors       []string `json:"config_errors,omitempty"`
+	Note               string   `json:"note"`
 }
 
 func handleScopeSave(q url.Values) pluginapi.ManagementResponse {
@@ -793,11 +793,11 @@ func handleScopeSave(q url.Values) pluginapi.ManagementResponse {
 	accounts, models, proxies, rotating, problems := normaliseProbeScope(accounts, models, proxies, rotating)
 
 	scope := probeScope{
-		Accounts:	accounts,
-		Models:		models,
-		Proxies:	proxies,
-		Rotating:	rotating,
-		UpdatedAt:	time.Now().UTC().Format(time.RFC3339),
+		Accounts:  accounts,
+		Models:    models,
+		Proxies:   proxies,
+		Rotating:  rotating,
+		UpdatedAt: time.Now().UTC().Format(time.RFC3339),
 	}
 	if errWrite := writeProbeScope(cfg.StoreDir, scope); errWrite != nil {
 		return managementError(http.StatusInternalServerError,
@@ -819,16 +819,16 @@ func handleScopeSave(q url.Values) pluginapi.ManagementResponse {
 	}
 
 	out := scopeSaveResponse{
-		Saved:			true,
-		Fields:			sortedKeys(requested),
-		ProbeAccounts:		accounts,
-		Models:			models,
-		ProbeProxyCount:	len(proxies),
-		ProbeProxiesMasked:	maskProxyURLs(proxies),
-		RotatingCount:		len(rotating),
-		RotatingMasked:		maskProxyURLs(rotating),
-		TargetsTotal:		len(accounts) * len(models),
-		ConfigErrors:		problems,
+		Saved:              true,
+		Fields:             sortedKeys(requested),
+		ProbeAccounts:      accounts,
+		Models:             models,
+		ProbeProxyCount:    len(proxies),
+		ProbeProxiesMasked: maskProxyURLs(proxies),
+		RotatingCount:      len(rotating),
+		RotatingMasked:     maskProxyURLs(rotating),
+		TargetsTotal:       len(accounts) * len(models),
+		ConfigErrors:       problems,
 		Note: "已保存到插件自己的 scope 文件，立即生效，覆盖 config.yaml 里的同名项。" +
 			"采集由看板上的「探测」启动，续期循环每 20 秒重读一次范围。",
 	}
@@ -880,19 +880,19 @@ func containsFold(values []string, want string) bool {
 }
 
 type clearRequest struct {
-	AuthID	string	`json:"auth_id"`
-	Model	string	`json:"model"`
-	All	bool	`json:"all"`
+	AuthID string `json:"auth_id"`
+	Model  string `json:"model"`
+	All    bool   `json:"all"`
 }
 
 type clearedBucket struct {
-	AuthID	string	`json:"auth_id"`
-	Model	string	`json:"model"`
+	AuthID string `json:"auth_id"`
+	Model  string `json:"model"`
 }
 
 type clearResponse struct {
-	Cleared	int		`json:"cleared"`
-	Buckets	[]clearedBucket	`json:"buckets"`
+	Cleared int             `json:"cleared"`
+	Buckets []clearedBucket `json:"buckets"`
 }
 
 func handleBucketsClear(body []byte) pluginapi.ManagementResponse {
@@ -964,40 +964,40 @@ func clearBuckets(req clearRequest) pluginapi.ManagementResponse {
 }
 
 type selftestRequest struct {
-	Model	string	`json:"model"`
-	AuthID	string	`json:"auth_id"`
+	Model  string `json:"model"`
+	AuthID string `json:"auth_id"`
 }
 
 type selftestResponse struct {
-	Reached		bool	`json:"reached"`
-	StatusCode	int	`json:"status_code"`
-	Model		string	`json:"model"`
-	AuthID		string	`json:"auth_id"`
+	Reached    bool   `json:"reached"`
+	StatusCode int    `json:"status_code"`
+	Model      string `json:"model"`
+	AuthID     string `json:"auth_id"`
 
-	Targeted	bool	`json:"targeted"`
-	Harvested	bool	`json:"harvested"`
+	Targeted  bool `json:"targeted"`
+	Harvested bool `json:"harvested"`
 
-	UpstreamErrorCode	string	`json:"upstream_error_code"`
-	UpstreamErrorType	string	`json:"upstream_error_type"`
-	Note			string	`json:"note"`
-	Error			string	`json:"error,omitempty"`
+	UpstreamErrorCode string `json:"upstream_error_code"`
+	UpstreamErrorType string `json:"upstream_error_type"`
+	Note              string `json:"note"`
+	Error             string `json:"error,omitempty"`
 }
 
 type upstreamErrorBody struct {
 	Error struct {
-		Type	string	`json:"type"`
-		Code	string	`json:"code"`
-		Message	string	`json:"message"`
+		Type    string `json:"type"`
+		Code    string `json:"code"`
+		Message string `json:"message"`
 	} `json:"error"`
 }
 
 const (
-	selftestNote	= "连通性自检不会落盘：host.model.execute 会跳过本插件的响应拦截器。采集请用看板上的「探测」。"
+	selftestNote = "连通性自检不会落盘：host.model.execute 会跳过本插件的响应拦截器。采集请用看板上的「探测」。"
 
-	selftestNoteUntargeted	= selftestNote +
+	selftestNoteUntargeted = selftestNote +
 		" 本次未指定 auth_id，由调度器选号；上游响应不含账号标识，因此无法得知实际使用的是哪个号。要定点检查请传 auth_id。"
 
-	selftestNoteNoStatus	= " 上游返回了错误但宿主未透传 HTTP 状态码，故 status_code 为 0；请看 upstream_error_code 和 error 原文。"
+	selftestNoteNoStatus = " 上游返回了错误但宿主未透传 HTTP 状态码，故 status_code 为 0；请看 upstream_error_code 和 error 原文。"
 )
 
 func handleSelftest(body []byte) pluginapi.ManagementResponse {
@@ -1041,23 +1041,23 @@ func runSelftest(req selftestRequest) pluginapi.ManagementResponse {
 	}
 
 	out := selftestResponse{
-		Model:		model,
-		AuthID:		authID,
-		Targeted:	authID != "",
-		Harvested:	false,
-		Note:		selftestNote,
+		Model:     model,
+		AuthID:    authID,
+		Targeted:  authID != "",
+		Harvested: false,
+		Note:      selftestNote,
 	}
 	if !out.Targeted {
 		out.Note = selftestNoteUntargeted
 	}
 
 	payload := map[string]any{
-		"model":	model,
+		"model": model,
 		"input": []map[string]any{{
-			"role":		"user",
-			"content":	[]map[string]any{{"type": "input_text", "text": "ping"}},
+			"role":    "user",
+			"content": []map[string]any{{"type": "input_text", "text": "ping"}},
 		}},
-		"store":	false,
+		"store": false,
 	}
 	rawBody, errMarshal := json.Marshal(payload)
 	if errMarshal != nil {
@@ -1065,14 +1065,14 @@ func runSelftest(req selftestRequest) pluginapi.ManagementResponse {
 	}
 
 	exec := pluginapi.HostModelExecutionRequest{
-		EntryProtocol:	"openai-responses",
-		ExitProtocol:	"openai-responses",
-		Model:		model,
-		Stream:		false,
-		Body:		rawBody,
-		Headers:	http.Header{"Content-Type": []string{"application/json"}},
+		EntryProtocol: "openai-responses",
+		ExitProtocol:  "openai-responses",
+		Model:         model,
+		Stream:        false,
+		Body:          rawBody,
+		Headers:       http.Header{"Content-Type": []string{"application/json"}},
 
-		AuthID:	authID,
+		AuthID: authID,
 	}
 
 	var execResp pluginapi.HostModelExecutionResponse
@@ -1180,12 +1180,12 @@ func jsonResponse(status int, payload any) pluginapi.ManagementResponse {
 		return managementError(http.StatusInternalServerError, "could not encode the response")
 	}
 	return pluginapi.ManagementResponse{
-		StatusCode:	status,
+		StatusCode: status,
 		Headers: http.Header{
-			"Content-Type":		[]string{"application/json; charset=utf-8"},
-			"Cache-Control":	[]string{"no-store"},
+			"Content-Type":  []string{"application/json; charset=utf-8"},
+			"Cache-Control": []string{"no-store"},
 		},
-		Body:	body,
+		Body: body,
 	}
 }
 
@@ -1195,11 +1195,11 @@ func managementError(status int, message string) pluginapi.ManagementResponse {
 		body = []byte(`{"error":"internal error"}`)
 	}
 	return pluginapi.ManagementResponse{
-		StatusCode:	status,
+		StatusCode: status,
 		Headers: http.Header{
-			"Content-Type":		[]string{"application/json; charset=utf-8"},
-			"Cache-Control":	[]string{"no-store"},
+			"Content-Type":  []string{"application/json; charset=utf-8"},
+			"Cache-Control": []string{"no-store"},
 		},
-		Body:	body,
+		Body: body,
 	}
 }

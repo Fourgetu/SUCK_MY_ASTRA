@@ -31,9 +31,9 @@ func TestCloudDisplayGatewayBoundaries(t *testing.T) {
 func TestMintUnavailableReasonMappingBoundaries(t *testing.T) {
 
 	tests := []struct {
-		name	string
-		err	error
-		want	string
+		name string
+		err  error
+		want string
 	}{
 		{"nil", nil, "ticket_expired"},
 		{"pending", errors.New("cloud mint pending; retry later"), "mint_pending"},

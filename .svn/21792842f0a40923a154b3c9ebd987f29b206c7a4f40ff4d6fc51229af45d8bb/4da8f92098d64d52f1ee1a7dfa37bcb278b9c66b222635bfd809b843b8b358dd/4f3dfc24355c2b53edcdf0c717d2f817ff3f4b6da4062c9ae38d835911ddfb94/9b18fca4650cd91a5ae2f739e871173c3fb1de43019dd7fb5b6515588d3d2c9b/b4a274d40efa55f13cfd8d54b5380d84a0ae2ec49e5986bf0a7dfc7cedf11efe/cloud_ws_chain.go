@@ -10,19 +10,19 @@ import (
 )
 
 type cloudChainObservation struct {
-	previous	string
-	response	string
-	stage		string
+	previous string
+	response string
+	stage    string
 }
 
 type cloudWSChainEvent struct {
-	Type		string	`json:"type"`
-	Response	struct {
-		ID	string	`json:"id"`
-		Model	string	`json:"model"`
-		Status	string	`json:"status"`
-		Tier	string	`json:"service_tier"`
-	}	`json:"response"`
+	Type     string `json:"type"`
+	Response struct {
+		ID     string `json:"id"`
+		Model  string `json:"model"`
+		Status string `json:"status"`
+		Tier   string `json:"service_tier"`
+	} `json:"response"`
 }
 
 func cloudResponseIDFingerprint(id string) string {

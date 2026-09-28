@@ -14,20 +14,20 @@ import (
 )
 
 const (
-	opsDryRunPath	= mgmtResourcePath + "ops/dry-run"
-	opsRolePath	= mgmtResourcePath + "ops/role"
-	opsClearPath	= mgmtResourcePath + "ops/clear"
-	opsSelftestPath	= mgmtResourcePath + "ops/selftest"
+	opsDryRunPath   = mgmtResourcePath + "ops/dry-run"
+	opsRolePath     = mgmtResourcePath + "ops/role"
+	opsClearPath    = mgmtResourcePath + "ops/clear"
+	opsSelftestPath = mgmtResourcePath + "ops/selftest"
 )
 
 func driveResource(t *testing.T, path string, query url.Values) mgmtResponse {
 	t.Helper()
 	raw, err := json.Marshal(map[string]any{
-		"Method":	http.MethodGet,
-		"Path":		path,
-		"Headers":	http.Header{},
-		"Query":	query,
-		"Body":		nil,
+		"Method":  http.MethodGet,
+		"Path":    path,
+		"Headers": http.Header{},
+		"Query":   query,
+		"Body":    nil,
 	})
 	if err != nil {
 		t.Fatalf("marshal resource request: %v", err)
@@ -224,7 +224,7 @@ func TestKeylessClearOneBucket(t *testing.T) {
 	recordObservation(cfg, "codex-x.json", "gpt-5.5", 292, false)
 
 	resp := driveResource(t, opsClearPath, confirmed(url.Values{
-		"auth_id":	{"codex-x.json"}, "model": {"gpt-5.5"},
+		"auth_id": {"codex-x.json"}, "model": {"gpt-5.5"},
 	}))
 	if resp.StatusCode != http.StatusOK {
 		t.Fatalf("keyless clear returned %d, want 200 (body: %s)", resp.StatusCode, truncateMgmtLog(resp.Body))
@@ -252,8 +252,8 @@ func TestKeylessClearAll(t *testing.T) {
 	}
 	state.mu.Lock()
 	state.noteRouteCookiesLocked(routeCookieSet{
-		pairs:	map[string]string{"__cflb": "a", "__oailb": "b"},
-		seenAt:	time.Now(),
+		pairs:  map[string]string{"__cflb": "a", "__oailb": "b"},
+		seenAt: time.Now(),
 	}, "")
 	poolLen := len(state.cookies)
 	state.mu.Unlock()
@@ -315,9 +315,9 @@ func TestRuntimeOverrideMalformedIsIgnored(t *testing.T) {
 
 func TestParseBoolParam(t *testing.T) {
 	cases := []struct {
-		in	string
-		value	bool
-		ok	bool
+		in    string
+		value bool
+		ok    bool
 	}{
 		{"on", true, true}, {"true", true, true}, {"1", true, true}, {"yes", true, true},
 		{"off", false, true}, {"false", false, true}, {"0", false, true}, {"no", false, true},

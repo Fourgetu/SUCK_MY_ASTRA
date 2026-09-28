@@ -12,25 +12,25 @@ import (
 )
 
 type cloudMintConfig struct {
-	Enabled		bool	`yaml:"enabled"`
-	URL		string	`yaml:"url"`
-	ProxyURL	string	`yaml:"proxy_url"`
-	ProxyEnv	string	`yaml:"proxy_env"`
-	KeyEnv		string	`yaml:"key_env"`
-	Transport	string	`yaml:"transport"`
-	Gateway		string	`yaml:"gateway"`
-	TicketLength	int	`yaml:"ticket_length"`
-	TTLSeconds	int	`yaml:"ttl_seconds"`
-	WaitMS		int	`yaml:"wait_ms"`
-	TimeoutMS	int	`yaml:"timeout_ms"`
+	Enabled      bool   `yaml:"enabled"`
+	URL          string `yaml:"url"`
+	ProxyURL     string `yaml:"proxy_url"`
+	ProxyEnv     string `yaml:"proxy_env"`
+	KeyEnv       string `yaml:"key_env"`
+	Transport    string `yaml:"transport"`
+	Gateway      string `yaml:"gateway"`
+	TicketLength int    `yaml:"ticket_length"`
+	TTLSeconds   int    `yaml:"ttl_seconds"`
+	WaitMS       int    `yaml:"wait_ms"`
+	TimeoutMS    int    `yaml:"timeout_ms"`
 
-	FailClosed	bool	`yaml:"fail_closed"`
+	FailClosed bool `yaml:"fail_closed"`
 }
 
 func defaultCloudMintConfig() cloudMintConfig {
 
 	return cloudMintConfig{KeyEnv: "CPA_RELAY_KEY", Transport: "sse", Gateway: "any",
-		TicketLength:	780, TTLSeconds: 240, WaitMS: 2000, TimeoutMS: 90000, FailClosed: true}
+		TicketLength: 780, TTLSeconds: 240, WaitMS: 2000, TimeoutMS: 90000, FailClosed: true}
 }
 
 var cloudGatewayPattern = regexp.MustCompile(`^unified-[0-9]+$`)
@@ -126,9 +126,9 @@ func readCloudCredentialFile(lookup pluginapi.HostAuthGetRequest, runtime plugin
 		return cloudMintCredentials{}, errors.New("credential file mismatch")
 	}
 	var token struct {
-		Type		string	`json:"type"`
-		AccessToken	string	`json:"access_token"`
-		AccountID	string	`json:"account_id"`
+		Type        string `json:"type"`
+		AccessToken string `json:"access_token"`
+		AccountID   string `json:"account_id"`
 	}
 	if json.Unmarshal(file.JSON, &token) != nil || token.Type != "codex" || strings.TrimSpace(token.AccessToken) == "" {
 		return cloudMintCredentials{}, errors.New("invalid Codex credential")

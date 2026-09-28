@@ -16,25 +16,25 @@ import (
 )
 
 type fakeCredSeed struct {
-	name		string
-	accountID	string
-	proxyURL	string
-	disabled	bool
-	exp		time.Time
+	name      string
+	accountID string
+	proxyURL  string
+	disabled  bool
+	exp       time.Time
 
-	noToken	bool
+	noToken bool
 }
 
 type fakeCPA struct {
-	mu	sync.Mutex
-	server	*httptest.Server
-	seeds	map[string]fakeCredSeed
+	mu     sync.Mutex
+	server *httptest.Server
+	seeds  map[string]fakeCredSeed
 }
 
 func encodeJWT(exp time.Time, accountID string) string {
 	claims := map[string]any{
-		"exp":				exp.Unix(),
-		"https://api.openai.com/auth":	map[string]any{"chatgpt_account_id": accountID},
+		"exp":                         exp.Unix(),
+		"https://api.openai.com/auth": map[string]any{"chatgpt_account_id": accountID},
 	}
 	raw, _ := json.Marshal(claims)
 	return "e30." + base64.RawURLEncoding.EncodeToString(raw) + ".sig"
@@ -72,9 +72,9 @@ func (f *fakeCPA) fileList() []map[string]any {
 	out := make([]map[string]any, 0, len(f.seeds))
 	for _, seed := range f.seeds {
 		out = append(out, map[string]any{
-			"name":		seed.name,
-			"provider":	"codex",
-			"disabled":	seed.disabled,
+			"name":     seed.name,
+			"provider": "codex",
+			"disabled": seed.disabled,
 		})
 	}
 	return out
@@ -90,12 +90,12 @@ func (f *fakeCPA) serveDownload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	blob := map[string]any{
-		"account_id":		seed.accountID,
-		"proxy_url":		seed.proxyURL,
-		"type":			"codex",
-		"disabled":		seed.disabled,
-		"email":		"someone@example.com",
-		"refresh_token":	"refresh-must-never-be-used",
+		"account_id":    seed.accountID,
+		"proxy_url":     seed.proxyURL,
+		"type":          "codex",
+		"disabled":      seed.disabled,
+		"email":         "someone@example.com",
+		"refresh_token": "refresh-must-never-be-used",
 	}
 	if !seed.noToken {
 		blob["access_token"] = encodeJWT(seed.exp, seed.accountID)
@@ -109,30 +109,30 @@ func (f *fakeCPA) writeJSON(w http.ResponseWriter, payload any) {
 }
 
 type upstreamCall struct {
-	model		string
-	authorization	string
-	accountID	string
-	sessionID	string
-	sentTurnState	bool
+	model         string
+	authorization string
+	accountID     string
+	sessionID     string
+	sentTurnState bool
 
-	cookie	string
+	cookie string
 }
 
 type fakeUpstream struct {
-	mu	sync.Mutex
-	server	*httptest.Server
-	calls	[]upstreamCall
+	mu     sync.Mutex
+	server *httptest.Server
+	calls  []upstreamCall
 
-	status	int
-	tsLen	int
+	status int
+	tsLen  int
 
-	tsLenSeq	[]int
+	tsLenSeq []int
 
-	setCookies	[]string
+	setCookies []string
 
-	hold		time.Duration
-	inFlight	int
-	peak		int
+	hold     time.Duration
+	inFlight int
+	peak     int
 }
 
 func (u *fakeUpstream) peakInFlight() int {
@@ -173,12 +173,12 @@ func (u *fakeUpstream) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	u.mu.Lock()
 	index := len(u.calls)
 	u.calls = append(u.calls, upstreamCall{
-		model:		body.Model,
-		authorization:	r.Header.Get("Authorization"),
-		accountID:	r.Header.Get("Chatgpt-Account-Id"),
-		sessionID:	r.Header.Get("Session-Id"),
-		sentTurnState:	r.Header.Get(turnStateHeader) != "",
-		cookie:		r.Header.Get("Cookie"),
+		model:         body.Model,
+		authorization: r.Header.Get("Authorization"),
+		accountID:     r.Header.Get("Chatgpt-Account-Id"),
+		sessionID:     r.Header.Get("Session-Id"),
+		sentTurnState: r.Header.Get(turnStateHeader) != "",
+		cookie:        r.Header.Get("Cookie"),
 	})
 	status, tsLen := u.status, u.tsLen
 	setCookies := u.setCookies
@@ -215,36 +215,36 @@ func (u *fakeUpstream) snapshot() []upstreamCall {
 }
 
 const (
-	probeTestAccount	= "codex-runnera-a@example.com-pro.json"
-	probeTestOther		= "codex-runnerb-b@example.com-pro.json"
-	probeTestModel		= "gpt-runner-1"
+	probeTestAccount = "codex-runnera-a@example.com-pro.json"
+	probeTestOther   = "codex-runnerb-b@example.com-pro.json"
+	probeTestModel   = "gpt-runner-1"
 )
 
 type probeConfigOptions struct {
-	dir		string
-	baseURL		string
-	role		string
-	mgmtKey		string
-	accounts	[]string
-	models		[]string
-	proxies		[]string
+	dir      string
+	baseURL  string
+	role     string
+	mgmtKey  string
+	accounts []string
+	models   []string
+	proxies  []string
 
-	templateLen	int
-	replaceLen	int
-	ttlSeconds	int
+	templateLen int
+	replaceLen  int
+	ttlSeconds  int
 }
 
 func probeTestOptions(dir, baseURL string) probeConfigOptions {
 	return probeConfigOptions{
-		dir:		dir,
-		baseURL:	baseURL,
-		role:		roleProbe,
-		mgmtKey:	"test-mgmt-key",
-		accounts:	[]string{probeTestAccount},
-		models:		[]string{probeTestModel},
-		templateLen:	292,
-		replaceLen:	312,
-		ttlSeconds:	3600,
+		dir:         dir,
+		baseURL:     baseURL,
+		role:        roleProbe,
+		mgmtKey:     "test-mgmt-key",
+		accounts:    []string{probeTestAccount},
+		models:      []string{probeTestModel},
+		templateLen: 292,
+		replaceLen:  312,
+		ttlSeconds:  3600,
 	}
 }
 
@@ -255,8 +255,8 @@ func probeTestConfig(opts probeConfigOptions) string {
 	fmt.Fprintf(&builder, "probe_base_url: %q\n", opts.baseURL)
 	fmt.Fprintf(&builder, "probe_management_key: %q\n", opts.mgmtKey)
 	for _, block := range []struct {
-		key	string
-		values	[]string
+		key    string
+		values []string
 	}{
 		{"probe_accounts", opts.accounts},
 		{"models", opts.models},
@@ -377,9 +377,9 @@ func startProbeRun(t *testing.T) {
 func TestProbeRunStartRefusesIncompleteConfig(t *testing.T) {
 
 	tests := []struct {
-		name	string
-		narrow	func(opts *probeConfigOptions)
-		want	string
+		name   string
+		narrow func(opts *probeConfigOptions)
+		want   string
 	}{
 		{"no accounts", func(o *probeConfigOptions) { o.accounts = nil }, "probe_accounts"},
 		{"no models", func(o *probeConfigOptions) { o.models = nil }, "models"},
@@ -413,12 +413,12 @@ func TestProbeRunStartRefusesEmptyStoreDir(t *testing.T) {
 	opts := probeTestOptions("", "http://127.0.0.1:1")
 	state.mu.Lock()
 	state.config = pluginConfig{
-		Role:			roleProbe,
-		ProbeManagementKey:	opts.mgmtKey,
-		ProbeAccounts:		opts.accounts,
-		Models:			opts.models,
-		TemplateLength:		292,
-		ReplaceLength:		312,
+		Role:               roleProbe,
+		ProbeManagementKey: opts.mgmtKey,
+		ProbeAccounts:      opts.accounts,
+		Models:             opts.models,
+		TemplateLength:     292,
+		ReplaceLength:      312,
 	}
 	state.mu.Unlock()
 
@@ -511,9 +511,9 @@ func TestProbeSkipsExpiredTokenWithoutRefreshing(t *testing.T) {
 
 	resetProbeRunner(t)
 	fake := newFakeCPA(t, fakeCredSeed{
-		name:		probeTestAccount,
-		accountID:	"acct-a",
-		exp:		time.Now().Add(-1 * time.Minute),
+		name:      probeTestAccount,
+		accountID: "acct-a",
+		exp:       time.Now().Add(-1 * time.Minute),
 	})
 	upstream := newFakeUpstream(t)
 	setUpstream(t, upstream.server.URL)
@@ -599,10 +599,10 @@ func newFakeProxy(t *testing.T, hits *atomic.Int64) string {
 func harvestTestConfig(t *testing.T) (pluginConfig, probeCredential, *probeClientPool) {
 	t.Helper()
 	cfg := pluginConfig{
-		StoreDir:	t.TempDir(),
-		TemplateLength:	292,
-		ReplaceLength:	312,
-		TTLSeconds:	3600,
+		StoreDir:       t.TempDir(),
+		TemplateLength: 292,
+		ReplaceLength:  312,
+		TTLSeconds:     3600,
 	}
 	cred := probeCredential{name: probeTestAccount, accessToken: "token-a", accountID: "acct-a"}
 	pool := newProbeClientPool()
@@ -769,10 +769,10 @@ func TestProbeFallsThroughToNextExitOnTransportFailure(t *testing.T) {
 	setUpstream(t, upstream.server.URL)
 
 	cfg := pluginConfig{
-		StoreDir:	t.TempDir(),
-		TemplateLength:	292,
-		ReplaceLength:	312,
-		TTLSeconds:	3600,
+		StoreDir:       t.TempDir(),
+		TemplateLength: 292,
+		ReplaceLength:  312,
+		TTLSeconds:     3600,
 	}
 	cred := probeCredential{name: probeTestAccount, accessToken: "token-a", accountID: "acct-a"}
 	pool := newProbeClientPool()

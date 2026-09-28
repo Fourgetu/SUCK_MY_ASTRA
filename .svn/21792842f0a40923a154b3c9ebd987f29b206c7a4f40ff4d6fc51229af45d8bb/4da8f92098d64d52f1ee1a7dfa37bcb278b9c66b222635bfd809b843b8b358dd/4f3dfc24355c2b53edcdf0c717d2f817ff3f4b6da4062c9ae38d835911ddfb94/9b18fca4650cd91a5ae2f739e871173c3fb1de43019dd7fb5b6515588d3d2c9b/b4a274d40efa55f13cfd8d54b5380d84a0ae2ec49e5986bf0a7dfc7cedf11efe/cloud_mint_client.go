@@ -17,30 +17,30 @@ import (
 const cloudResponseLimit = 256 << 10
 
 type cloudMintTicket struct {
-	TurnState	string		`json:"turn_state"`
-	TicketLen	int		`json:"ticket_len"`
-	ServedModel	string		`json:"served_model"`
-	IssuedAt	time.Time	`json:"issued_at"`
-	ExpiresAt	time.Time	`json:"expires_at"`
+	TurnState   string    `json:"turn_state"`
+	TicketLen   int       `json:"ticket_len"`
+	ServedModel string    `json:"served_model"`
+	IssuedAt    time.Time `json:"issued_at"`
+	ExpiresAt   time.Time `json:"expires_at"`
 }
 
 type cloudMintResult struct {
-	Transport	string				`json:"transport"`
-	Gateway		string				`json:"gateway"`
-	Cookies		map[string]string		`json:"cookies"`
-	ExpiresAt	time.Time			`json:"expires_at"`
-	Tickets		map[string]cloudMintTicket	`json:"tickets"`
-	AttemptLog	[]cloudAttemptLog		`json:"attempt_log"`
-	Error		struct {
+	Transport  string                     `json:"transport"`
+	Gateway    string                     `json:"gateway"`
+	Cookies    map[string]string          `json:"cookies"`
+	ExpiresAt  time.Time                  `json:"expires_at"`
+	Tickets    map[string]cloudMintTicket `json:"tickets"`
+	AttemptLog []cloudAttemptLog          `json:"attempt_log"`
+	Error      struct {
 		AttemptLog []cloudAttemptLog `json:"attempt_log"`
-	}	`json:"error"`
+	} `json:"error"`
 }
 
 type cloudMintEntry struct {
-	Ticket			string
-	Cookies			map[string]string
-	Gateway, Model		string
-	IssuedAt, ExpiresAt	time.Time
+	Ticket              string
+	Cookies             map[string]string
+	Gateway, Model      string
+	IssuedAt, ExpiresAt time.Time
 }
 
 func requestCloudMint(ctx context.Context, work cloudMintWork) (cloudMintEntry, error) {

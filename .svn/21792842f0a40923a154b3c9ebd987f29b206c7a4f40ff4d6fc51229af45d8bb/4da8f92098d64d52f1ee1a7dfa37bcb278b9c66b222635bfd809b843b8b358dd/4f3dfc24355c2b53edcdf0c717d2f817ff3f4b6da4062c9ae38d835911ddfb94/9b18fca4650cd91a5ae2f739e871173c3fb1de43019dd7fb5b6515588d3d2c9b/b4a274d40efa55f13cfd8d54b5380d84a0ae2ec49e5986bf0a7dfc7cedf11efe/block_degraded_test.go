@@ -39,8 +39,8 @@ func streamChunkResp(t *testing.T, chunk pluginapi.StreamChunkInterceptRequest) 
 		t.Fatalf("interceptStreamChunk: %v", errHook)
 	}
 	var env struct {
-		OK	bool		`json:"ok"`
-		Result	json.RawMessage	`json:"result"`
+		OK     bool            `json:"ok"`
+		Result json.RawMessage `json:"result"`
 	}
 	if errUnmarshal := json.Unmarshal(out, &env); errUnmarshal != nil || !env.OK {
 		t.Fatalf("decode envelope: %v ok=%v", errUnmarshal, env.OK)
@@ -73,16 +73,16 @@ func TestBlockDegradedStreamWithheld(t *testing.T) {
 	req.RequestID = requestID
 	interceptAfter(t, req)
 	streamChunk(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:		requestID,
-		Model:			"gpt-6-astra",
-		ChunkIndex:		pluginapi.StreamChunkHeaderInitIndex,
-		ResponseHeaders:	harvestResponseHeaders(fakeToken(780, wallClock())),
+		RequestID:       requestID,
+		Model:           "gpt-6-astra",
+		ChunkIndex:      pluginapi.StreamChunkHeaderInitIndex,
+		ResponseHeaders: harvestResponseHeaders(fakeToken(780, wallClock())),
 	})
 
 	resp := streamChunkResp(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:	requestID,
-		Model:		"gpt-6-astra",
-		ChunkIndex:	0,
+		RequestID:  requestID,
+		Model:      "gpt-6-astra",
+		ChunkIndex: 0,
 		Body: []byte("event: response.created\n" +
 			`data: {"type":"response.created","response":{"id":"r1","model":"gpt-5.6-luna","status":"in_progress"}}` + "\n\n"),
 	})
@@ -98,10 +98,10 @@ func TestBlockDegradedStreamWithheld(t *testing.T) {
 
 	for i := 1; i <= 3; i++ {
 		resp := streamChunkResp(t, pluginapi.StreamChunkInterceptRequest{
-			RequestID:	requestID,
-			Model:		"gpt-6-astra",
-			ChunkIndex:	i,
-			Body:		[]byte(`data: {"type":"response.output_text.delta","delta":"partial"}` + "\n\n"),
+			RequestID:  requestID,
+			Model:      "gpt-6-astra",
+			ChunkIndex: i,
+			Body:       []byte(`data: {"type":"response.output_text.delta","delta":"partial"}` + "\n\n"),
 		})
 		if !resp.DropChunk || len(resp.Body) > 0 {
 			t.Fatalf("chunk %d not withheld: %+v", i, resp)
@@ -127,25 +127,25 @@ func TestBlockDegradedOffDeliversNormally(t *testing.T) {
 	req.RequestID = requestID
 	interceptAfter(t, req)
 	streamChunk(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:		requestID,
-		Model:			"gpt-6-astra",
-		ChunkIndex:		pluginapi.StreamChunkHeaderInitIndex,
-		ResponseHeaders:	harvestResponseHeaders(fakeToken(780, wallClock())),
+		RequestID:       requestID,
+		Model:           "gpt-6-astra",
+		ChunkIndex:      pluginapi.StreamChunkHeaderInitIndex,
+		ResponseHeaders: harvestResponseHeaders(fakeToken(780, wallClock())),
 	})
 	resp := streamChunkResp(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:	requestID,
-		Model:		"gpt-6-astra",
-		ChunkIndex:	0,
-		Body:		[]byte(`data: {"type":"response.created","response":{"model":"gpt-5.6-luna"}}` + "\n\n"),
+		RequestID:  requestID,
+		Model:      "gpt-6-astra",
+		ChunkIndex: 0,
+		Body:       []byte(`data: {"type":"response.created","response":{"model":"gpt-5.6-luna"}}` + "\n\n"),
 	})
 	if resp.DropChunk || len(resp.Body) > 0 {
 		t.Fatalf("gate off must not touch the chunk: %+v", resp)
 	}
 	resp = streamChunkResp(t, pluginapi.StreamChunkInterceptRequest{
-		RequestID:	requestID,
-		Model:		"gpt-6-astra",
-		ChunkIndex:	1,
-		Body:		[]byte(`data: {"delta":"x"}` + "\n\n"),
+		RequestID:  requestID,
+		Model:      "gpt-6-astra",
+		ChunkIndex: 1,
+		Body:       []byte(`data: {"delta":"x"}` + "\n\n"),
 	})
 	if resp.DropChunk {
 		t.Fatal("gate off must not drop subsequent chunks")
@@ -166,10 +166,10 @@ func TestBlockDegradedNonStreamBodyReplaced(t *testing.T) {
 	interceptAfter(t, req)
 
 	raw, err := json.Marshal(pluginapi.ResponseInterceptRequest{
-		RequestID:		requestID,
-		Model:			"gpt-6-astra",
-		ResponseHeaders:	harvestResponseHeaders(fakeToken(780, wallClock())),
-		Body:			[]byte(`{"id":"r1","model": "gpt-5.6-luna","status":"completed"}`),
+		RequestID:       requestID,
+		Model:           "gpt-6-astra",
+		ResponseHeaders: harvestResponseHeaders(fakeToken(780, wallClock())),
+		Body:            []byte(`{"id":"r1","model": "gpt-5.6-luna","status":"completed"}`),
 	})
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
@@ -179,8 +179,8 @@ func TestBlockDegradedNonStreamBodyReplaced(t *testing.T) {
 		t.Fatalf("interceptResponse: %v", errHook)
 	}
 	var env struct {
-		OK	bool		`json:"ok"`
-		Result	json.RawMessage	`json:"result"`
+		OK     bool            `json:"ok"`
+		Result json.RawMessage `json:"result"`
 	}
 	if errUnmarshal := json.Unmarshal(out, &env); errUnmarshal != nil || !env.OK {
 		t.Fatalf("decode envelope: %v", errUnmarshal)
@@ -237,7 +237,7 @@ func TestCloudMintStaleClientTicketRewritten(t *testing.T) {
 	stale[0] = 0x80
 	binary.BigEndian.PutUint64(stale[1:9], uint64(now.Add(-300*time.Second).Unix()))
 	req := pluginapi.RequestInterceptRequest{RequestID: "stale-ride", Model: "gpt-6-sol",
-		Headers:	http.Header{turnStateHeader: []string{base64.RawURLEncoding.EncodeToString(stale)}}}
+		Headers: http.Header{turnStateHeader: []string{base64.RawURLEncoding.EncodeToString(stale)}}}
 	out := interceptCloudMint(req, cfg)
 	if out.Terminate {
 		t.Fatalf("stale ticket should mint, not 503: %+v", out)
@@ -268,7 +268,7 @@ func TestCloudMintFailOpenPassesThrough(t *testing.T) {
 	}
 
 	out := interceptCloudMint(pluginapi.RequestInterceptRequest{RequestID: "failopen",
-		Model:	"gpt-6-sol", Headers: http.Header{turnStateHeader: []string{"garbage-state"}}}, cfg)
+		Model: "gpt-6-sol", Headers: http.Header{turnStateHeader: []string{"garbage-state"}}}, cfg)
 	if out.Terminate {
 		t.Fatal("fail_closed=false still terminated")
 	}

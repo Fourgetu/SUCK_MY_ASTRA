@@ -37,15 +37,15 @@ func TestCloudRequestLogReusedTicketAndBufferingAreSeparate(t *testing.T) {
 	cfg.CloudMint.Enabled = true
 	ticket := cloudTestTicket(time.Now())
 	req := pluginapi.RequestInterceptRequest{RequestID: "reuse", Model: "gpt-6-sol", Headers: http.Header{
-		"X-Codex-Turn-State":	{ticket}, "Cookie": {"__cflb=route; __oailb=unified-94; private_session=never-log"},
+		"X-Codex-Turn-State": {ticket}, "Cookie": {"__cflb=route; __oailb=unified-94; private_session=never-log"},
 	}}
 	result := interceptCloudMint(req, cfg)
 	if len(result.Headers) != 0 || result.Terminate {
 		t.Fatal("observation changed request")
 	}
 	cloudLogResponse(req.RequestID, http.Header{
-		"Set-Cookie":					{"__cf_bm=secret-bm; Secure; HttpOnly"},
-		"X-Codex-Safety-Buffering-Faster-Model":	{"gpt-6-luna"},
+		"Set-Cookie":                            {"__cf_bm=secret-bm; Secure; HttpOnly"},
+		"X-Codex-Safety-Buffering-Faster-Model": {"gpt-6-luna"},
 	}, "")
 	cloudLogStreamChunk(req.RequestID, []byte("data: {\"type\":\"response.created\",\"response\":{\"id\":\"r1\",\"model\":\"gpt-6-sol\",\"service_tier\":\"premium\"}}\n\n"))
 	logs := requestLogSnapshot()
@@ -106,7 +106,7 @@ func TestCloudRequestLogNonStreamingReadsResponseNotRequestModel(t *testing.T) {
 	resetCloudRequestLogTest(t)
 	cloudRememberInjection("nonstream", cloudMintEntry{Ticket: "test-ticket", Model: "gpt-6-sol"})
 	payload, _ := json.Marshal(pluginapi.ResponseInterceptRequest{RequestID: "nonstream", Model: "gpt-6-sol",
-		ResponseHeaders:	http.Header{}, Body: []byte(`{"object":"response","id":"r2","model":"gpt-6-luna","service_tier":"premium"}`)})
+		ResponseHeaders: http.Header{}, Body: []byte(`{"object":"response","id":"r2","model":"gpt-6-luna","service_tier":"premium"}`)})
 	if _, err := interceptResponse(payload); err != nil {
 		t.Fatal(err)
 	}

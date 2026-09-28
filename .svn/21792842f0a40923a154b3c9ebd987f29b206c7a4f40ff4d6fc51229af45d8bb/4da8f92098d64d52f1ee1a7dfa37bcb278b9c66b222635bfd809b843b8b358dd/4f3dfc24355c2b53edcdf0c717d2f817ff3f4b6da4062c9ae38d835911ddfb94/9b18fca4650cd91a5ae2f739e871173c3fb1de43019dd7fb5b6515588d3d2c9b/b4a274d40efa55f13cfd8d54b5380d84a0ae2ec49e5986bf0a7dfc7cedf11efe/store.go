@@ -59,9 +59,9 @@ func legacyRouteCookieEntries(dir string) []routeCookieEntry {
 				continue
 			}
 			var legacy struct {
-				RouteCookies		map[string]string	`json:"route_cookies"`
-				RouteCookiesAt		string			`json:"route_cookies_at"`
-				RouteCookiesExpire	string			`json:"route_cookies_expire"`
+				RouteCookies       map[string]string `json:"route_cookies"`
+				RouteCookiesAt     string            `json:"route_cookies_at"`
+				RouteCookiesExpire string            `json:"route_cookies_expire"`
 			}
 			if errUnmarshal := json.Unmarshal(data, &legacy); errUnmarshal != nil {
 				continue
@@ -70,10 +70,10 @@ func legacyRouteCookieEntries(dir string) []routeCookieEntry {
 				continue
 			}
 			out = append(out, routeCookieEntry{
-				Pairs:		legacy.RouteCookies,
-				Gateway:	gatewayLabel(legacy.RouteCookies),
-				SeenAt:		legacy.RouteCookiesAt,
-				ExpireAt:	legacy.RouteCookiesExpire,
+				Pairs:    legacy.RouteCookies,
+				Gateway:  gatewayLabel(legacy.RouteCookies),
+				SeenAt:   legacy.RouteCookiesAt,
+				ExpireAt: legacy.RouteCookiesExpire,
 			})
 		}
 	}

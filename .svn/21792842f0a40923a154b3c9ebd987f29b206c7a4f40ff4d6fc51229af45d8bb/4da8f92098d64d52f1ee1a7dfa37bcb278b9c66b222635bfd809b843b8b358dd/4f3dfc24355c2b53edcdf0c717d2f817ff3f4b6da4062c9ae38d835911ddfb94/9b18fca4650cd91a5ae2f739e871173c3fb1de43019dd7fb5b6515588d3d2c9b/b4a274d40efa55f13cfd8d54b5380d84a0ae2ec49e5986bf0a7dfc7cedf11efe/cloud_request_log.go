@@ -12,31 +12,31 @@ import (
 )
 
 const (
-	cloudPendingRequestMax	= 256
-	cloudRequestScanMax	= 16 * 1024
-	cloudRequestTTL		= 15 * time.Minute
+	cloudPendingRequestMax = 256
+	cloudRequestScanMax    = 16 * 1024
+	cloudRequestTTL        = 15 * time.Minute
 )
 
 type cloudPendingLog struct {
-	view, response	cloudLogView
-	action		string
-	at		time.Time
-	sequence	uint64
-	buffer		[]byte
-	headersSeen	bool
-	scanned		bool
-	published	bool
-	cookieNames	[]string
-	buffering	string
-	tier		string
-	chain		cloudChainObservation
-	authKey		string
+	view, response cloudLogView
+	action         string
+	at             time.Time
+	sequence       uint64
+	buffer         []byte
+	headersSeen    bool
+	scanned        bool
+	published      bool
+	cookieNames    []string
+	buffering      string
+	tier           string
+	chain          cloudChainObservation
+	authKey        string
 }
 
 var cloudRequestLogs = struct {
 	sync.Mutex
-	items		map[string]*cloudPendingLog
-	sequence	uint64
+	items    map[string]*cloudPendingLog
+	sequence uint64
 }{items: map[string]*cloudPendingLog{}}
 
 func cloudRequestView(headers http.Header, model string) cloudLogView {
@@ -53,7 +53,7 @@ func cloudRequestView(headers http.Header, model string) cloudLogView {
 		cookieHash = cloudFingerprint(pairs["__cflb"] + "\x00" + pairs["__oailb"])
 	}
 	return cloudLogView{TicketLen: len(ticket), Fingerprint: cloudFingerprint(ticket), CookieFingerprint: cookieHash,
-		Gateway:	cloudCookieGateway(pairs), Model: cloudLogLabel(model)}
+		Gateway: cloudCookieGateway(pairs), Model: cloudLogLabel(model)}
 }
 
 func cloudLogLabel(value string) string {
@@ -115,7 +115,7 @@ func cloudRememberRequest(req pluginapi.RequestInterceptRequest, out pluginapi.R
 		body = out.Body
 	}
 	cloudStartRequestLog(req.RequestID, &cloudPendingLog{view: after, action: action, chain: cloudRequestChain(body),
-		authKey:	cloudAuthObservationKey(metadataString(req.Metadata, selectedAuthMetadataKey))})
+		authKey: cloudAuthObservationKey(metadataString(req.Metadata, selectedAuthMetadataKey))})
 }
 
 func cloudStartRequestLog(id string, record *cloudPendingLog) {

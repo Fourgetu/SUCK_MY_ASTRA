@@ -19,59 +19,59 @@ import (
 var proxyCheckTraceURL = "https://chatgpt.com/cdn-cgi/trace"
 
 const (
-	proxyCheckRequestTimeout	= 8 * time.Second
+	proxyCheckRequestTimeout = 8 * time.Second
 
-	proxyCheckBudget	= 45 * time.Second
+	proxyCheckBudget = 45 * time.Second
 
-	proxyCheckParallel	= 6
+	proxyCheckParallel = 6
 
-	proxyCheckMaxBody	= 4 << 10
+	proxyCheckMaxBody = 4 << 10
 
-	proxyCheckFallbackModel	= "gpt-5.5"
+	proxyCheckFallbackModel = "gpt-5.5"
 )
 
 const (
-	proxyPoolStatic		= "static"
-	proxyPoolRotating	= "rotating"
+	proxyPoolStatic   = "static"
+	proxyPoolRotating = "rotating"
 
-	proxyVerdictOK		= "ok"
-	proxyVerdictBlocked	= "blocked"
-	proxyVerdictRateLimited	= "ratelimited"
-	proxyVerdictUnexpected	= "unexpected"
-	proxyVerdictDead	= "dead"
+	proxyVerdictOK          = "ok"
+	proxyVerdictBlocked     = "blocked"
+	proxyVerdictRateLimited = "ratelimited"
+	proxyVerdictUnexpected  = "unexpected"
+	proxyVerdictDead        = "dead"
 )
 
 type proxyCheckResult struct {
-	Index	int	`json:"index"`
-	Pool	string	`json:"pool"`
-	Proxy	string	`json:"proxy"`
+	Index int    `json:"index"`
+	Pool  string `json:"pool"`
+	Proxy string `json:"proxy"`
 
-	Rotated		bool	`json:"rotated"`
-	Mismatch	string	`json:"mismatch,omitempty"`
-	Verdict		string	`json:"verdict"`
-	StatusCode	int	`json:"status_code,omitempty"`
-	MS		int64	`json:"ms"`
-	ExitIP		string	`json:"exit_ip,omitempty"`
-	Country		string	`json:"country,omitempty"`
-	Colo		string	`json:"colo,omitempty"`
-	Detail		string	`json:"detail,omitempty"`
+	Rotated    bool   `json:"rotated"`
+	Mismatch   string `json:"mismatch,omitempty"`
+	Verdict    string `json:"verdict"`
+	StatusCode int    `json:"status_code,omitempty"`
+	MS         int64  `json:"ms"`
+	ExitIP     string `json:"exit_ip,omitempty"`
+	Country    string `json:"country,omitempty"`
+	Colo       string `json:"colo,omitempty"`
+	Detail     string `json:"detail,omitempty"`
 }
 
 type proxyCheckResponse struct {
-	Checked		int	`json:"checked"`
-	OK		int	`json:"ok"`
-	Blocked		int	`json:"blocked"`
-	Dead		int	`json:"dead"`
-	Other		int	`json:"other"`
-	Mismatches	int	`json:"mismatches"`
+	Checked    int `json:"checked"`
+	OK         int `json:"ok"`
+	Blocked    int `json:"blocked"`
+	Dead       int `json:"dead"`
+	Other      int `json:"other"`
+	Mismatches int `json:"mismatches"`
 
-	StaticChecked	int			`json:"static_checked"`
-	DistinctIPs	int			`json:"distinct_ips"`
-	MS		int64			`json:"ms"`
-	TimedOut	bool			`json:"timed_out,omitempty"`
-	Direct		bool			`json:"direct,omitempty"`
-	Note		string			`json:"note,omitempty"`
-	Results		[]proxyCheckResult	`json:"results"`
+	StaticChecked int                `json:"static_checked"`
+	DistinctIPs   int                `json:"distinct_ips"`
+	MS            int64              `json:"ms"`
+	TimedOut      bool               `json:"timed_out,omitempty"`
+	Direct        bool               `json:"direct,omitempty"`
+	Note          string             `json:"note,omitempty"`
+	Results       []proxyCheckResult `json:"results"`
 }
 
 func runProxyCheck() pluginapi.ManagementResponse {
@@ -85,9 +85,9 @@ func runProxyCheck() pluginapi.ManagementResponse {
 	}
 
 	type target struct {
-		pool	string
-		index	int
-		url	string
+		pool  string
+		index int
+		url   string
 	}
 	var targets []target
 	for i, raw := range cfg.ProbeProxies {
@@ -211,15 +211,15 @@ func proxyCheckOne(ctx context.Context, pool *probeClientPool, poolName string, 
 
 func proxyCheckReach(ctx context.Context, client *http.Client, model string) (int, error) {
 	payload := map[string]any{
-		"model":	model,
-		"stream":	true,
-		"store":	false,
+		"model":  model,
+		"stream": true,
+		"store":  false,
 		"input": []map[string]any{{
-			"type":	"message",
-			"role":	"user",
+			"type": "message",
+			"role": "user",
 			"content": []map[string]any{{
-				"type":	"input_text",
-				"text":	"ping",
+				"type": "input_text",
+				"text": "ping",
 			}},
 		}},
 	}

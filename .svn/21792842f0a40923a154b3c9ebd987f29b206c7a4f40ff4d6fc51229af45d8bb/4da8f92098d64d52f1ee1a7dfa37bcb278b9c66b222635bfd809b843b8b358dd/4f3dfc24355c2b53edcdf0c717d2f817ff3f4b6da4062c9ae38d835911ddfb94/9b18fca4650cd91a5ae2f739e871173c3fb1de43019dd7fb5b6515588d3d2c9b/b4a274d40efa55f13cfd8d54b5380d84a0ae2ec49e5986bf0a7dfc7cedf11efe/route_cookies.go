@@ -25,9 +25,9 @@ func routeCookieWanted(name string) bool {
 }
 
 type routeCookieSet struct {
-	pairs		map[string]string
-	seenAt		time.Time
-	expireAt	time.Time
+	pairs    map[string]string
+	seenAt   time.Time
+	expireAt time.Time
 }
 
 func routeCookiesFromResponseHeaders(headers http.Header, now time.Time) routeCookieSet {
@@ -225,19 +225,19 @@ func gatewayLabel(pairs map[string]string) string {
 }
 
 type routeCookieEntry struct {
-	Pairs	map[string]string	`json:"pairs"`
+	Pairs map[string]string `json:"pairs"`
 
-	Gateway	string	`json:"gateway,omitempty"`
+	Gateway string `json:"gateway,omitempty"`
 
-	Via	string	`json:"via,omitempty"`
+	Via string `json:"via,omitempty"`
 
-	SeenAt	string	`json:"seen_at"`
+	SeenAt string `json:"seen_at"`
 
-	ExpireAt	string	`json:"expire_at,omitempty"`
+	ExpireAt string `json:"expire_at,omitempty"`
 
-	GoodAt	string	`json:"good_at,omitempty"`
+	GoodAt string `json:"good_at,omitempty"`
 
-	BadAt	string	`json:"bad_at,omitempty"`
+	BadAt string `json:"bad_at,omitempty"`
 }
 
 const routeCookiePoolFile = "route-cookies.json"
@@ -245,9 +245,9 @@ const routeCookiePoolFile = "route-cookies.json"
 const routeCookiePoolVersion = 1
 
 type routeCookiePoolDoc struct {
-	Version		int			`json:"version"`
-	UpdatedAt	string			`json:"updated_at"`
-	Entries		[]routeCookieEntry	`json:"entries"`
+	Version   int                `json:"version"`
+	UpdatedAt string             `json:"updated_at"`
+	Entries   []routeCookieEntry `json:"entries"`
 }
 
 func cookieEntryKey(pairs map[string]string) string {
@@ -392,8 +392,8 @@ func (s *pluginState) noteRouteCookiesLocked(set routeCookieSet, via string) {
 	e := s.cookies[key]
 	if e == nil {
 		e = &routeCookieEntry{
-			Pairs:		set.pairs,
-			Gateway:	gatewayLabel(set.pairs),
+			Pairs:   set.pairs,
+			Gateway: gatewayLabel(set.pairs),
 		}
 		s.cookies[key] = e
 	}

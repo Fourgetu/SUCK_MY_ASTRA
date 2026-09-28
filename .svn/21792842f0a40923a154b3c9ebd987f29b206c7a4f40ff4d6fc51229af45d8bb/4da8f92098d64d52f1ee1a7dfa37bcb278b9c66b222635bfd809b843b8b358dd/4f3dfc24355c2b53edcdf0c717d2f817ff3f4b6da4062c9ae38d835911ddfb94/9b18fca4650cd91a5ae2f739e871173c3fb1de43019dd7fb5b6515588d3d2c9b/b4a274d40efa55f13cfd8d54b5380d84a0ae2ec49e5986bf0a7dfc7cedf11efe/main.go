@@ -82,15 +82,15 @@ const selectedAuthIndexMetadataKey = "selected_auth_index"
 const logPrefix = "[codex-turn-state] "
 
 const (
-	roleProbe	= "probe"
-	roleBusiness	= "business"
+	roleProbe    = "probe"
+	roleBusiness = "business"
 )
 
 const runtimeOverrideFileName = "runtime.json"
 
 var state = pluginState{
-	config:		defaultConfig(),
-	cookies:	make(map[string]*routeCookieEntry),
+	config:  defaultConfig(),
+	cookies: make(map[string]*routeCookieEntry),
 }
 
 var hostAPI unsafe.Pointer
@@ -132,73 +132,73 @@ func hostCall(method string, request []byte) ([]byte, error) {
 }
 
 type decisionCounters struct {
-	Harvest	int64	`json:"harvest"`
+	Harvest int64 `json:"harvest"`
 
-	Steer	int64	`json:"steer"`
-	Pass	int64	`json:"pass"`
-	Skip	int64	`json:"skip"`
+	Steer int64 `json:"steer"`
+	Pass  int64 `json:"pass"`
+	Skip  int64 `json:"skip"`
 }
 
 type pluginState struct {
-	mu	sync.Mutex
-	config	pluginConfig
+	mu     sync.Mutex
+	config pluginConfig
 
-	cookies	map[string]*routeCookieEntry
+	cookies map[string]*routeCookieEntry
 
-	cookiesDirty	bool
-	cookiesFlushed	time.Time
+	cookiesDirty   bool
+	cookiesFlushed time.Time
 
-	counts		decisionCounters
-	countsAt	time.Time
+	counts   decisionCounters
+	countsAt time.Time
 
-	configErrors	[]string
+	configErrors []string
 }
 
 type pluginConfig struct {
-	CloudMint	cloudMintConfig	`yaml:"cloud_mint"`
+	CloudMint cloudMintConfig `yaml:"cloud_mint"`
 
-	Role	string	`yaml:"role"`
+	Role string `yaml:"role"`
 
-	StoreDir	string	`yaml:"store_dir"`
+	StoreDir string `yaml:"store_dir"`
 
-	TemplateLength	int	`yaml:"template_length"`
-	ReplaceLength	int	`yaml:"replace_length"`
+	TemplateLength int `yaml:"template_length"`
+	ReplaceLength  int `yaml:"replace_length"`
 
-	TTLSeconds	int	`yaml:"ttl_seconds"`
+	TTLSeconds int `yaml:"ttl_seconds"`
 
-	DryRun	bool	`yaml:"dry_run"`
+	DryRun bool `yaml:"dry_run"`
 
-	BlockDegraded	bool	`yaml:"block_degraded"`
+	BlockDegraded bool `yaml:"block_degraded"`
 
-	LogDecisions	bool	`yaml:"log_decisions"`
+	LogDecisions bool `yaml:"log_decisions"`
 
-	Models	[]string	`yaml:"models"`
+	Models []string `yaml:"models"`
 
-	ProbeAccounts	[]string	`yaml:"probe_accounts"`
+	ProbeAccounts []string `yaml:"probe_accounts"`
 
-	ProbeProxies	[]string	`yaml:"probe_proxies"`
+	ProbeProxies []string `yaml:"probe_proxies"`
 
-	ProbeProxiesRotating	[]string	`yaml:"probe_proxies_rotating"`
+	ProbeProxiesRotating []string `yaml:"probe_proxies_rotating"`
 
-	ProbeManagementKey	string	`yaml:"probe_management_key"`
+	ProbeManagementKey string `yaml:"probe_management_key"`
 
-	ProbeBaseURL	string	`yaml:"probe_base_url"`
+	ProbeBaseURL string `yaml:"probe_base_url"`
 }
 
 const defaultProbeBaseURL = "http://127.0.0.1:8317"
 
 func defaultConfig() pluginConfig {
 	return pluginConfig{
-		CloudMint:	defaultCloudMintConfig(),
-		Role:		"",
-		StoreDir:	"",
-		TemplateLength:	292,
-		ReplaceLength:	312,
+		CloudMint:      defaultCloudMintConfig(),
+		Role:           "",
+		StoreDir:       "",
+		TemplateLength: 292,
+		ReplaceLength:  312,
 
-		TTLSeconds:	3900,
-		DryRun:		false,
-		LogDecisions:	true,
-		ProbeBaseURL:	defaultProbeBaseURL,
+		TTLSeconds:   3900,
+		DryRun:       false,
+		LogDecisions: true,
+		ProbeBaseURL: defaultProbeBaseURL,
 	}
 }
 
@@ -317,36 +317,36 @@ func normaliseProxyList(proxies []string, field string) ([]string, []string) {
 }
 
 type envelope struct {
-	OK	bool		`json:"ok"`
-	Result	json.RawMessage	`json:"result,omitempty"`
-	Error	*envelopeError	`json:"error,omitempty"`
+	OK     bool            `json:"ok"`
+	Result json.RawMessage `json:"result,omitempty"`
+	Error  *envelopeError  `json:"error,omitempty"`
 }
 
 type envelopeError struct {
-	Code	string	`json:"code"`
-	Message	string	`json:"message"`
+	Code    string `json:"code"`
+	Message string `json:"message"`
 }
 
 type registerRequest struct {
-	ConfigYAML	[]byte	`json:"config_yaml"`
-	SchemaVersion	uint32	`json:"schema_version"`
+	ConfigYAML    []byte `json:"config_yaml"`
+	SchemaVersion uint32 `json:"schema_version"`
 }
 
 type registration struct {
-	SchemaVersion	uint32			`json:"schema_version"`
-	Metadata	pluginapi.Metadata	`json:"metadata"`
-	Capabilities	registrationCapability	`json:"capabilities"`
+	SchemaVersion uint32                 `json:"schema_version"`
+	Metadata      pluginapi.Metadata     `json:"metadata"`
+	Capabilities  registrationCapability `json:"capabilities"`
 }
 
 type registrationCapability struct {
-	RequestInterceptor		bool	`json:"request_interceptor"`
-	ResponseInterceptor		bool	`json:"response_interceptor"`
-	StreamChunkInterceptor		bool	`json:"response_stream_interceptor"`
-	WebSocketResponseObserver	bool	`json:"websocket_response_observer"`
-	ManagementAPI			bool	`json:"management_api"`
+	RequestInterceptor        bool `json:"request_interceptor"`
+	ResponseInterceptor       bool `json:"response_interceptor"`
+	StreamChunkInterceptor    bool `json:"response_stream_interceptor"`
+	WebSocketResponseObserver bool `json:"websocket_response_observer"`
+	ManagementAPI             bool `json:"management_api"`
 }
 
-func main()	{}
+func main() {}
 
 //export cliproxy_plugin_init
 func cliproxy_plugin_init(host *C.cliproxy_host_api, plugin *C.cliproxy_plugin_api) C.int {
@@ -575,96 +575,96 @@ func swapConfigLocked(cfg pluginConfig) (cleared, roleChanged bool) {
 func pluginRegistration() registration {
 
 	capabilities := registrationCapability{
-		RequestInterceptor:		true,
-		ManagementAPI:			true,
-		ResponseInterceptor:		true,
-		StreamChunkInterceptor:		true,
-		WebSocketResponseObserver:	true,
+		RequestInterceptor:        true,
+		ManagementAPI:             true,
+		ResponseInterceptor:       true,
+		StreamChunkInterceptor:    true,
+		WebSocketResponseObserver: true,
 	}
 
 	return registration{
-		SchemaVersion:	pluginabi.SchemaVersion,
+		SchemaVersion: pluginabi.SchemaVersion,
 		Metadata: pluginapi.Metadata{
-			Name:			"Codex Cloud Mint",
-			Version:		"0.3.3-ws-chain",
-			Author:			"arden-aaai",
-			GitHubRepository:	"https://github.com/arden-aaai/cpa-plugin-codex-turn-state",
+			Name:             "Codex Cloud Mint",
+			Version:          "0.3.3-ws-chain",
+			Author:           "arden-aaai",
+			GitHubRepository: "https://github.com/arden-aaai/cpa-plugin-codex-turn-state",
 			ConfigFields: []pluginapi.ConfigField{
 
 				{
-					Name:		"role",
-					Type:		pluginapi.ConfigFieldTypeEnum,
-					EnumValues:	[]string{roleProbe, roleBusiness},
-					Description:	"Whether this process rewrites requests. \"business\" merges the pool's best live __cflb/__oailb pair into attributable Codex requests; \"probe\" leaves every request exactly as it found it. Empty means business. Both roles collect pairs and observe serving states off upstream responses -- role does not switch that off.",
+					Name:        "role",
+					Type:        pluginapi.ConfigFieldTypeEnum,
+					EnumValues:  []string{roleProbe, roleBusiness},
+					Description: "Whether this process rewrites requests. \"business\" merges the pool's best live __cflb/__oailb pair into attributable Codex requests; \"probe\" leaves every request exactly as it found it. Empty means business. Both roles collect pairs and observe serving states off upstream responses -- role does not switch that off.",
 				},
 				{
-					Name:		"store_dir",
-					Type:		pluginapi.ConfigFieldTypeString,
-					Description:	"Directory holding the route-cookie pool file (route-cookies.json) and the other plugin-owned documents (runtime.json, probe-scope.json, observations.json). Required for role=probe.",
+					Name:        "store_dir",
+					Type:        pluginapi.ConfigFieldTypeString,
+					Description: "Directory holding the route-cookie pool file (route-cookies.json) and the other plugin-owned documents (runtime.json, probe-scope.json, observations.json). Required for role=probe.",
 				},
 				{
-					Name:		"template_length",
-					Type:		pluginapi.ConfigFieldTypeInteger,
-					Description:	"Turn-state length classifying a NORMAL serving state (default 292). An anchor, not a whitelist: each bucket learns its own recurring signature. Observation only -- nothing is stored or substituted off it.",
+					Name:        "template_length",
+					Type:        pluginapi.ConfigFieldTypeInteger,
+					Description: "Turn-state length classifying a NORMAL serving state (default 292). An anchor, not a whitelist: each bucket learns its own recurring signature. Observation only -- nothing is stored or substituted off it.",
 				},
 				{
-					Name:		"replace_length",
-					Type:		pluginapi.ConfigFieldTypeInteger,
-					Description:	"Turn-state length classifying a DEGRADED serving state (default 312). Observation only -- nothing is stored or substituted off it.",
+					Name:        "replace_length",
+					Type:        pluginapi.ConfigFieldTypeInteger,
+					Description: "Turn-state length classifying a DEGRADED serving state (default 312). Observation only -- nothing is stored or substituted off it.",
 				},
 				{
-					Name:		"ttl_seconds",
-					Type:		pluginapi.ConfigFieldTypeInteger,
-					Description:	"How long a pooled __cflb/__oailb pair stays usable, measured from when it was last seen and shortened by the pair's own declared deadline (default 3600, matching the upstream's declared one-hour Max-Age/Expires).",
+					Name:        "ttl_seconds",
+					Type:        pluginapi.ConfigFieldTypeInteger,
+					Description: "How long a pooled __cflb/__oailb pair stays usable, measured from when it was last seen and shortened by the pair's own declared deadline (default 3600, matching the upstream's declared one-hour Max-Age/Expires).",
 				},
 				{
-					Name:		"dry_run",
-					Type:		pluginapi.ConfigFieldTypeBoolean,
-					Description:	"Log decisions without rewriting the outgoing Cookie header.",
+					Name:        "dry_run",
+					Type:        pluginapi.ConfigFieldTypeBoolean,
+					Description: "Log decisions without rewriting the outgoing Cookie header.",
 				},
 				{
-					Name:		"log_decisions",
-					Type:		pluginapi.ConfigFieldTypeBoolean,
-					Description:	"Emit one log line per harvest or steer decision.",
+					Name:        "log_decisions",
+					Type:        pluginapi.ConfigFieldTypeBoolean,
+					Description: "Emit one log line per harvest or steer decision.",
 				},
 				{
-					Name:		"models",
-					Type:		pluginapi.ConfigFieldTypeArray,
-					Description:	"Official model ids the probe uses for its minting payload. Recorded so the running config and the probe script cannot drift apart; the pair itself is model-agnostic.",
+					Name:        "models",
+					Type:        pluginapi.ConfigFieldTypeArray,
+					Description: "Official model ids the probe uses for its minting payload. Recorded so the running config and the probe script cannot drift apart; the pair itself is model-agnostic.",
 				},
 				{
-					Name:		"probe_accounts",
-					Type:		pluginapi.ConfigFieldTypeArray,
-					Description:	"Credential filenames the probe run may borrow. PROBE SCOPE ONLY: the business path never reads this, and one usable credential is enough -- a minted pair is not bound to the account that minted it.",
+					Name:        "probe_accounts",
+					Type:        pluginapi.ConfigFieldTypeArray,
+					Description: "Credential filenames the probe run may borrow. PROBE SCOPE ONLY: the business path never reads this, and one usable credential is enough -- a minted pair is not bound to the account that minted it.",
 				},
 				{
-					Name:		"probe_proxies",
-					Type:		pluginapi.ConfigFieldTypeArray,
-					Description:	"Ordered exits the probe tries per bucket, applied to the probed account's own proxy_url. PROBE SCOPE ONLY; never read by the business path. May contain credentials, so it is masked in every log line; the status document shows it in the clear at the operator's explicit request.",
+					Name:        "probe_proxies",
+					Type:        pluginapi.ConfigFieldTypeArray,
+					Description: "Ordered exits the probe tries per bucket, applied to the probed account's own proxy_url. PROBE SCOPE ONLY; never read by the business path. May contain credentials, so it is masked in every log line; the status document shows it in the clear at the operator's explicit request.",
 				},
 				{
-					Name:		"probe_proxies_rotating",
-					Type:		pluginapi.ConfigFieldTypeArray,
-					Description:	"Exits whose address changes on every connection (a residential gateway). PROBE SCOPE ONLY; never read by the business path. Separate from probe_proxies because a rotating entry is re-dialed on a 312 -- the next request is a different address -- while a static one is not. Masked in every log line.",
+					Name:        "probe_proxies_rotating",
+					Type:        pluginapi.ConfigFieldTypeArray,
+					Description: "Exits whose address changes on every connection (a residential gateway). PROBE SCOPE ONLY; never read by the business path. Separate from probe_proxies because a rotating entry is re-dialed on a 312 -- the next request is a different address -- while a static one is not. Masked in every log line.",
 				},
 				{
-					Name:		"probe_management_key",
-					Type:		pluginapi.ConfigFieldTypeString,
-					Description:	"Bearer the probe runner sends to /v0/management/*, for the two read-only calls that list the accounts and download one token. PROBE SCOPE ONLY; never read by the business path. It exists so the dashboard needs no key from the operator, and it is NEVER displayed anywhere, masked or otherwise -- not on the status page, not in the config response, not in a log line (which reports only set/unset).",
+					Name:        "probe_management_key",
+					Type:        pluginapi.ConfigFieldTypeString,
+					Description: "Bearer the probe runner sends to /v0/management/*, for the two read-only calls that list the accounts and download one token. PROBE SCOPE ONLY; never read by the business path. It exists so the dashboard needs no key from the operator, and it is NEVER displayed anywhere, masked or otherwise -- not on the status page, not in the config response, not in a log line (which reports only set/unset).",
 				},
 				{
-					Name:		"probe_base_url",
-					Type:		pluginapi.ConfigFieldTypeString,
-					Description:	"Where the probe runner sends the above (default http://127.0.0.1:8317, CPA's own loopback listener). PROBE SCOPE ONLY; never read by the business path. Not a secret.",
+					Name:        "probe_base_url",
+					Type:        pluginapi.ConfigFieldTypeString,
+					Description: "Where the probe runner sends the above (default http://127.0.0.1:8317, CPA's own loopback listener). PROBE SCOPE ONLY; never read by the business path. Not a secret.",
 				},
 				{
-					Name:		"cloud_mint",
-					Type:		pluginapi.ConfigFieldTypeObject,
-					Description:	"云端打票（默认关闭）：enabled/url/proxy_url/proxy_env/key_env/transport/gateway/ticket_length/ttl_seconds/wait_ms/timeout_ms。密钥只从环境变量读取；冷启动短等待，未就绪返回 503。",
+					Name:        "cloud_mint",
+					Type:        pluginapi.ConfigFieldTypeObject,
+					Description: "云端打票（默认关闭）：enabled/url/proxy_url/proxy_env/key_env/transport/gateway/ticket_length/ttl_seconds/wait_ms/timeout_ms。密钥只从环境变量读取；冷启动短等待，未就绪返回 503。",
 				},
 			},
 		},
-		Capabilities:	capabilities,
+		Capabilities: capabilities,
 	}
 }
 
@@ -830,23 +830,23 @@ func observeWebSocketEvent(raw []byte) ([]byte, error) {
 }
 
 type pendingAuthEntry struct {
-	authID	string
+	authID string
 
-	steered	bool
+	steered bool
 
-	pairKey	string
-	seenAt	time.Time
+	pairKey string
+	seenAt  time.Time
 }
 
 var pendingAuth = struct {
-	mu	sync.Mutex
-	byID	map[string]pendingAuthEntry
+	mu   sync.Mutex
+	byID map[string]pendingAuthEntry
 }{byID: make(map[string]pendingAuthEntry)}
 
 const (
-	pendingAuthTTL	= 15 * time.Minute
+	pendingAuthTTL = 15 * time.Minute
 
-	pendingAuthMax	= 4096
+	pendingAuthMax = 4096
 )
 
 func rememberRequestAuth(requestID, authID string) {
@@ -902,17 +902,17 @@ func recallRequestRecord(requestID string) (authID string, steered bool, pairKey
 }
 
 type pendingModelScanEntry struct {
-	authID	string
-	model	string
-	tsLen	int
-	steered	bool
-	pairKey	string
-	seenAt	time.Time
+	authID  string
+	model   string
+	tsLen   int
+	steered bool
+	pairKey string
+	seenAt  time.Time
 }
 
 var pendingModelScans = struct {
-	mu	sync.Mutex
-	byID	map[string]pendingModelScanEntry
+	mu   sync.Mutex
+	byID map[string]pendingModelScanEntry
 }{byID: make(map[string]pendingModelScanEntry)}
 
 const pendingModelScanMaxChunk = 8
@@ -932,7 +932,7 @@ func rememberModelScan(requestID, authID, model string, tsLen int, steered bool,
 		}
 	}
 	pendingModelScans.byID[requestID] = pendingModelScanEntry{
-		authID:	authID, model: model, tsLen: tsLen, steered: steered, pairKey: pairKey, seenAt: now,
+		authID: authID, model: model, tsLen: tsLen, steered: steered, pairKey: pairKey, seenAt: now,
 	}
 }
 
@@ -956,8 +956,8 @@ func dropModelScan(requestID string) {
 }
 
 var blockedStreams = struct {
-	mu	sync.Mutex
-	ids	map[string]time.Time
+	mu  sync.Mutex
+	ids map[string]time.Time
 }{ids: map[string]time.Time{}}
 
 func blockStream(requestID string) {
@@ -1061,12 +1061,12 @@ func servedModelFromJSONBody(body []byte) (string, bool) {
 
 func degradedStreamEvent(requested, served string) []byte {
 	payload, _ := json.Marshal(map[string]any{
-		"type":	"response.failed",
+		"type": "response.failed",
 		"response": map[string]any{
-			"status":	"failed",
+			"status": "failed",
 			"error": map[string]any{
-				"code":		"degraded_model_blocked",
-				"message":	"upstream served " + served + " instead of requested " + requested,
+				"code":    "degraded_model_blocked",
+				"message": "upstream served " + served + " instead of requested " + requested,
 			},
 		},
 	})
@@ -1076,8 +1076,8 @@ func degradedStreamEvent(requested, served string) []byte {
 func degradedErrorBody(requested, served string) []byte {
 	body, _ := json.Marshal(map[string]any{
 		"error": map[string]any{
-			"code":		"degraded_model_blocked",
-			"message":	"upstream served " + served + " instead of requested " + requested,
+			"code":    "degraded_model_blocked",
+			"message": "upstream served " + served + " instead of requested " + requested,
 		},
 	})
 	return body
@@ -1127,8 +1127,8 @@ func harvestFromResponse(cfg pluginConfig, headers http.Header, metadata map[str
 }
 
 type runtimeOverride struct {
-	Role	*string	`json:"role,omitempty"`
-	DryRun	*bool	`json:"dry_run,omitempty"`
+	Role   *string `json:"role,omitempty"`
+	DryRun *bool   `json:"dry_run,omitempty"`
 }
 
 func readRuntimeOverride(dir string) (runtimeOverride, bool) {
@@ -1170,12 +1170,12 @@ func writeRuntimeOverride(dir string, role string, dryRun bool) error {
 const scopeFileName = "probe-scope.json"
 
 type probeScope struct {
-	Accounts	[]string	`json:"probe_accounts"`
-	Models		[]string	`json:"models"`
-	Proxies		[]string	`json:"probe_proxies"`
+	Accounts []string `json:"probe_accounts"`
+	Models   []string `json:"models"`
+	Proxies  []string `json:"probe_proxies"`
 
-	Rotating	[]string	`json:"probe_proxies_rotating,omitempty"`
-	UpdatedAt	string		`json:"updated_at"`
+	Rotating  []string `json:"probe_proxies_rotating,omitempty"`
+	UpdatedAt string   `json:"updated_at"`
 }
 
 func loadProbeScope(dir string) (*probeScope, error) {

@@ -132,10 +132,10 @@ func TestRouteCookieSetUsable(t *testing.T) {
 	fresh := routeCookieSet{pairs: map[string]string{"__cflb": "v"}, seenAt: testNow}
 
 	tests := []struct {
-		name	string
-		set	routeCookieSet
-		at	time.Time
-		want	bool
+		name string
+		set  routeCookieSet
+		at   time.Time
+		want bool
 	}{
 		{"fresh", fresh, testNow.Add(time.Minute), true},
 		{"empty", routeCookieSet{seenAt: testNow}, testNow, false},
@@ -155,9 +155,9 @@ func TestRouteCookieSetUsable(t *testing.T) {
 
 func TestRouteCookieSecondsLeftUsesTheEarlierDeadline(t *testing.T) {
 	e := routeCookieEntry{
-		Pairs:		map[string]string{"__cflb": "v"},
-		SeenAt:		testNow.UTC().Format(time.RFC3339),
-		ExpireAt:	testNow.Add(time.Minute).UTC().Format(time.RFC3339),
+		Pairs:    map[string]string{"__cflb": "v"},
+		SeenAt:   testNow.UTC().Format(time.RFC3339),
+		ExpireAt: testNow.Add(time.Minute).UTC().Format(time.RFC3339),
 	}
 	if got := entrySecondsLeft(e, testNow, 240*time.Second); got != 60 {
 		t.Fatalf("entrySecondsLeft = %d, want 60 (the declared deadline, not the ttl)", got)
@@ -214,8 +214,8 @@ func TestPoolWriteDropsDeadEntries(t *testing.T) {
 	dead := map[string]string{"__cflb": "dead"}
 	live := map[string]string{"__cflb": "live"}
 	pool := map[string]*routeCookieEntry{
-		cookieEntryKey(dead):	{Pairs: dead, SeenAt: testNow.Add(-2 * time.Hour).UTC().Format(time.RFC3339)},
-		cookieEntryKey(live):	{Pairs: live, SeenAt: testNow.UTC().Format(time.RFC3339)},
+		cookieEntryKey(dead): {Pairs: dead, SeenAt: testNow.Add(-2 * time.Hour).UTC().Format(time.RFC3339)},
+		cookieEntryKey(live): {Pairs: live, SeenAt: testNow.UTC().Format(time.RFC3339)},
 	}
 	if err := writeRouteCookiePool(dir, pool, testNow, testTTL); err != nil {
 		t.Fatalf("writeRouteCookiePool: %v", err)
@@ -517,17 +517,17 @@ func TestProbeThrottledTripleKeepsTheLongRest(t *testing.T) {
 func TestProbeConsumePaired312PoolsButTriesNext(t *testing.T) {
 	resetProbeRunner(t)
 	cfg := pluginConfig{
-		StoreDir:	t.TempDir(),
-		TemplateLength:	292,
-		ReplaceLength:	312,
-		TTLSeconds:	3600,
+		StoreDir:       t.TempDir(),
+		TemplateLength: 292,
+		ReplaceLength:  312,
+		TTLSeconds:     3600,
 	}
 	res := probeFireResult{
-		status:		http.StatusOK,
-		stateValue:	strings.Repeat("x", 312),
+		status:     http.StatusOK,
+		stateValue: strings.Repeat("x", 312),
 		cookies: routeCookieSet{
-			pairs:	map[string]string{"__cflb": "cf", "__oailb": "lb"},
-			seenAt:	time.Now(),
+			pairs:  map[string]string{"__cflb": "cf", "__oailb": "lb"},
+			seenAt: time.Now(),
 		},
 	}
 	if got := probeConsume(cfg, "acct", "acct", "model", res, ""); got != probeOutcomeTryNext {

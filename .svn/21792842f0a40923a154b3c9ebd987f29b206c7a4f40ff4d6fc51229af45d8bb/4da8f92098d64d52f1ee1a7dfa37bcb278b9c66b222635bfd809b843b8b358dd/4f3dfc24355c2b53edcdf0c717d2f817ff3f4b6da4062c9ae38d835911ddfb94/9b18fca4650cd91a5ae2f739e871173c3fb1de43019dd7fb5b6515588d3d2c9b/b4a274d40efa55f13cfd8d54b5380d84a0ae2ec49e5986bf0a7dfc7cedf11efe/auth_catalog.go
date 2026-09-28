@@ -10,17 +10,17 @@ import (
 )
 
 type codexAuth struct {
-	AuthID	string
-	Enabled	bool
+	AuthID  string
+	Enabled bool
 }
 
 const authListCacheTTL = 2 * time.Second
 
 var (
-	authListMu	sync.Mutex
-	authListCache	[]codexAuth
-	authListErr	error
-	authListFetched	time.Time
+	authListMu      sync.Mutex
+	authListCache   []codexAuth
+	authListErr     error
+	authListFetched time.Time
 )
 
 var codexAuthLister = listCodexAuths
@@ -39,10 +39,10 @@ func cachedCodexAuths() ([]codexAuth, error) {
 }
 
 var (
-	authCatalogMu		sync.Mutex
-	authCatalogCache	[]pluginapi.HostAuthFileEntry
-	authCatalogErr		error
-	authCatalogFetched	time.Time
+	authCatalogMu      sync.Mutex
+	authCatalogCache   []pluginapi.HostAuthFileEntry
+	authCatalogErr     error
+	authCatalogFetched time.Time
 )
 
 func cachedAuthCatalog() ([]pluginapi.HostAuthFileEntry, error) {

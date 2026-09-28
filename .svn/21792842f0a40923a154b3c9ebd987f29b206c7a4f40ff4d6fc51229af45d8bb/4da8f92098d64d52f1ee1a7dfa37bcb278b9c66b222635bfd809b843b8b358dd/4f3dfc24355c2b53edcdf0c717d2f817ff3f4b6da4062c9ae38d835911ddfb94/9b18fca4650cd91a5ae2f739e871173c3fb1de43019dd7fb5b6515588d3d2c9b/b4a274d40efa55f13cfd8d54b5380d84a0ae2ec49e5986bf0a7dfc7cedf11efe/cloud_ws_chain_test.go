@@ -14,17 +14,17 @@ func TestCloudWSChainPreservesPreviousIDAndAggregatesCompleted(t *testing.T) {
 	cfg := defaultConfig()
 	cfg.CloudMint.Enabled = true
 	req := pluginapi.RequestInterceptRequest{RequestID: "chain-request", Model: "gpt-6-sol",
-		Body:		[]byte(`{"model":"gpt-6-sol","previous_response_id":"resp_private_parent","input":"new turn only"}`),
-		Headers:	http.Header{turnStateHeader: {"private-ticket"}, "Cookie": {"__cflb=a; __oailb=unified-15"}},
-		Metadata:	map[string]any{selectedAuthMetadataKey: "private-account"}}
+		Body:     []byte(`{"model":"gpt-6-sol","previous_response_id":"resp_private_parent","input":"new turn only"}`),
+		Headers:  http.Header{turnStateHeader: {"private-ticket"}, "Cookie": {"__cflb=a; __oailb=unified-15"}},
+		Metadata: map[string]any{selectedAuthMetadataKey: "private-account"}}
 	out := interceptCloudMint(req, cfg)
 	if out.Terminate || len(out.Body) != 0 || len(out.Headers) != 0 {
 		t.Fatal("chain request modified")
 	}
 	for _, kind := range []string{"response.created", "response.completed", "response.completed"} {
 		payload, _ := json.Marshal(map[string]any{"type": kind, "response": map[string]any{
-			"id":	"resp_private_child", "model": "gpt-6-sol", "status": "completed",
-			"output":	[]any{map[string]any{"private": "never-log-user-content"}},
+			"id": "resp_private_child", "model": "gpt-6-sol", "status": "completed",
+			"output": []any{map[string]any{"private": "never-log-user-content"}},
 		}})
 		raw, _ := json.Marshal(pluginapi.WebSocketResponseEvent{RequestID: req.RequestID, AuthID: "private-account", EventType: kind, Payload: payload})
 		if _, err := observeWebSocketEvent(raw); err != nil {
@@ -69,10 +69,10 @@ func TestCloudWSChainDoesNotTreatCreatedOrIncompleteAsCompleted(t *testing.T) {
 func TestCloudWSChainDoesNotMergeOtherAccountOrMismatchedResponse(t *testing.T) {
 	resetCloudRequestLogTest(t)
 	cloudRememberRequest(pluginapi.RequestInterceptRequest{RequestID: "shared-request", Model: "gpt-6-sol",
-		Metadata:	map[string]any{selectedAuthMetadataKey: "account-A"}}, pluginapi.RequestInterceptResponse{})
+		Metadata: map[string]any{selectedAuthMetadataKey: "account-A"}}, pluginapi.RequestInterceptResponse{})
 	emit := func(account, kind, responseID string) {
 		body, _ := json.Marshal(map[string]any{"type": kind, "response": map[string]any{
-			"id":	responseID, "model": "gpt-6-sol", "status": "completed"}})
+			"id": responseID, "model": "gpt-6-sol", "status": "completed"}})
 		raw, _ := json.Marshal(pluginapi.WebSocketResponseEvent{RequestID: "shared-request", AuthID: account, EventType: kind, Payload: body})
 		observeWebSocketEvent(raw)
 	}

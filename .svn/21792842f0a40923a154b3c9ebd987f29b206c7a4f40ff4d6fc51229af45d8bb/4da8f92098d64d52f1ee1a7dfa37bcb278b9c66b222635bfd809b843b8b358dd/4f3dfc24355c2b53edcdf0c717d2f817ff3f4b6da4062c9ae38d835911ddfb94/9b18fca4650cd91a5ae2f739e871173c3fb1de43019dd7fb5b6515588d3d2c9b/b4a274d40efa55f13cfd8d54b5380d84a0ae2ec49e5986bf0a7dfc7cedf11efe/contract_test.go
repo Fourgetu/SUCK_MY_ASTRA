@@ -134,10 +134,10 @@ var proxyCheckResponsePublicFields = []string{
 
 func TestAnonymouslyReadableShapesArePinned(t *testing.T) {
 	for _, doc := range []struct {
-		name	string
-		typ	reflect.Type
-		want	[]string
-		route	string
+		name  string
+		typ   reflect.Type
+		want  []string
+		route string
 	}{
 		{"statusResponse", reflect.TypeOf(statusResponse{}), statusResponsePublicFields, "/status"},
 		{"choicesResponse", reflect.TypeOf(choicesResponse{}), choicesResponsePublicFields, "/ops/choices"},
@@ -153,9 +153,9 @@ func TestAnonymouslyReadableShapesArePinned(t *testing.T) {
 }
 
 type walkerProbeInner struct {
-	Alpha	string	`json:"alpha"`
-	Omit	string	`json:"-"`
-	hidden	string	//nolint:unused // present so the walk is seen to skip it
+	Alpha  string `json:"alpha"`
+	Omit   string `json:"-"`
+	hidden string
 }
 
 type walkerProbeEmbedded struct {
@@ -164,12 +164,12 @@ type walkerProbeEmbedded struct {
 
 type walkerProbeOuter struct {
 	walkerProbeEmbedded
-	Top		int			`json:"top"`
-	Nested		walkerProbeInner	`json:"nested"`
-	List		[]walkerProbeInner	`json:"list"`
-	Pointer		*walkerProbeInner	`json:"pointer"`
-	Names		[]string		`json:"names"`
-	Untagged	bool
+	Top      int                `json:"top"`
+	Nested   walkerProbeInner   `json:"nested"`
+	List     []walkerProbeInner `json:"list"`
+	Pointer  *walkerProbeInner  `json:"pointer"`
+	Names    []string           `json:"names"`
+	Untagged bool
 }
 
 func TestJSONFieldPathsDescends(t *testing.T) {
@@ -296,8 +296,8 @@ func rejectOpaque(t *testing.T, typ reflect.Type, where string) {
 	t.Helper()
 
 	var (
-		jsonMarshaler	= reflect.TypeOf((*json.Marshaler)(nil)).Elem()
-		textMarshaler	= reflect.TypeOf((*encoding.TextMarshaler)(nil)).Elem()
+		jsonMarshaler = reflect.TypeOf((*json.Marshaler)(nil)).Elem()
+		textMarshaler = reflect.TypeOf((*encoding.TextMarshaler)(nil)).Elem()
 	)
 	for _, iface := range []reflect.Type{jsonMarshaler, textMarshaler} {
 		if typ.Implements(iface) || reflect.PointerTo(typ).Implements(iface) {

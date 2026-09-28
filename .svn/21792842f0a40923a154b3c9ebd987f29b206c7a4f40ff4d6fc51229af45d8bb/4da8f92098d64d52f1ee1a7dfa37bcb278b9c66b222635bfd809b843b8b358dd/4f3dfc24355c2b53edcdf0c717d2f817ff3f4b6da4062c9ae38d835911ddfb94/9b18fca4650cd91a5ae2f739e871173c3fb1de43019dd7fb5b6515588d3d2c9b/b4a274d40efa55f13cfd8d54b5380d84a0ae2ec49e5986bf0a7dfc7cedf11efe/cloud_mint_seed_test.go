@@ -32,7 +32,7 @@ func TestCloudMintSeedForwardsOnlyRoutePairToFC(t *testing.T) {
 	resetCloudMintService()
 	t.Cleanup(func() { cloudCredentialResolver = old; resetCloudMintService() })
 	req := pluginapi.RequestInterceptRequest{RequestID: "seed-forward", Model: "gpt-6-sol",
-		Headers:	http.Header{"Cookie": {seed + "; __cf_bm=private; session=secret"}}}
+		Headers: http.Header{"Cookie": {seed + "; __cf_bm=private; session=secret"}}}
 	out := interceptCloudMint(req, cfg)
 	if out.Terminate || received != seed {
 		t.Fatalf("route-only Cookie not forwarded; terminate=%v", out.Terminate)
@@ -72,8 +72,8 @@ func TestCloudMintSeedValidationAndCacheIsolation(t *testing.T) {
 	valid := cloudTestResult(now, "gpt-6-sol").Cookies
 	cookie := "__cflb=" + valid["__cflb"] + "; __oailb=" + valid["__oailb"]
 	for _, tc := range []struct {
-		raw, gateway	string
-		valid		bool
+		raw, gateway string
+		valid        bool
 	}{
 		{cookie, "unified-88", true},
 		{cookie + "; session=keep", "unified-88", true},

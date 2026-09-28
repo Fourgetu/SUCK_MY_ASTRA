@@ -14,9 +14,9 @@ import (
 )
 
 type cloudSOCKSObservation struct {
-	host, user, password	string
-	port			uint16
-	err			error
+	host, user, password string
+	port                 uint16
+	err                  error
 }
 
 func receiveCloudSOCKSAuth(conn net.Conn) (string, string, error) {

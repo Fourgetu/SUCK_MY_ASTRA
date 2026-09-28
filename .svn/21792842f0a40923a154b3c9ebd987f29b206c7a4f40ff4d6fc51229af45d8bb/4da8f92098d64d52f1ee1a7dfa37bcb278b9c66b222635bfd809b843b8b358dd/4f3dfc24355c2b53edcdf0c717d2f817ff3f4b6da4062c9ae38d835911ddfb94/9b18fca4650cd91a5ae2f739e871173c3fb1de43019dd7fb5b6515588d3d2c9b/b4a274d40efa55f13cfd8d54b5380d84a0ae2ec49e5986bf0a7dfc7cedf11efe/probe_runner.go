@@ -20,70 +20,70 @@ import (
 )
 
 const (
-	probeRouteAuthFiles	= "/v0/management/auth-files"
-	probeRouteAuthDownload	= "/v0/management/auth-files/download"
+	probeRouteAuthFiles    = "/v0/management/auth-files"
+	probeRouteAuthDownload = "/v0/management/auth-files/download"
 )
 
 var (
-	probeUpstreamURL	= "https://chatgpt.com/backend-api/codex/responses"
-	probeUserAgent		= "codex-tui/0.154.0 (Ubuntu 24.04; x86_64) OVH (codex-tui; 0.154.0)"
+	probeUpstreamURL = "https://chatgpt.com/backend-api/codex/responses"
+	probeUserAgent   = "codex-tui/0.154.0 (Ubuntu 24.04; x86_64) OVH (codex-tui; 0.154.0)"
 )
 
 const (
-	probeMaxLines	= 40
+	probeMaxLines = 40
 
-	probeFireTimeout	= 60 * time.Second
-	probeMgmtTimeout	= 30 * time.Second
+	probeFireTimeout = 60 * time.Second
+	probeMgmtTimeout = 30 * time.Second
 
-	probeMaxAccountsInFlight	= 4
+	probeMaxAccountsInFlight = 4
 
-	probeMaxBodyBytes	= 1 << 10
+	probeMaxBodyBytes = 1 << 10
 
-	probeMgmtMaxBodyBytes	= 4 << 20
+	probeMgmtMaxBodyBytes = 4 << 20
 )
 
 var (
-	probeRenewInterval	= 20 * time.Second
-	probeRenewThreshold	= 120 * time.Second
+	probeRenewInterval  = 20 * time.Second
+	probeRenewThreshold = 120 * time.Second
 
-	probeExitCooldown	= 55 * time.Minute
+	probeExitCooldown = 55 * time.Minute
 
-	probeExitPause	= 2 * time.Second
+	probeExitPause = 2 * time.Second
 
-	probeRotatingAttempts	= 10
-	probeRotatingCooldown	= 10 * time.Minute
+	probeRotatingAttempts = 10
+	probeRotatingCooldown = 10 * time.Minute
 
-	probeAccountBackoff	= 10 * time.Minute
+	probeAccountBackoff = 10 * time.Minute
 )
 
 type probeRunState struct {
-	Running		bool		`json:"running"`
-	StartedAt	string		`json:"started_at,omitempty"`
-	FinishedAt	string		`json:"finished_at,omitempty"`
-	Done		int		`json:"done"`
-	Total		int		`json:"total"`
-	Current		string		`json:"current,omitempty"`
-	Lines		[]string	`json:"lines,omitempty"`
-	Error		string		`json:"error,omitempty"`
+	Running    bool     `json:"running"`
+	StartedAt  string   `json:"started_at,omitempty"`
+	FinishedAt string   `json:"finished_at,omitempty"`
+	Done       int      `json:"done"`
+	Total      int      `json:"total"`
+	Current    string   `json:"current,omitempty"`
+	Lines      []string `json:"lines,omitempty"`
+	Error      string   `json:"error,omitempty"`
 }
 
 var probeRunner struct {
-	mu	sync.Mutex
-	run	probeRunState
-	cancel	context.CancelFunc
+	mu     sync.Mutex
+	run    probeRunState
+	cancel context.CancelFunc
 }
 
 type probeTarget struct {
-	account	string
-	model	string
+	account string
+	model   string
 }
 
 type probeCredential struct {
-	name		string
-	accessToken	string
-	accountID	string
-	proxyURL	string
-	expiresAt	time.Time
+	name        string
+	accessToken string
+	accountID   string
+	proxyURL    string
+	expiresAt   time.Time
 }
 
 func probeRunStart() error {
@@ -117,8 +117,8 @@ func probeRunStart() error {
 	ctx, cancel := context.WithCancel(context.Background())
 	probeRunner.cancel = cancel
 	probeRunner.run = probeRunState{
-		Running:	true,
-		StartedAt:	time.Now().UTC().Format(time.RFC3339),
+		Running:   true,
+		StartedAt: time.Now().UTC().Format(time.RFC3339),
 	}
 	go probeSweep(ctx, cfg, accounts, models, proxies, rotating)
 	return nil
@@ -627,8 +627,8 @@ func probeExits(proxies []string, accountIdx int) []string {
 }
 
 var probeActive = struct {
-	mu	sync.Mutex
-	set	map[string]bool
+	mu  sync.Mutex
+	set map[string]bool
 }{set: map[string]bool{}}
 
 func probeClaim(key string) bool {
@@ -648,8 +648,8 @@ func probeRelease(key string) {
 }
 
 var probeCooldown = struct {
-	mu	sync.Mutex
-	until	map[string]time.Time
+	mu    sync.Mutex
+	until map[string]time.Time
 }{until: map[string]time.Time{}}
 
 const probeRotatingExit = "\x00rotating"
@@ -676,8 +676,8 @@ func probeCooldownSet(exit, account, model string, until time.Time) {
 }
 
 var probeAccountRest = struct {
-	mu	sync.Mutex
-	until	map[string]time.Time
+	mu    sync.Mutex
+	until map[string]time.Time
 }{until: make(map[string]time.Time)}
 
 func probeAccountReady(account string, now time.Time) bool {
@@ -696,7 +696,7 @@ func probeAccountSetBackoff(account string, now time.Time) {
 type probeOutcome int
 
 const (
-	probeOutcomeStored	probeOutcome	= iota
+	probeOutcomeStored probeOutcome = iota
 
 	probeOutcomeTryNext
 
@@ -732,27 +732,27 @@ func probeSleep(ctx context.Context, wait time.Duration) bool {
 }
 
 type probeFireResult struct {
-	status		int
-	stateValue	string
-	cookies		routeCookieSet
+	status     int
+	stateValue string
+	cookies    routeCookieSet
 }
 
 func probeFireUpstream(ctx context.Context, client *http.Client, cred probeCredential, model string) (probeFireResult, error) {
 	payload := map[string]any{
-		"model":	model,
-		"stream":	true,
-		"store":	false,
+		"model":  model,
+		"stream": true,
+		"store":  false,
 		"input": []map[string]any{{
-			"type":	"message",
-			"role":	"user",
+			"type": "message",
+			"role": "user",
 			"content": []map[string]any{{
-				"type":	"input_text",
-				"text":	"ping",
+				"type": "input_text",
+				"text": "ping",
 			}},
 		}},
-		"reasoning":		map[string]any{"effort": "low"},
-		"tool_choice":		"auto",
-		"parallel_tool_calls":	false,
+		"reasoning":           map[string]any{"effort": "low"},
+		"tool_choice":         "auto",
+		"parallel_tool_calls": false,
 	}
 	raw, errMarshal := json.Marshal(payload)
 	if errMarshal != nil {
@@ -782,9 +782,9 @@ func probeFireUpstream(ctx context.Context, client *http.Client, cred probeCrede
 	defer func() { _ = response.Body.Close() }()
 	_, _ = io.Copy(io.Discard, io.LimitReader(response.Body, probeMaxBodyBytes))
 	return probeFireResult{
-		status:		response.StatusCode,
-		stateValue:	response.Header.Get(turnStateHeader),
-		cookies:	routeCookiesFromResponseHeaders(response.Header, time.Now()),
+		status:     response.StatusCode,
+		stateValue: response.Header.Get(turnStateHeader),
+		cookies:    routeCookiesFromResponseHeaders(response.Header, time.Now()),
 	}, nil
 }
 
@@ -805,10 +805,10 @@ func probeParseCredential(name string, blob map[string]any) (probeCredential, er
 	}
 	claims := probeJWTClaims(token)
 	cred := probeCredential{
-		name:		name,
-		accessToken:	token,
-		accountID:	probeAccountID(claims, blob),
-		proxyURL:	strings.TrimSpace(stringField(blob, "proxy_url")),
+		name:        name,
+		accessToken: token,
+		accountID:   probeAccountID(claims, blob),
+		proxyURL:    strings.TrimSpace(stringField(blob, "proxy_url")),
 	}
 	if exp, ok := probeTokenExpiry(claims); ok {
 		cred.expiresAt = exp
@@ -862,22 +862,22 @@ func stringField(blob map[string]any, key string) string {
 }
 
 type probeAuthFile struct {
-	Name		string		`json:"name"`
-	AuthIndex	json.RawMessage	`json:"auth_index,omitempty"`
-	Disabled	bool		`json:"disabled"`
-	Provider	string		`json:"provider"`
-	Type		string		`json:"type"`
+	Name      string          `json:"name"`
+	AuthIndex json.RawMessage `json:"auth_index,omitempty"`
+	Disabled  bool            `json:"disabled"`
+	Provider  string          `json:"provider"`
+	Type      string          `json:"type"`
 }
 
 type probeHTTPResult struct {
-	status	int
-	body	[]byte
+	status int
+	body   []byte
 }
 
 type probeClient struct {
-	baseURL	string
-	mgmtKey	string
-	http	*http.Client
+	baseURL string
+	mgmtKey string
+	http    *http.Client
 }
 
 func newProbeClient(cfg pluginConfig) *probeClient {
@@ -887,10 +887,10 @@ func newProbeClient(cfg pluginConfig) *probeClient {
 		base = defaultProbeBaseURL
 	}
 	return &probeClient{
-		baseURL:	base,
-		mgmtKey:	strings.TrimSpace(cfg.ProbeManagementKey),
+		baseURL: base,
+		mgmtKey: strings.TrimSpace(cfg.ProbeManagementKey),
 
-		http:	&http.Client{Transport: &http.Transport{Proxy: nil}},
+		http: &http.Client{Transport: &http.Transport{Proxy: nil}},
 	}
 }
 
@@ -999,8 +999,8 @@ func (c *probeClient) downloadAuth(ctx context.Context, name string) (map[string
 }
 
 type probeClientPool struct {
-	mu	sync.Mutex
-	clients	map[string]*http.Client
+	mu      sync.Mutex
+	clients map[string]*http.Client
 }
 
 func newProbeClientPool() *probeClientPool {
@@ -1039,11 +1039,11 @@ func (p *probeClientPool) closeIdle() {
 }
 
 var (
-	probeURLAuthRE	= regexp.MustCompile(`(?i)\b([a-z0-9+.\-]+://)[^/\s@]+@`)
+	probeURLAuthRE = regexp.MustCompile(`(?i)\b([a-z0-9+.\-]+://)[^/\s@]+@`)
 
-	probeTokenRE	= regexp.MustCompile(`gAAAAA[A-Za-z0-9_\-=]{16,}`)
+	probeTokenRE = regexp.MustCompile(`gAAAAA[A-Za-z0-9_\-=]{16,}`)
 
-	probeBearerRE	= regexp.MustCompile(`(?i)\b(bearer\s+)[A-Za-z0-9._\-]{16,}`)
+	probeBearerRE = regexp.MustCompile(`(?i)\b(bearer\s+)[A-Za-z0-9._\-]{16,}`)
 )
 
 func probeRedact(text string) string {

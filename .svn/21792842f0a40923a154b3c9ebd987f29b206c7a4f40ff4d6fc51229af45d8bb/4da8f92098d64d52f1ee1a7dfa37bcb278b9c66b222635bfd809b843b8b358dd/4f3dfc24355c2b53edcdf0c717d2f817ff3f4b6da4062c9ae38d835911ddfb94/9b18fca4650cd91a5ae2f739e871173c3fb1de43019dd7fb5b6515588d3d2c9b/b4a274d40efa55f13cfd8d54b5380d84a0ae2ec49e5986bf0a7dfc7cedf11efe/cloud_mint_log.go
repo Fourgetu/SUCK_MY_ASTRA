@@ -10,23 +10,23 @@ import (
 )
 
 type cloudLogView struct {
-	TicketLen		int
-	Fingerprint		string
-	Gateway			string
-	Model			string
-	AgeSeconds		int64
-	HasAge			bool
-	CookieFingerprint	string
+	TicketLen         int
+	Fingerprint       string
+	Gateway           string
+	Model             string
+	AgeSeconds        int64
+	HasAge            bool
+	CookieFingerprint string
 }
 
 type cloudAttemptLog struct {
-	SentGateway		string	`json:"sent_gateway"`
-	SentFingerprint		string	`json:"sent_cookie_fingerprint"`
-	Gateway			string	`json:"received_gateway"`
-	TicketLength		int	`json:"ticket_length"`
-	TicketFingerprint	string	`json:"ticket_fingerprint"`
-	TicketAge		*int64	`json:"ticket_age_s"`
-	ServedModel		string	`json:"served_model"`
+	SentGateway       string `json:"sent_gateway"`
+	SentFingerprint   string `json:"sent_cookie_fingerprint"`
+	Gateway           string `json:"received_gateway"`
+	TicketLength      int    `json:"ticket_length"`
+	TicketFingerprint string `json:"ticket_fingerprint"`
+	TicketAge         *int64 `json:"ticket_age_s"`
+	ServedModel       string `json:"served_model"`
 }
 
 func cloudFingerprint(value string) string {
@@ -84,7 +84,7 @@ func formatCloudMintLog(sent, got cloudLogView) string {
 
 func cloudEntryView(entry cloudMintEntry) cloudLogView {
 	return cloudLogView{TicketLen: len(entry.Ticket), Fingerprint: cloudFingerprint(entry.Ticket), Gateway: entry.Gateway, Model: entry.Model,
-		AgeSeconds:	int64(time.Since(entry.IssuedAt).Seconds()), HasAge: !entry.IssuedAt.IsZero()}
+		AgeSeconds: int64(time.Since(entry.IssuedAt).Seconds()), HasAge: !entry.IssuedAt.IsZero()}
 }
 
 func logCloudAttempts(entries []cloudAttemptLog) {
@@ -110,17 +110,17 @@ func logCloudAttempts(entries []cloudAttemptLog) {
 }
 
 type cloudDeclaredResponse struct {
-	ID	string	`json:"id"`
-	Model	string	`json:"model"`
-	Tier	string	`json:"service_tier"`
-	Object	string	`json:"object"`
+	ID     string `json:"id"`
+	Model  string `json:"model"`
+	Tier   string `json:"service_tier"`
+	Object string `json:"object"`
 }
 
 func cloudResponseDeclaration(data []byte, stream bool) (string, string) {
 	var event struct {
-		Type	string	`json:"type"`
+		Type string `json:"type"`
 		cloudDeclaredResponse
-		Response	cloudDeclaredResponse	`json:"response"`
+		Response cloudDeclaredResponse `json:"response"`
 	}
 	if json.Unmarshal(data, &event) != nil {
 		return "", ""

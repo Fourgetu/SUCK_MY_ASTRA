@@ -24,9 +24,9 @@ func withAuthCatalog(t *testing.T, files []pluginapi.HostAuthFileEntry, err erro
 
 func TestEntryIsCodexProviderPrecedence(t *testing.T) {
 	cases := []struct {
-		name	string
-		file	pluginapi.HostAuthFileEntry
-		want	bool
+		name string
+		file pluginapi.HostAuthFileEntry
+		want bool
 	}{
 
 		{"provider codex, plain name", pluginapi.HostAuthFileEntry{Name: "work.json", Provider: "codex"}, true},
@@ -141,9 +141,9 @@ func TestSteerAttributesByIndexAlone(t *testing.T) {
 	}, nil)
 
 	req := pluginapi.RequestInterceptRequest{
-		Model:		"gpt-5.6-sol",
-		Metadata:	map[string]any{selectedAuthIndexMetadataKey: "idx-9"},
-		Headers:	http.Header{},
+		Model:    "gpt-5.6-sol",
+		Metadata: map[string]any{selectedAuthIndexMetadataKey: "idx-9"},
+		Headers:  http.Header{},
 	}
 	resp := interceptAfter(t, req)
 	if cookie := resp.Headers.Get("Cookie"); !strings.Contains(cookie, "__cflb=cf") {

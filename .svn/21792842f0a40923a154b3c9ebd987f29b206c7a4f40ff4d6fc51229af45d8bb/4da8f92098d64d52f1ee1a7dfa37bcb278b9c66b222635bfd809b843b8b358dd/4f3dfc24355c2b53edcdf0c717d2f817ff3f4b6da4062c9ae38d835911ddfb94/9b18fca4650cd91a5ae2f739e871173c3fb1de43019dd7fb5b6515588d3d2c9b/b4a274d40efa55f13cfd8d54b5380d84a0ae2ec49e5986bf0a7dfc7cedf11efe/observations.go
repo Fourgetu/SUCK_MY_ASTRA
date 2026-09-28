@@ -12,62 +12,62 @@ import (
 )
 
 const (
-	observationsFileName	= "observations.json"
+	observationsFileName = "observations.json"
 
-	observationsVersion	= 2
+	observationsVersion = 2
 
-	observationsRecentMax	= 100
+	observationsRecentMax = 100
 
-	observationsBucketMax	= 256
+	observationsBucketMax = 256
 
-	observationsHourlyMax	= 48
+	observationsHourlyMax = 48
 
-	observationLearnMin	= 2
+	observationLearnMin = 2
 
-	observationLensMax	= 8
+	observationLensMax = 8
 )
 
 var observationsFlushInterval = 60 * time.Second
 
 const (
-	observationNormal	= "normal"
-	observationLimited	= "limited"
-	observationSilent	= "silent"
-	observationOther	= "other"
+	observationNormal  = "normal"
+	observationLimited = "limited"
+	observationSilent  = "silent"
+	observationOther   = "other"
 )
 
 type bucketObservation struct {
-	AuthID	string	`json:"auth_id"`
-	Model	string	`json:"model"`
+	AuthID string `json:"auth_id"`
+	Model  string `json:"model"`
 
 	observationCounts
 
-	LastKind	string	`json:"last_kind"`
-	LastLen		int	`json:"last_len"`
-	LastWrote	bool	`json:"last_wrote"`
-	LastAt		string	`json:"last_at"`
+	LastKind  string `json:"last_kind"`
+	LastLen   int    `json:"last_len"`
+	LastWrote bool   `json:"last_wrote"`
+	LastAt    string `json:"last_at"`
 
-	LastSignedKind	string	`json:"last_signed_kind,omitempty"`
-	LastSignedAt	string	`json:"last_signed_at,omitempty"`
-	LastSignedWrote	bool	`json:"last_signed_wrote,omitempty"`
+	LastSignedKind  string `json:"last_signed_kind,omitempty"`
+	LastSignedAt    string `json:"last_signed_at,omitempty"`
+	LastSignedWrote bool   `json:"last_signed_wrote,omitempty"`
 
-	LastNaturalKind	string	`json:"last_natural_kind,omitempty"`
-	LastNaturalAt	string	`json:"last_natural_at,omitempty"`
+	LastNaturalKind string `json:"last_natural_kind,omitempty"`
+	LastNaturalAt   string `json:"last_natural_at,omitempty"`
 
-	Hourly	[]hourlyObservation	`json:"hourly,omitempty"`
+	Hourly []hourlyObservation `json:"hourly,omitempty"`
 
-	SignedLens	map[int]int	`json:"signed_lens,omitempty"`
+	SignedLens map[int]int `json:"signed_lens,omitempty"`
 }
 
 type observationCounts struct {
-	NaturalNormal	int64	`json:"natural_normal"`
-	NaturalLimited	int64	`json:"natural_limited"`
-	NaturalOther	int64	`json:"natural_other"`
+	NaturalNormal  int64 `json:"natural_normal"`
+	NaturalLimited int64 `json:"natural_limited"`
+	NaturalOther   int64 `json:"natural_other"`
 
-	InjectedSilent	int64	`json:"injected_silent"`
-	InjectedLimited	int64	`json:"injected_limited"`
-	InjectedNormal	int64	`json:"injected_normal"`
-	InjectedOther	int64	`json:"injected_other"`
+	InjectedSilent  int64 `json:"injected_silent"`
+	InjectedLimited int64 `json:"injected_limited"`
+	InjectedNormal  int64 `json:"injected_normal"`
+	InjectedOther   int64 `json:"injected_other"`
 }
 
 func (c *observationCounts) add(wrote bool, kind string) {
@@ -100,7 +100,7 @@ func (c *observationCounts) addAll(o observationCounts) {
 }
 
 type hourlyObservation struct {
-	Hour	string	`json:"hour"`
+	Hour string `json:"hour"`
 	observationCounts
 }
 
@@ -136,65 +136,65 @@ func (b bucketObservation) rollup(now time.Time, window time.Duration) observati
 type observationSummary struct {
 	observationCounts
 
-	LastKind	string	`json:"last_kind"`
-	LastLen		int	`json:"last_len"`
-	LastWrote	bool	`json:"last_wrote"`
-	LastAt		string	`json:"last_at"`
+	LastKind  string `json:"last_kind"`
+	LastLen   int    `json:"last_len"`
+	LastWrote bool   `json:"last_wrote"`
+	LastAt    string `json:"last_at"`
 
-	LastSignedKind	string	`json:"last_signed_kind,omitempty"`
-	LastSignedAt	string	`json:"last_signed_at,omitempty"`
-	LastSignedWrote	bool	`json:"last_signed_wrote,omitempty"`
+	LastSignedKind  string `json:"last_signed_kind,omitempty"`
+	LastSignedAt    string `json:"last_signed_at,omitempty"`
+	LastSignedWrote bool   `json:"last_signed_wrote,omitempty"`
 
-	LastNaturalKind	string	`json:"last_natural_kind,omitempty"`
-	LastNaturalAt	string	`json:"last_natural_at,omitempty"`
+	LastNaturalKind string `json:"last_natural_kind,omitempty"`
+	LastNaturalAt   string `json:"last_natural_at,omitempty"`
 
-	Recent24h	observationCounts	`json:"recent_24h"`
+	Recent24h observationCounts `json:"recent_24h"`
 }
 
 func (b bucketObservation) summary(now time.Time) observationSummary {
 	return observationSummary{
-		observationCounts:	b.observationCounts,
-		LastKind:		b.LastKind,
-		LastLen:		b.LastLen,
-		LastWrote:		b.LastWrote,
-		LastAt:			b.LastAt,
-		LastSignedKind:		b.LastSignedKind,
-		LastSignedAt:		b.LastSignedAt,
-		LastSignedWrote:	b.LastSignedWrote,
-		LastNaturalKind:	b.LastNaturalKind,
-		LastNaturalAt:		b.LastNaturalAt,
-		Recent24h:		b.rollup(now, 24*time.Hour),
+		observationCounts: b.observationCounts,
+		LastKind:          b.LastKind,
+		LastLen:           b.LastLen,
+		LastWrote:         b.LastWrote,
+		LastAt:            b.LastAt,
+		LastSignedKind:    b.LastSignedKind,
+		LastSignedAt:      b.LastSignedAt,
+		LastSignedWrote:   b.LastSignedWrote,
+		LastNaturalKind:   b.LastNaturalKind,
+		LastNaturalAt:     b.LastNaturalAt,
+		Recent24h:         b.rollup(now, 24*time.Hour),
 	}
 }
 
 type observationEvent struct {
-	At	string	`json:"at"`
-	AuthID	string	`json:"auth_id"`
-	Model	string	`json:"model"`
-	Len	int	`json:"len"`
-	Wrote	bool	`json:"wrote"`
-	Kind	string	`json:"kind"`
+	At     string `json:"at"`
+	AuthID string `json:"auth_id"`
+	Model  string `json:"model"`
+	Len    int    `json:"len"`
+	Wrote  bool   `json:"wrote"`
+	Kind   string `json:"kind"`
 
-	Served	string	`json:"served,omitempty"`
+	Served string `json:"served,omitempty"`
 }
 
 type observationSnapshot struct {
-	Version		int			`json:"version"`
-	Since		string			`json:"since"`
-	UpdatedAt	string			`json:"updated_at"`
-	Buckets		[]bucketObservation	`json:"buckets"`
-	Recent		[]observationEvent	`json:"recent"`
+	Version   int                 `json:"version"`
+	Since     string              `json:"since"`
+	UpdatedAt string              `json:"updated_at"`
+	Buckets   []bucketObservation `json:"buckets"`
+	Recent    []observationEvent  `json:"recent"`
 }
 
 var observations = struct {
-	mu	sync.Mutex
-	since	time.Time
-	byKey	map[string]*bucketObservation
-	recent	[]observationEvent
-	dirty	bool
-	lastOut	time.Time
-	writing	bool
-	dir	string
+	mu      sync.Mutex
+	since   time.Time
+	byKey   map[string]*bucketObservation
+	recent  []observationEvent
+	dirty   bool
+	lastOut time.Time
+	writing bool
+	dir     string
 }{byKey: make(map[string]*bucketObservation)}
 
 func classifyObservation(cfg pluginConfig, valueLen int) string {
@@ -288,13 +288,13 @@ func recordEvent(authID, model, kind string, valueLen int, wrote bool, served st
 	}
 
 	observations.recent = append(observations.recent, observationEvent{
-		At:	cell.LastAt,
-		AuthID:	authID,
-		Model:	model,
-		Len:	valueLen,
-		Wrote:	wrote,
-		Kind:	kind,
-		Served:	served,
+		At:     cell.LastAt,
+		AuthID: authID,
+		Model:  model,
+		Len:    valueLen,
+		Wrote:  wrote,
+		Kind:   kind,
+		Served: served,
 	})
 	if len(observations.recent) > observationsRecentMax {
 		observations.recent = observations.recent[len(observations.recent)-observationsRecentMax:]
@@ -368,9 +368,9 @@ func flushObservations(dir string) {
 		return
 	}
 	snap := observationSnapshot{
-		Version:	observationsVersion,
-		UpdatedAt:	time.Now().UTC().Format(time.RFC3339),
-		Recent:		append([]observationEvent(nil), observations.recent...),
+		Version:   observationsVersion,
+		UpdatedAt: time.Now().UTC().Format(time.RFC3339),
+		Recent:    append([]observationEvent(nil), observations.recent...),
 	}
 	if !observations.since.IsZero() {
 		snap.Since = observations.since.UTC().Format(time.RFC3339)

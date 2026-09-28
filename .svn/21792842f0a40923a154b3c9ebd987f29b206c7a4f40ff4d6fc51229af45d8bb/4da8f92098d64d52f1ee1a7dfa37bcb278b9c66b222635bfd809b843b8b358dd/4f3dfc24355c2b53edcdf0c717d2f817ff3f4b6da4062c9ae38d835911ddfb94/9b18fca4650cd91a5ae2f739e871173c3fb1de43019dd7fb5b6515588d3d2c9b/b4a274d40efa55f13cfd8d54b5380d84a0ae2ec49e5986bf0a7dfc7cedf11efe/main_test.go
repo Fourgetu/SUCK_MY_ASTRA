@@ -17,8 +17,8 @@ import (
 )
 
 const (
-	testHeader	= "X-Codex-Turn-State"
-	testAuthKey	= "selected_auth_id"
+	testHeader  = "X-Codex-Turn-State"
+	testAuthKey = "selected_auth_id"
 )
 
 var testNow = time.Date(2026, 9, 18, 12, 0, 0, 0, time.UTC)
@@ -62,8 +62,8 @@ func fakeTokenSeed(n int, issued time.Time, seed byte) string {
 func configureYAML(t *testing.T, cfgYAML string) error {
 	t.Helper()
 	raw, err := json.Marshal(map[string]any{
-		"config_yaml":		[]byte(cfgYAML),
-		"schema_version":	6,
+		"config_yaml":    []byte(cfgYAML),
+		"schema_version": 6,
 	})
 	if err != nil {
 		t.Fatalf("marshal register request: %v", err)
@@ -124,12 +124,12 @@ func interceptAfter(t *testing.T, req pluginapi.RequestInterceptRequest) plugina
 	}
 
 	var env struct {
-		OK	bool		`json:"ok"`
-		Result	json.RawMessage	`json:"result"`
-		Error	*struct {
-			Code	string	`json:"code"`
-			Message	string	`json:"message"`
-		}	`json:"error"`
+		OK     bool            `json:"ok"`
+		Result json.RawMessage `json:"result"`
+		Error  *struct {
+			Code    string `json:"code"`
+			Message string `json:"message"`
+		} `json:"error"`
 	}
 	if errUnmarshal := json.Unmarshal(out, &env); errUnmarshal != nil {
 		t.Fatalf("decode envelope: %v", errUnmarshal)
@@ -148,9 +148,9 @@ func interceptAfter(t *testing.T, req pluginapi.RequestInterceptRequest) plugina
 
 func request(authID, model, headerValue string) pluginapi.RequestInterceptRequest {
 	req := pluginapi.RequestInterceptRequest{
-		Model:		model,
-		Metadata:	map[string]any{testAuthKey: authID},
-		Headers:	http.Header{},
+		Model:    model,
+		Metadata: map[string]any{testAuthKey: authID},
+		Headers:  http.Header{},
 	}
 	if headerValue != "" {
 		req.Headers.Set(testHeader, headerValue)
@@ -256,11 +256,11 @@ func TestBusinessRoleHarvestsFromLiveResponse(t *testing.T) {
 	resetHarvestState(t)
 
 	chunk := pluginapi.StreamChunkInterceptRequest{
-		Model:		"gpt-5.5",
-		ChunkIndex:	pluginapi.StreamChunkHeaderInitIndex,
+		Model:      "gpt-5.5",
+		ChunkIndex: pluginapi.StreamChunkHeaderInitIndex,
 		ResponseHeaders: setCookieHeaders(fakeToken(292, wallClock().Add(-time.Minute)),
 			"__cflb=cf-live", "__oailb=lb-live"),
-		Metadata:	map[string]any{testAuthKey: "codex-alpha.json"},
+		Metadata: map[string]any{testAuthKey: "codex-alpha.json"},
 	}
 	raw, errMarshal := json.Marshal(chunk)
 	if errMarshal != nil {
@@ -284,9 +284,9 @@ func TestInBandHarvestAttributesByRequestID(t *testing.T) {
 	resetHarvestState(t)
 
 	const (
-		requestID	= "req-correlate-1"
-		auth		= "codex-alpha.json"
-		model		= "gpt-5.5"
+		requestID = "req-correlate-1"
+		auth      = "codex-alpha.json"
+		model     = "gpt-5.5"
 	)
 
 	req := request(auth, model, "")
@@ -294,11 +294,11 @@ func TestInBandHarvestAttributesByRequestID(t *testing.T) {
 	interceptAfter(t, req)
 
 	chunk := pluginapi.StreamChunkInterceptRequest{
-		RequestID:		requestID,
-		Model:			model,
-		ChunkIndex:		pluginapi.StreamChunkHeaderInitIndex,
-		ResponseHeaders:	harvestResponseHeaders(fakeToken(292, wallClock().Add(-time.Minute))),
-		Metadata:		nil,
+		RequestID:       requestID,
+		Model:           model,
+		ChunkIndex:      pluginapi.StreamChunkHeaderInitIndex,
+		ResponseHeaders: harvestResponseHeaders(fakeToken(292, wallClock().Add(-time.Minute))),
+		Metadata:        nil,
 	}
 	raw, errMarshal := json.Marshal(chunk)
 	if errMarshal != nil {
@@ -401,8 +401,8 @@ func TestProbeBaseURLDefaultsToLoopback(t *testing.T) {
 	}
 
 	for name, cfgYAML := range map[string]string{
-		"absent":		"role: business\n",
-		"explicitly empty":	"role: business\nprobe_base_url: \"\"\n",
+		"absent":           "role: business\n",
+		"explicitly empty": "role: business\nprobe_base_url: \"\"\n",
 	} {
 		t.Run(name, func(t *testing.T) {
 			mustConfigure(t, cfgYAML)

@@ -13,15 +13,15 @@ import (
 )
 
 const (
-	testProxySecret	= "s3cr3t-never-log-me"
-	testProxyWithPW	= "socks5h://prober:" + testProxySecret + "@exit.invalid:1080"
+	testProxySecret = "s3cr3t-never-log-me"
+	testProxyWithPW = "socks5h://prober:" + testProxySecret + "@exit.invalid:1080"
 )
 
 func TestMaskProxyURLNeverEchoesUserinfo(t *testing.T) {
 	tests := []struct {
-		name	string
-		in	string
-		want	string
+		name string
+		in   string
+		want string
 	}{
 		{"userinfo is replaced wholesale", testProxyWithPW, "socks5h://***@exit.invalid:1080"},
 		{"user without password still masked", "http://prober@exit.invalid:8080", "http://***@exit.invalid:8080"},
@@ -146,8 +146,8 @@ func TestProbeScopeChangeKeepsThePool(t *testing.T) {
 	base.Models = []string{"gpt-5.6-sol"}
 
 	for _, tc := range []struct {
-		name	string
-		mutate	func(*pluginConfig)
+		name   string
+		mutate func(*pluginConfig)
 	}{
 		{"probe_accounts changed", func(c *pluginConfig) { c.ProbeAccounts = []string{"codex-a.json"} }},
 		{"probe_proxies changed", func(c *pluginConfig) { c.ProbeProxies = []string{testProxyWithPW} }},
@@ -174,9 +174,9 @@ func TestBusinessSteersForAnAccountOutsideTheProbeScope(t *testing.T) {
 
 	dir := t.TempDir()
 	const (
-		served	= "codex-served.json"
-		scoped	= "codex-scoped.json"
-		model	= "gpt-5.6-sol"
+		served = "codex-served.json"
+		scoped = "codex-scoped.json"
+		model  = "gpt-5.6-sol"
 	)
 
 	cfg := fmt.Sprintf(`role: business
@@ -205,8 +205,8 @@ func TestProbeScopeNeverCreatesABucket(t *testing.T) {
 
 	dir := t.TempDir()
 	const (
-		scoped	= "codex-scoped.json"
-		model	= "gpt-5.6-sol"
+		scoped = "codex-scoped.json"
+		model  = "gpt-5.6-sol"
 	)
 	cfg := fmt.Sprintf(`role: business
 store_dir: %q
@@ -285,19 +285,19 @@ func TestScopeSaveWritesFileAndAppliesLive(t *testing.T) {
 	mustConfigure(t, scopeConfig(t, dir))
 
 	resp := driveResource(t, opsScopePath, confirmed(url.Values{
-		"fields":	{"accounts,models"},
-		"account":	{"codex-x.json", "codex-y.json"},
-		"model":	{"gpt-5.6-sol", "gpt-6-astra"},
+		"fields":  {"accounts,models"},
+		"account": {"codex-x.json", "codex-y.json"},
+		"model":   {"gpt-5.6-sol", "gpt-6-astra"},
 	}))
 	if resp.StatusCode != http.StatusOK {
 		t.Fatalf("status = %d, want 200. body: %s", resp.StatusCode, resp.Body)
 	}
 
 	var out struct {
-		Saved		bool		`json:"saved"`
-		ProbeAccounts	[]string	`json:"probe_accounts"`
-		Models		[]string	`json:"models"`
-		TargetsTotal	int		`json:"targets_total"`
+		Saved         bool     `json:"saved"`
+		ProbeAccounts []string `json:"probe_accounts"`
+		Models        []string `json:"models"`
+		TargetsTotal  int      `json:"targets_total"`
 	}
 	if errUnmarshal := json.Unmarshal(resp.Body, &out); errUnmarshal != nil {
 		t.Fatalf("decode save response: %v", errUnmarshal)
@@ -328,8 +328,8 @@ func TestScopeSaveOnlyReplacesNamedFields(t *testing.T) {
 	mustConfigure(t, scopeConfig(t, dir))
 
 	resp := driveResource(t, opsScopePath, confirmed(url.Values{
-		"fields":	{"models"},
-		"model":	{"gpt-5.5"},
+		"fields": {"models"},
+		"model":  {"gpt-5.5"},
 	}))
 	if resp.StatusCode != http.StatusOK {
 		t.Fatalf("status = %d, want 200. body: %s", resp.StatusCode, resp.Body)
@@ -360,9 +360,9 @@ func TestSavedScopeOverridesConfigYAML(t *testing.T) {
 
 	dir := t.TempDir()
 	if errWrite := writeProbeScope(dir, probeScope{
-		Accounts:	[]string{"codex-saved.json"},
-		Models:		[]string{"gpt-6-astra"},
-		UpdatedAt:	"2026-09-18T00:00:00Z",
+		Accounts:  []string{"codex-saved.json"},
+		Models:    []string{"gpt-6-astra"},
+		UpdatedAt: "2026-09-18T00:00:00Z",
 	}); errWrite != nil {
 		t.Fatalf("write scope: %v", errWrite)
 	}
@@ -403,8 +403,8 @@ models:
 	interceptAfter(t, request("codex-a.json", "gpt-5.6-sol", fakeTokenSeed(312, wallClock(), 0x11)))
 
 	resp := driveResource(t, opsScopePath, confirmed(url.Values{
-		"fields":	{"accounts"},
-		"account":	{"codex-b.json"},
+		"fields":  {"accounts"},
+		"account": {"codex-b.json"},
 	}))
 	if resp.StatusCode != http.StatusOK {
 		t.Fatalf("status = %d, want 200", resp.StatusCode)
@@ -434,8 +434,8 @@ func TestScopeSaveRoundTripsTheRotatingPool(t *testing.T) {
 	mustConfigure(t, scopeConfig(t, dir))
 
 	resp := driveResource(t, opsScopePath, confirmed(url.Values{
-		"fields":		{"rotating"},
-		"rotating_proxy":	{"socks5://gw:pw@rotate.invalid:1080", "http://gw2.invalid:8080"},
+		"fields":         {"rotating"},
+		"rotating_proxy": {"socks5://gw:pw@rotate.invalid:1080", "http://gw2.invalid:8080"},
 	}))
 	if resp.StatusCode != http.StatusOK {
 		t.Fatalf("status = %d, want 200 (body: %s)", resp.StatusCode, resp.Body)

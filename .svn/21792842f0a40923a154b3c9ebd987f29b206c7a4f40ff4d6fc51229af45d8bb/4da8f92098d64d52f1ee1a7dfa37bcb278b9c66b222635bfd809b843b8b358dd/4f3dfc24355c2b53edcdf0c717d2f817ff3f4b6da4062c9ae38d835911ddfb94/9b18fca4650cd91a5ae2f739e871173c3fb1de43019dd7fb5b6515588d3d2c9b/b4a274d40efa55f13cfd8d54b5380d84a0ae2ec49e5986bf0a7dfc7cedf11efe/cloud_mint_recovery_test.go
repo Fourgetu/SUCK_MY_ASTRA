@@ -29,8 +29,8 @@ func cloudRecoveryHost(t *testing.T, runtime *pluginapi.HostAuthFileEntry) *atom
 		case "host.auth.get":
 			reads.Add(1)
 			*out.(*pluginapi.HostAuthGetResponse) = pluginapi.HostAuthGetResponse{
-				AuthIndex:	"recovery-index", Name: "recovery.json",
-				JSON:	json.RawMessage(`{"type":"codex","access_token":"synthetic-access","account_id":"synthetic-account"}`),
+				AuthIndex: "recovery-index", Name: "recovery.json",
+				JSON: json.RawMessage(`{"type":"codex","access_token":"synthetic-access","account_id":"synthetic-account"}`),
 			}
 		default:
 			t.Fatalf("unexpected host method: %s", method)
@@ -42,20 +42,20 @@ func cloudRecoveryHost(t *testing.T, runtime *pluginapi.HostAuthFileEntry) *atom
 
 func cloudRecoveryRequest() pluginapi.RequestInterceptRequest {
 	return pluginapi.RequestInterceptRequest{RequestID: "recovery-request", Model: "gpt-6-sol",
-		Metadata:	map[string]any{selectedAuthMetadataKey: "recovery", "selected_auth_index": "recovery-index"}}
+		Metadata: map[string]any{selectedAuthMetadataKey: "recovery", "selected_auth_index": "recovery-index"}}
 }
 
 func TestCloudMintSelectedCredentialCanRecover(t *testing.T) {
 	for _, tc := range []struct {
-		name	string
-		next	time.Time
+		name string
+		next time.Time
 	}{
 		{"expired cooldown", time.Now().Add(-time.Minute)},
 		{"other model cooldown", time.Now().Add(time.Minute)},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			runtime := pluginapi.HostAuthFileEntry{ID: "recovery", Name: "recovery.json", Provider: "codex",
-				Status:	"error", Unavailable: true, NextRetryAfter: tc.next}
+				Status: "error", Unavailable: true, NextRetryAfter: tc.next}
 			reads := cloudRecoveryHost(t, &runtime)
 			creds, err := resolveCloudCredentials(cloudRecoveryRequest())
 			if err != nil {
@@ -70,8 +70,8 @@ func TestCloudMintSelectedCredentialCanRecover(t *testing.T) {
 
 func TestCloudMintRecoveryStillRejectsDisabledOrMismatchedCredential(t *testing.T) {
 	for _, tc := range []struct {
-		name	string
-		alter	func(*pluginapi.HostAuthFileEntry)
+		name  string
+		alter func(*pluginapi.HostAuthFileEntry)
 	}{
 		{"disabled flag", func(r *pluginapi.HostAuthFileEntry) { r.Disabled = true }},
 		{"disabled status", func(r *pluginapi.HostAuthFileEntry) { r.Status = "disabled" }},

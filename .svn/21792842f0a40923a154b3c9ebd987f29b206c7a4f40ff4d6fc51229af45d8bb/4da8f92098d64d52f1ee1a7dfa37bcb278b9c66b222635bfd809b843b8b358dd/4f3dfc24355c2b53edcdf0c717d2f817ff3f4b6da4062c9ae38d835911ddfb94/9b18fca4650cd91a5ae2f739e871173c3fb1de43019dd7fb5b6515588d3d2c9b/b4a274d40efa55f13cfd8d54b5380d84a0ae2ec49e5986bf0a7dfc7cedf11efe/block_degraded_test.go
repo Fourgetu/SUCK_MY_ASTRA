@@ -215,7 +215,7 @@ func TestCloudMintStaleClientTicketRewritten(t *testing.T) {
 	var called atomic.Int32
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		called.Add(1)
-		json.NewEncoder(w).Encode(cloudTestResult(now, "gpt-6-sol"))
+		json.NewEncoder(w).Encode(cloudTestResult(now, r.Header.Get("X-Mint-Model")))
 	}))
 	defer server.Close()
 

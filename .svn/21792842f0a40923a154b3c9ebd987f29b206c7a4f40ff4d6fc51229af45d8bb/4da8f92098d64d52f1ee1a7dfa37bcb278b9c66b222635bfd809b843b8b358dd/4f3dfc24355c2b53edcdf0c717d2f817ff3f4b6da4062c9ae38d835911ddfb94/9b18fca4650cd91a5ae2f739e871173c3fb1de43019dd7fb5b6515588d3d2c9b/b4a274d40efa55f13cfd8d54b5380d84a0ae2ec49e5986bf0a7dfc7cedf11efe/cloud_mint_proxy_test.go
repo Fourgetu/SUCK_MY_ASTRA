@@ -48,7 +48,7 @@ func TestCloudMintReachesFCThroughForwardProxy(t *testing.T) {
 		if r.Header.Get("Authorization") != "Bearer access" || r.Header.Get("X-Relay-Key") != "relay-key" {
 			t.Error("missing FC headers")
 		}
-		json.NewEncoder(w).Encode(cloudTestResult(time.Now().Truncate(time.Second), "gpt-6-sol"))
+		json.NewEncoder(w).Encode(cloudTestResult(time.Now().Truncate(time.Second), r.Header.Get("X-Mint-Model")))
 	}))
 	defer proxy.Close()
 	cfg := defaultCloudMintConfig()
@@ -213,7 +213,7 @@ func TestCloudMintHTTPAndHTTPSProxyKeepOriginTLSVerification(t *testing.T) {
 }
 
 func TestCloudMintProxyErrorsNeverEchoCredentials(t *testing.T) {
-	raw := "http://proxy-user:very-private-password@proxy.invalid/path?secret=token"
+	raw := "http://proxy-user:user@test.invalid/path?secret=token"
 	_, err := newCloudMintTransport(raw)
 	if err == nil {
 		t.Fatal("bad URL accepted")
@@ -230,7 +230,7 @@ func TestCloudMintProxyEnvironmentChangeInvalidatesCache(t *testing.T) {
 	handler := func(calls *atomic.Int32) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
 			calls.Add(1)
-			json.NewEncoder(w).Encode(cloudTestResult(time.Now().Truncate(time.Second), "gpt-6-sol"))
+			json.NewEncoder(w).Encode(cloudTestResult(time.Now().Truncate(time.Second), r.Header.Get("X-Mint-Model")))
 		}
 	}
 	p1 := httptest.NewServer(handler(&first))

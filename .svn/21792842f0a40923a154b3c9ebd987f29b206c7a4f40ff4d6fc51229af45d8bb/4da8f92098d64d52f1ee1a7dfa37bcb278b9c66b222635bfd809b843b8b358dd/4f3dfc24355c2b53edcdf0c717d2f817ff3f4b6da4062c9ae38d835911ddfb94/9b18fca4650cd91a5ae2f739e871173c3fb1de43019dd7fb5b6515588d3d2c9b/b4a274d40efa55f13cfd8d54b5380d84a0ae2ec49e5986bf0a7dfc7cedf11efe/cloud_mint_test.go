@@ -24,9 +24,9 @@ func cloudTestTicket(now time.Time) string {
 }
 
 func cloudTestResult(now time.Time, model string) cloudMintResult {
-	claims, _ := json.Marshal(map[string]any{"exp": now.Add(time.Hour).Unix(), "aud": "chat.gateway.unified-88.api.openai.com"})
+	claims, _ := json.Marshal(map[string]any{"exp": now.Add(time.Hour).Unix(), "aud": "chat.gateway.unified-XX.api.openai.com"})
 	pair := "e30." + base64.RawURLEncoding.EncodeToString(claims) + ".test"
-	return cloudMintResult{Transport: "sse", Gateway: "unified-88", ExpiresAt: now.Add(time.Hour),
+	return cloudMintResult{Transport: "sse", Gateway: "unified-XX", ExpiresAt: now.Add(time.Hour),
 		Cookies: map[string]string{"__cflb": "pair-test", "__oailb": pair},
 		Tickets: map[string]cloudMintTicket{model: {TurnState: cloudTestTicket(now), TicketLen: 780,
 			ServedModel: model, IssuedAt: now, ExpiresAt: now.Add(240 * time.Second)}}}
@@ -34,7 +34,7 @@ func cloudTestResult(now time.Time, model string) cloudMintResult {
 
 func TestCloudMintValidateFailsClosed(t *testing.T) {
 	cfg := defaultCloudMintConfig()
-	cfg.Gateway = "unified-88"
+	cfg.Gateway = "unified-XX"
 	now := time.Now().Truncate(time.Second)
 	valid := cloudTestResult(now, "gpt-6-sol")
 	if _, err := validateCloudMint(valid, cfg, "gpt-6-sol", now); err != nil {
@@ -51,7 +51,7 @@ func TestCloudMintValidateFailsClosed(t *testing.T) {
 		}},
 		{"transport", func(r *cloudMintResult) { r.Transport = "websocket" }},
 		{"pair", func(r *cloudMintResult) { delete(r.Cookies, "__oailb") }},
-		{"gateway", func(r *cloudMintResult) { r.Gateway = "unified-199" }},
+		{"gateway", func(r *cloudMintResult) { r.Gateway = "unified-XX" }},
 		{"ticket expired", func(r *cloudMintResult) { v := r.Tickets["gpt-6-sol"]; v.ExpiresAt = now; r.Tickets["gpt-6-sol"] = v }},
 		{"pair expired", func(r *cloudMintResult) { r.ExpiresAt = now }},
 	}
@@ -70,27 +70,27 @@ func TestCloudMintValidateAcceptsAnyGateway(t *testing.T) {
 	cfg := defaultCloudMintConfig()
 	now := time.Now().Truncate(time.Second)
 	r := cloudTestResult(now, "gpt-6-sol")
-	r.Gateway = "unified-199"
+	r.Gateway = "unified-XX"
 	entry, err := validateCloudMint(r, cfg, "gpt-6-sol", now)
 	if err != nil {
 		t.Fatalf("any mode rejected off-pair gateway: %v", err)
 	}
-	if entry.Gateway != "unified-199" {
+	if entry.Gateway != "unified-XX" {
 		t.Fatalf("gateway label = %q, want FC 声明优先", entry.Gateway)
 	}
 	r.Gateway = ""
 	entry, err = validateCloudMint(r, cfg, "gpt-6-sol", now)
-	if err != nil || entry.Gateway != "unified-88" {
+	if err != nil || entry.Gateway != "unified-XX" {
 		t.Fatalf("empty FC gateway did not fall back to cookie label: %v %q", err, entry.Gateway)
 	}
 }
 
 func TestCloudMintLogNeverLeaksTicketOrCookie(t *testing.T) {
 	ticket := cloudTestTicket(time.Now().Add(-22 * time.Second))
-	sent := cloudLogView{TicketLen: 780, Fingerprint: cloudFingerprint(ticket), Gateway: "unified-199"}
-	got := cloudLogView{TicketLen: 780, Fingerprint: cloudFingerprint(ticket + "different"), Gateway: "unified-88", AgeSeconds: 22, HasAge: true}
+	sent := cloudLogView{TicketLen: 780, Fingerprint: cloudFingerprint(ticket), Gateway: "unified-XX"}
+	got := cloudLogView{TicketLen: 780, Fingerprint: cloudFingerprint(ticket + "different"), Gateway: "unified-XX", AgeSeconds: 22, HasAge: true}
 	line := formatCloudMintLog(sent, got)
-	for _, want := range []string{"票长 780", "这张票龄 22s", "未见模型", "网关变化", "unified-199", "unified-88"} {
+	for _, want := range []string{"票长 780", "这张票龄 22s", "未见模型", "网关变化", "unified-XX", "unified-XX"} {
 		if !strings.Contains(line, want) {
 			t.Fatalf("missing %q in %s", want, line)
 		}
@@ -161,11 +161,11 @@ func TestCloudMintConcurrentRequestsShareOneCall(t *testing.T) {
 		if r.Header.Get("X-Relay-Key") != "relay-secret" || r.Header.Get("Authorization") != "Bearer access-secret" {
 			t.Error("wrong credentials")
 		}
-		if r.Header.Get("X-Mint-Model") != "gpt-6-sol" {
-			t.Error("wrong model")
+		if r.Header.Get("X-Mint-Model") != "gpt-6-astra" {
+			t.Error("mint model must be pinned to gpt-6-astra regardless of requested model")
 		}
 		time.Sleep(30 * time.Millisecond)
-		json.NewEncoder(w).Encode(cloudTestResult(now, "gpt-6-sol"))
+		json.NewEncoder(w).Encode(cloudTestResult(now, "gpt-6-astra"))
 	}))
 	defer server.Close()
 	cfg := defaultCloudMintConfig()

@@ -24,7 +24,7 @@ func TestMaskProxyURLNeverEchoesUserinfo(t *testing.T) {
 		want string
 	}{
 		{"userinfo is replaced wholesale", testProxyWithPW, "socks5h://***@exit.invalid:1080"},
-		{"user without password still masked", "http://prober@exit.invalid:8080", "http://***@exit.invalid:8080"},
+		{"user without password still masked", "http://user@test.invalid:8080", "http://***@exit.invalid:8080"},
 		{"no userinfo passes through", "socks5://exit.invalid:1080", "socks5://exit.invalid:1080"},
 		{"empty stays empty", "", ""},
 
@@ -435,7 +435,7 @@ func TestScopeSaveRoundTripsTheRotatingPool(t *testing.T) {
 
 	resp := driveResource(t, opsScopePath, confirmed(url.Values{
 		"fields":         {"rotating"},
-		"rotating_proxy": {"socks5://gw:pw@rotate.invalid:1080", "http://gw2.invalid:8080"},
+		"rotating_proxy": {"socks5://gw:user@test.invalid:1080", "http://gw2.invalid:8080"},
 	}))
 	if resp.StatusCode != http.StatusOK {
 		t.Fatalf("status = %d, want 200 (body: %s)", resp.StatusCode, resp.Body)

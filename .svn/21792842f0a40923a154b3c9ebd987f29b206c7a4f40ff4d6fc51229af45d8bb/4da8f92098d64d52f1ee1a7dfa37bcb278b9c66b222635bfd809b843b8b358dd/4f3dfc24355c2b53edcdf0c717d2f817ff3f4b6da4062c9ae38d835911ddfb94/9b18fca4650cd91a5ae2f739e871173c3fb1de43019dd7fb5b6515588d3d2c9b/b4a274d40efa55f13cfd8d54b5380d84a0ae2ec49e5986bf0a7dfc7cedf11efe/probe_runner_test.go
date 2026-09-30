@@ -94,7 +94,7 @@ func (f *fakeCPA) serveDownload(w http.ResponseWriter, r *http.Request) {
 		"proxy_url":     seed.proxyURL,
 		"type":          "codex",
 		"disabled":      seed.disabled,
-		"email":         "someone@example.com",
+		"email":         "user@test.invalid",
 		"refresh_token": "refresh-must-never-be-used",
 	}
 	if !seed.noToken {
@@ -215,8 +215,8 @@ func (u *fakeUpstream) snapshot() []upstreamCall {
 }
 
 const (
-	probeTestAccount = "codex-runnera-a@example.com-pro.json"
-	probeTestOther   = "codex-runnerb-b@example.com-pro.json"
+	probeTestAccount = "user@test.invalid"
+	probeTestOther   = "user@test.invalid"
 	probeTestModel   = "gpt-runner-1"
 )
 

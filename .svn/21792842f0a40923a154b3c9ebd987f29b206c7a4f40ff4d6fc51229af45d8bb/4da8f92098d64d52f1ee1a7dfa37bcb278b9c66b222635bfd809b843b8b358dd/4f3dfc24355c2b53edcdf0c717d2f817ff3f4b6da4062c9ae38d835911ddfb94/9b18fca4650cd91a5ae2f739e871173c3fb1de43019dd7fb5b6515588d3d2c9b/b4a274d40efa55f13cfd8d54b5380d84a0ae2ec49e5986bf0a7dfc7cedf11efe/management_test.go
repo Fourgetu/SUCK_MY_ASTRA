@@ -767,15 +767,13 @@ func TestSelftestEchoesTargetingHonestly(t *testing.T) {
 	}
 	literal := body[at : at+end]
 
-	squashed := strings.Join(strings.Fields(literal), " ")
-
-	if !strings.Contains(squashed, "AuthID:") {
+	if !strings.Contains(literal, "AuthID:") {
 		t.Error("the selftestResponse does not set AuthID, so the caller is never told which account was targeted")
-	} else if !strings.Contains(squashed, "AuthID: authID") {
+	} else if !strings.Contains(literal, "AuthID:    authID") && !strings.Contains(literal, "AuthID: authID") {
 		t.Errorf("AuthID is not echoed verbatim from the request; literal was:\n%s", literal)
 	}
 
-	if !strings.Contains(squashed, `Targeted: authID != ""`) {
+	if !strings.Contains(literal, `Targeted:  authID != ""`) && !strings.Contains(literal, `Targeted: authID != ""`) {
 		t.Errorf(`Targeted is not derived from 'authID != ""'; it must say whether the caller asked, not anything about the outcome. Literal was:`+"\n%s", literal)
 	}
 }
@@ -1496,12 +1494,12 @@ func (f *choicesCPA) authHeaders() []string {
 }
 
 const (
-	choicesAuthPro  = "codex-620f5a42-luo.swmu@example.com-pro.json"
-	choicesAuthPlus = "codex-aa11bb22-someone@example.com-plus.json"
+	choicesAuthPro  = "user@test.invalid"
+	choicesAuthPlus = "user@test.invalid"
 
-	choicesAuthBak = "codex-620f5a42-luo.swmu@example.com-pro.json.bak"
+	choicesAuthBak = "user@test.invalid"
 
-	choicesAuthOther = "gemini-someone@example.com.json"
+	choicesAuthOther = "user@test.invalid"
 )
 
 func choicesConfig(dir, baseURL, mgmtKey string, accounts, models []string) string {
@@ -1696,7 +1694,7 @@ func TestMaskAuthLabel(t *testing.T) {
 	}{
 		{
 			name: "the normal codex-<hex>-<email>-<tier>.json shape",
-			in:   "codex-620f5a42-luo.swmu@gmail.com-pro.json",
+			in:   "user@test.invalid",
 			want: "620f5a42…pro",
 		},
 		{
@@ -1707,7 +1705,7 @@ func TestMaskAuthLabel(t *testing.T) {
 		{
 
 			name: "extra dashes around the email",
-			in:   "codex-620f5a42-luo-swmu@gmail.com-team-pro.json",
+			in:   "user@test.invalid",
 			want: "620f5a42…pro",
 		},
 		{
@@ -1718,12 +1716,12 @@ func TestMaskAuthLabel(t *testing.T) {
 		{
 
 			name: "email in the final position",
-			in:   "codex-620f5a42-luo@gmail.com.json",
+			in:   "user@test.invalid",
 			want: "620f5a42",
 		},
 		{
 			name: "nothing but an email",
-			in:   "codex-luo@gmail.com.json",
+			in:   "user@test.invalid",
 			want: "…",
 		},
 	}

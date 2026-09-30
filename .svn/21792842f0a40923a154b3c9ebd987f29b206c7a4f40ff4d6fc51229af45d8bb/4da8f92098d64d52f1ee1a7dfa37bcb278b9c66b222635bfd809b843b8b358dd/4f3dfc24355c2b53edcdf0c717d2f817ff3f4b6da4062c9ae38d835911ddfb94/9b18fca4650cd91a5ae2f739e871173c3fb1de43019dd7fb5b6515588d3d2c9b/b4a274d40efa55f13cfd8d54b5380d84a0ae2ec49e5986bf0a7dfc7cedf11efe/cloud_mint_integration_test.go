@@ -55,7 +55,7 @@ func TestCloudMintResolverOnlyReadsSelectedCredential(t *testing.T) {
 func TestCloudMintHookInjectsHeadersAndPreservesUnrelatedCookies(t *testing.T) {
 	now := time.Now().Truncate(time.Second)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(cloudTestResult(now, "gpt-6-sol"))
+		json.NewEncoder(w).Encode(cloudTestResult(now, r.Header.Get("X-Mint-Model")))
 	}))
 	defer server.Close()
 	cfg := defaultConfig()
@@ -155,7 +155,7 @@ func TestCloudMintRejectsRedirectAndCoolsFailures(t *testing.T) {
 }
 
 func TestCloudMintConfigurationRejectsUnsafeEndpoints(t *testing.T) {
-	for _, endpoint := range []string{"http://example.com", "https://user:pass@example.com", "https://example.com?key=secret", "https://example.com/#secret"} {
+	for _, endpoint := range []string{"http://example.com", "https://user:user@test.invalid", "https://example.com?key=secret", "https://example.com/#secret"} {
 		cfg := defaultCloudMintConfig()
 		cfg.Enabled = true
 		cfg.URL = endpoint
@@ -165,11 +165,14 @@ func TestCloudMintConfigurationRejectsUnsafeEndpoints(t *testing.T) {
 	}
 }
 
-func TestCloudMintCacheDoesNotCrossModelsOrTokenVersions(t *testing.T) {
+func TestCloudMintCachePinsAstraAndSeparatesTokens(t *testing.T) {
 	var calls atomic.Int32
 	now := time.Now().Truncate(time.Second)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		calls.Add(1)
+		if r.Header.Get("X-Mint-Model") != "gpt-6-astra" {
+			t.Error("mint must always declare gpt-6-astra upstream")
+		}
 		json.NewEncoder(w).Encode(cloudTestResult(now, r.Header.Get("X-Mint-Model")))
 	}))
 	defer server.Close()
@@ -180,18 +183,19 @@ func TestCloudMintCacheDoesNotCrossModelsOrTokenVersions(t *testing.T) {
 	t.Setenv(cfg.KeyEnv, "key")
 	service := newCloudMintService()
 	defer service.close()
+
 	for i, model := range []string{"gpt-6-sol", "gpt-6-luna", "gpt-6-sol"} {
 		token := "old"
 		if i == 2 {
 			token = "refreshed"
 		}
 		entry, err := service.get(cfg, cloudMintCredentials{AuthID: "A", AccessToken: token}, model)
-		if err != nil || entry.Model != model {
+		if err != nil || entry.Model != "gpt-6-astra" {
 			t.Fatal(fmt.Sprint(entry.Model, err))
 		}
 	}
-	if calls.Load() != 3 {
-		t.Fatal("cache crossed model or token version")
+	if calls.Load() != 2 {
+		t.Fatalf("pinned mint must share across requested models, split only by token: calls=%d", calls.Load())
 	}
 }
 

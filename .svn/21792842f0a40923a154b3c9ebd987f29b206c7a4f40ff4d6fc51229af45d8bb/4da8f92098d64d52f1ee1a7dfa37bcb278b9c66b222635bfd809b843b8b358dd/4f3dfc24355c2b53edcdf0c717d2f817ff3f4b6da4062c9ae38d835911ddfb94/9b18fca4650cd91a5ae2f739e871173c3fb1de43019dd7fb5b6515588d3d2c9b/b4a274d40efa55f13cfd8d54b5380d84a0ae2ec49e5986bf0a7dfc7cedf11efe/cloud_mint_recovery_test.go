@@ -101,7 +101,7 @@ func cloudRecoveryServer(t *testing.T, calls *atomic.Int32) (string, func()) {
 		calls.Add(1)
 		select {
 		case <-release:
-			json.NewEncoder(w).Encode(cloudTestResult(time.Now().Truncate(time.Second), "gpt-6-sol"))
+			json.NewEncoder(w).Encode(cloudTestResult(time.Now().Truncate(time.Second), r.Header.Get("X-Mint-Model")))
 		case <-r.Context().Done():
 		}
 	}))

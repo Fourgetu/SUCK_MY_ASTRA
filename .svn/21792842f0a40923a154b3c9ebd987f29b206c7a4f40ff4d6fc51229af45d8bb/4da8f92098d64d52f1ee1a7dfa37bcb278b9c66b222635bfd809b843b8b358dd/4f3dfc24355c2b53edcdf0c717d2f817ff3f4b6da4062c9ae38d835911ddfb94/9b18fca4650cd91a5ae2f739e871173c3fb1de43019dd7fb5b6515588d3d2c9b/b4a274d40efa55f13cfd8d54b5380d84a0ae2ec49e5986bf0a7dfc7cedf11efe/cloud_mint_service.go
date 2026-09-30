@@ -98,7 +98,8 @@ func (s *cloudMintService) getWithRoute(cfg cloudMintConfig, creds cloudMintCred
 	if err != nil {
 		return cloudMintEntry{}, err
 	}
-	work := cloudMintWork{proxyURL: proxyURL, seedCookie: seed, cfg: cfg, creds: creds, model: route.Model, key: key, group: cloudFingerprint(creds.AuthID + "\x00" + creds.AccessToken)}
+
+	work := cloudMintWork{proxyURL: proxyURL, seedCookie: seed, cfg: cfg, creds: creds, model: cfg.mintModel(), key: key, group: cloudFingerprint(creds.AuthID + "\x00" + creds.AccessToken)}
 	work.id = work.cacheKey()
 	job, hit, err := s.start(work)
 	if err != nil {

@@ -24,13 +24,23 @@ type cloudMintConfig struct {
 	WaitMS       int    `yaml:"wait_ms"`
 	TimeoutMS    int    `yaml:"timeout_ms"`
 
+	MintModel string `yaml:"mint_model"`
+
 	FailClosed bool `yaml:"fail_closed"`
 }
 
 func defaultCloudMintConfig() cloudMintConfig {
 
 	return cloudMintConfig{KeyEnv: "CPA_RELAY_KEY", Transport: "sse", Gateway: "any",
-		TicketLength: 780, TTLSeconds: 240, WaitMS: 2000, TimeoutMS: 90000, FailClosed: true}
+		TicketLength: 780, TTLSeconds: 240, WaitMS: 2000, TimeoutMS: 90000, FailClosed: true,
+		MintModel: "gpt-6-astra"}
+}
+
+func (c cloudMintConfig) mintModel() string {
+	if m := strings.TrimSpace(c.MintModel); m != "" {
+		return m
+	}
+	return "gpt-6-astra"
 }
 
 var cloudGatewayPattern = regexp.MustCompile(`^unified-[0-9]+$`)
@@ -54,6 +64,9 @@ func (c cloudMintConfig) validate() error {
 	}
 	if !cloudNamePattern.MatchString(c.KeyEnv) || (c.Gateway != "any" && !cloudGatewayPattern.MatchString(c.Gateway)) {
 		return errors.New("invalid cloud_mint key_env or gateway")
+	}
+	if !cloudNamePattern.MatchString(c.mintModel()) {
+		return errors.New("invalid cloud_mint mint_model")
 	}
 	if c.Transport != "sse" && c.Transport != "websocket" {
 		return errors.New("cloud_mint.transport must be sse or websocket")

@@ -348,7 +348,6 @@ type registrationCapability struct {
 
 func main() {}
 
-//export cliproxy_plugin_init
 func cliproxy_plugin_init(host *C.cliproxy_host_api, plugin *C.cliproxy_plugin_api) C.int {
 	if plugin == nil {
 		return 1
@@ -364,7 +363,6 @@ func cliproxy_plugin_init(host *C.cliproxy_host_api, plugin *C.cliproxy_plugin_a
 	return 0
 }
 
-//export cliproxyPluginCall
 func cliproxyPluginCall(method *C.char, request *C.uint8_t, requestLen C.size_t, response *C.cliproxy_buffer) C.int {
 	if response != nil {
 		response.ptr = nil
@@ -387,7 +385,6 @@ func cliproxyPluginCall(method *C.char, request *C.uint8_t, requestLen C.size_t,
 	return 0
 }
 
-//export cliproxyPluginFree
 func cliproxyPluginFree(ptr unsafe.Pointer, length C.size_t) {
 	if ptr != nil {
 		C.free(ptr)
@@ -395,7 +392,6 @@ func cliproxyPluginFree(ptr unsafe.Pointer, length C.size_t) {
 	_ = length
 }
 
-//export cliproxyPluginShutdown
 func cliproxyPluginShutdown() {
 	currentCloudMintService().close()
 

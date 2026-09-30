@@ -30,7 +30,7 @@ func TestCloudDashboardStatusContainsOnlySafeSummaries(t *testing.T) {
 	service := newCloudMintService()
 	defer service.close()
 	now := time.Now()
-	work := cloudMintWork{cfg: defaultCloudMintConfig(), creds: cloudMintCredentials{AuthID: "private-email@example.com", AccessToken: "secret-token"}, model: "gpt-6-sol"}
+	work := cloudMintWork{cfg: defaultCloudMintConfig(), creds: cloudMintCredentials{AuthID: "user@test.invalid", AccessToken: "secret-token"}, model: "gpt-6-sol"}
 	row := cloudWorkRow(work)
 	service.cache["id"] = cloudMintCached{entry: cloudMintEntry{Ticket: "secret-ticket", Cookies: map[string]string{"__oailb": "secret-cookie"}}, until: now.Add(time.Minute), row: row}
 	service.jobs["busy"] = &cloudMintJob{row: row}
@@ -65,7 +65,7 @@ func TestCloudWebsocketObserverDoesNotSpamOrLeakIdentity(t *testing.T) {
 	log.SetOutput(&output)
 	defer log.SetOutput(writer)
 	for _, eventType := range []string{"response.reasoning_summary_text.delta", "response.output_item.added", "response.completed"} {
-		raw, _ := json.Marshal(pluginapi.WebSocketResponseEvent{AuthID: "private@example.com", Model: "requested", EventType: eventType})
+		raw, _ := json.Marshal(pluginapi.WebSocketResponseEvent{AuthID: "user@test.invalid", Model: "requested", EventType: eventType})
 		if _, err := observeWebSocketEvent(raw); err != nil {
 			t.Fatal(err)
 		}
@@ -73,9 +73,9 @@ func TestCloudWebsocketObserverDoesNotSpamOrLeakIdentity(t *testing.T) {
 	if output.Len() != 0 {
 		t.Fatalf("per-frame logging remains: %s", output.String())
 	}
-	raw, _ := json.Marshal(pluginapi.WebSocketResponseEvent{AuthID: "private@example.com", EventType: "response.created", Payload: []byte(`{"type":"response.created","response":{"id":"r1","model":"gpt-6-luna"}}`)})
+	raw, _ := json.Marshal(pluginapi.WebSocketResponseEvent{AuthID: "user@test.invalid", EventType: "response.created", Payload: []byte(`{"type":"response.created","response":{"id":"r1","model":"gpt-6-luna"}}`)})
 	observeWebSocketEvent(raw)
-	if !strings.Contains(output.String(), "→ gpt-6-luna") || strings.Contains(output.String(), "private@example.com") {
+	if !strings.Contains(output.String(), "→ gpt-6-luna") || strings.Contains(output.String(), "user@test.invalid") {
 		t.Fatal("model not parsed or identity leaked")
 	}
 }

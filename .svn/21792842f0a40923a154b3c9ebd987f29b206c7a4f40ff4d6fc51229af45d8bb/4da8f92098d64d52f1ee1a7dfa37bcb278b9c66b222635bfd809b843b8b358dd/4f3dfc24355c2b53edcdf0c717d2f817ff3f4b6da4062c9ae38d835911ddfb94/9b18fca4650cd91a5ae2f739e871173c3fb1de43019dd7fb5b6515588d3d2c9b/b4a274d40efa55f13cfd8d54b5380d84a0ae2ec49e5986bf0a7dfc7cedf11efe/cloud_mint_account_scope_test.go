@@ -26,3 +26,31 @@ func TestCloudMintAccountScope(t *testing.T) {
 		}
 	}
 }
+
+// TestCloudMintConfigEqual 锁定 equal 语义：Accounts 是切片，结构体不能再直接用 != 比较，
+// main.go 检测配置变化走的是这个方法。
+func TestCloudMintConfigEqual(t *testing.T) {
+	base := defaultCloudMintConfig()
+	if !base.equal(defaultCloudMintConfig()) {
+		t.Fatal("identical configs must compare equal")
+	}
+	withAccounts := defaultCloudMintConfig()
+	withAccounts.Accounts = []string{"codex-keeper.json"}
+	if base.equal(withAccounts) {
+		t.Fatal("a changed account allowlist must count as a config change")
+	}
+	sameAccounts := defaultCloudMintConfig()
+	sameAccounts.Accounts = []string{"codex-keeper.json"}
+	if !withAccounts.equal(sameAccounts) {
+		t.Fatal("equal allowlists must compare equal")
+	}
+	sameAccounts.Accounts = []string{"codex-keeper.json", "codex-second.json"}
+	if withAccounts.equal(sameAccounts) {
+		t.Fatal("a longer allowlist must count as a config change")
+	}
+	otherGateway := defaultCloudMintConfig()
+	otherGateway.Gateway = "unified-88"
+	if base.equal(otherGateway) {
+		t.Fatal("a changed gateway must count as a config change")
+	}
+}

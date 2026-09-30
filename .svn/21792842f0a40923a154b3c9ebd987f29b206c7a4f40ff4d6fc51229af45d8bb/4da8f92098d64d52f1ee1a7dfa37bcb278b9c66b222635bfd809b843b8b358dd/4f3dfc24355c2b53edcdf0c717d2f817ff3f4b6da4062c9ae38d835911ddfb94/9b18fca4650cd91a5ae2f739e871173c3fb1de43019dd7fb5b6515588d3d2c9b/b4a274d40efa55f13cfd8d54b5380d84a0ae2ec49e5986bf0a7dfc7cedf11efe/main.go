@@ -522,7 +522,7 @@ func configure(raw []byte) error {
 
 	state.mu.Lock()
 
-	cloudChanged := state.config.CloudMint != cfg.CloudMint || state.config.DryRun != cfg.DryRun || state.config.Role != cfg.Role
+	cloudChanged := !state.config.CloudMint.equal(cfg.CloudMint) || state.config.DryRun != cfg.DryRun || state.config.Role != cfg.Role
 	cleared, _ := swapConfigLocked(cfg)
 	state.cookies = loadRouteCookiePool(cfg.StoreDir)
 	state.cookiesDirty = false

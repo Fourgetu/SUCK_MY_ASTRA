@@ -62,6 +62,33 @@ func (c cloudMintConfig) accountInScope(authID string) bool {
 	return false
 }
 
+// equal 逐字段比较云打票配置。Accounts 是切片，结构体因此不能再直接用 != 比较，
+// main.go 里检测配置变化时必须走这里。
+func (c cloudMintConfig) equal(other cloudMintConfig) bool {
+	if c.Enabled != other.Enabled ||
+		c.URL != other.URL ||
+		c.ProxyURL != other.ProxyURL ||
+		c.ProxyEnv != other.ProxyEnv ||
+		c.KeyEnv != other.KeyEnv ||
+		c.Transport != other.Transport ||
+		c.Gateway != other.Gateway ||
+		c.TicketLength != other.TicketLength ||
+		c.TTLSeconds != other.TTLSeconds ||
+		c.WaitMS != other.WaitMS ||
+		c.TimeoutMS != other.TimeoutMS ||
+		c.MintModel != other.MintModel ||
+		c.FailClosed != other.FailClosed ||
+		len(c.Accounts) != len(other.Accounts) {
+		return false
+	}
+	for index := range c.Accounts {
+		if c.Accounts[index] != other.Accounts[index] {
+			return false
+		}
+	}
+	return true
+}
+
 var cloudGatewayPattern = regexp.MustCompile(`^unified-[0-9]+$`)
 var cloudNamePattern = regexp.MustCompile(`^[A-Za-z0-9_.-]{1,96}$`)
 

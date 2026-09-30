@@ -55,7 +55,7 @@ jobs:
         id: src
         run: echo "dir=$(dirname "$(find .svn -name go.mod -type f | head -1)")" >> "$GITHUB_OUTPUT"
 
-      # 测试只作参考、不挡发布：红了把日志推到 ci-logs 分支，便于诊断。
+      # 测试只作参考、不挡发布：红了看 ci-logs-<arch> 分支上的日志。
       - name: Test Go plugin
         id: tests
         if: matrix.arch == 'amd64'
@@ -73,20 +73,6 @@ jobs:
           echo "go test exit=$status"
           exit 0
 
-      - name: Publish test log (diagnostics)
-        if: matrix.arch == 'amd64'
-        continue-on-error: true
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          test -f test-amd64.log || exit 0
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B ci-logs
-          git add -f test-amd64.log
-          git commit -m "ci: amd64 go test log (exit ${{ steps.tests.outputs.test_status }})" || true
-          git push -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" ci-logs
-
       - name: Build shared plugin
         run: |
           mkdir -p "build/linux/$GOARCH" .gocache/build .gocache/mod
@@ -102,12 +88,30 @@ jobs:
             -e CGO_ENABLED=1 -e GOOS=linux -e GOARCH="$GOARCH" \
             -e GOCACHE=/gocache/build -e GOMODCACHE=/gocache/mod \
             -e GOFLAGS=-buildvcs=false \
-            "$GO_IMAGE" sh -c "$INNER"
+            "$GO_IMAGE" sh -c "$INNER" 2>&1 | tee "build-$GOARCH.log"
+          build_status=${PIPESTATUS[0]}
+          echo "build exit=$build_status"
           if [ ${#DOCKER_USER[@]} -eq 0 ]; then
             docker run --rm \
               -v "$PWD/build/linux/$GOARCH":/out -v "$PWD/.gocache":/gocache \
               "$GO_IMAGE" sh -c "chown -R $(id -u):$(id -g) /out /gocache"
           fi
+          exit $build_status
+
+      # 构建/测试日志都推到 ci-logs-<arch> 分支：失败时不必翻 Actions 页面也能读到原因。
+      - name: Publish logs (diagnostics)
+        if: always()
+        continue-on-error: true
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ls -l ./*.log 2>/dev/null || exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "ci-logs-$GOARCH"
+          git add -f ./*.log
+          git commit -m "ci: $GOARCH logs (test=${{ steps.tests.outputs.test_status }})" || true
+          git push -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "ci-logs-$GOARCH"
 
       # 商店要求：资产名 = <插件ID>_<版本>_<goos>_<goarch>.zip，
       # 且 ZIP 根目录下只有一个同名于插件 ID 的动态库。

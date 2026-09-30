@@ -586,7 +586,7 @@ func pluginRegistration() registration {
 		SchemaVersion: pluginabi.SchemaVersion,
 		Metadata: pluginapi.Metadata{
 			Name:             "Codex Cloud Mint",
-			Version:          "0.3.8-endpoint-rotation",
+			Version:          "0.3.9-endpoint-rotation",
 			Author:           "arden-aaai",
 			GitHubRepository: "https://github.com/arden-aaai/cpa-plugin-codex-turn-state",
 			ConfigFields: []pluginapi.ConfigField{

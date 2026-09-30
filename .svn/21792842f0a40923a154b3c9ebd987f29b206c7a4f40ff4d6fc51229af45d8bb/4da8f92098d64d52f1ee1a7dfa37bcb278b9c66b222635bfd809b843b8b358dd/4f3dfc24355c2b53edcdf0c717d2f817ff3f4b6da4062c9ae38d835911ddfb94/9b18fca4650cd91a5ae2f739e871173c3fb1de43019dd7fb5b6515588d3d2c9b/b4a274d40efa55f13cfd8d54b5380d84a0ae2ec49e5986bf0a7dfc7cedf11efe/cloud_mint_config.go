@@ -105,8 +105,10 @@ func normaliseAccountID(raw string) string {
 	if index := strings.LastIndexAny(id, "/\\"); index >= 0 {
 		id = id[index+1:]
 	}
+	// 先折叠大小写再去扩展名：.JSON 与 .json 要当成同一个账号。
+	id = strings.ToLower(id)
 	id = strings.TrimSuffix(id, ".json")
-	return strings.ToLower(strings.TrimSpace(id))
+	return strings.TrimSpace(id)
 }
 
 // endpoints 返回可用的云函数地址：填了 urls 就用 urls，否则用 url；去空白、去重、保序。

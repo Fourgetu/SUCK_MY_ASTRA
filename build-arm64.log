@@ -1,0 +1,47 @@
+Unable to find image 'golang:1.26' locally
+1.26: Pulling from library/golang
+6eefb2f5d3e9: Pulling fs layer
+42f0cc32f2e3: Pulling fs layer
+38985a14f2b1: Pulling fs layer
+7209c5137051: Pulling fs layer
+2cb3e687d353: Pulling fs layer
+69d7981efcf2: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+2cb3e687d353: Waiting
+69d7981efcf2: Waiting
+4f4fb700ef54: Waiting
+7209c5137051: Waiting
+42f0cc32f2e3: Verifying Checksum
+42f0cc32f2e3: Download complete
+6eefb2f5d3e9: Verifying Checksum
+6eefb2f5d3e9: Download complete
+38985a14f2b1: Verifying Checksum
+38985a14f2b1: Download complete
+69d7981efcf2: Download complete
+2cb3e687d353: Verifying Checksum
+2cb3e687d353: Download complete
+4f4fb700ef54: Verifying Checksum
+4f4fb700ef54: Download complete
+7209c5137051: Verifying Checksum
+7209c5137051: Download complete
+6eefb2f5d3e9: Pull complete
+42f0cc32f2e3: Pull complete
+38985a14f2b1: Pull complete
+7209c5137051: Pull complete
+2cb3e687d353: Pull complete
+69d7981efcf2: Pull complete
+4f4fb700ef54: Pull complete
+Digest: sha256:0f063af2d465d8dcae54cce04278ada488b96f77b42449c8d071e47d016cc65a
+Status: Downloaded newer image for golang:1.26
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+debconf: unable to initialize frontend: Teletype
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Noninteractive
+go: downloading github.com/router-for-me/CLIProxyAPI/v7 v7.3.4
+go: downloading gopkg.in/yaml.v3 v3.0.1
+go: downloading gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405

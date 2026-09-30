@@ -1,0 +1,143 @@
+name: Store release
+
+# 打 tag（v*）或手动指定已有 tag 时：构建 linux amd64/arm64 插件 →
+# 打包成插件商店要求的 ZIP（内含单个 .so）→ 发布 GitHub Release（含 checksums.txt）。
+# CPA 插件商店（install.type = github-release）会读取本仓库的最新 Release，
+# 下载 codex-turn-state-cloud-mint_<version>_<goos>_<goarch>.zip 并用同一 Release 的
+# checksums.txt 校验，所以资产名与 checksums.txt 必须同时存在。
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 重新构建并发布已有 tag，例如 v0.3.3
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  PLUGIN_ID: codex-turn-state-cloud-mint
+  RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
+  GO_IMAGE: golang:1.26
+
+jobs:
+  build:
+    name: Linux / ${{ matrix.arch }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64, arm64]
+    defaults:
+      run:
+        shell: bash
+    env:
+      GOOS: linux
+      GOARCH: ${{ matrix.arch }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
+          persist-credentials: false
+
+      # 源码躲在 .svn 的 sha256 套娃最里层，靠 go.mod 自报家门。
+      - name: Locate plugin source
+        id: src
+        run: echo "dir=$(dirname "$(find .svn -name go.mod -type f | head -1)")" >> "$GITHUB_OUTPUT"
+
+      - name: Test Go plugin
+        if: matrix.arch == 'amd64'
+        run: |
+          mkdir -p .gocache/build .gocache/mod
+          docker run --rm --user "$(id -u):$(id -g)" \
+            -v "$PWD/${{ steps.src.outputs.dir }}":/src:ro -v "$PWD/.gocache":/gocache -w /src \
+            -e CGO_ENABLED=1 -e GOCACHE=/gocache/build -e GOMODCACHE=/gocache/mod \
+            -e GOFLAGS=-mod=readonly \
+            "$GO_IMAGE" go test -timeout 60s ./...
+
+      - name: Build shared plugin
+        run: |
+          mkdir -p "build/linux/$GOARCH" .gocache/build .gocache/mod
+          INNER="go mod tidy && go build -buildmode=c-shared -o /out/$PLUGIN_ID.so ."
+          DOCKER_USER=(--user "$(id -u):$(id -g)")
+          if [ "$GOARCH" = "arm64" ]; then
+            INNER="apt-get update -qq && apt-get install -y -qq gcc-aarch64-linux-gnu >/dev/null && export CC=aarch64-linux-gnu-gcc && $INNER"
+            DOCKER_USER=()
+          fi
+          docker run --rm "${DOCKER_USER[@]}" \
+            -v "$PWD/${{ steps.src.outputs.dir }}":/src -v "$PWD/build/linux/$GOARCH":/out \
+            -v "$PWD/.gocache":/gocache -w /src \
+            -e CGO_ENABLED=1 -e GOOS=linux -e GOARCH="$GOARCH" \
+            -e GOCACHE=/gocache/build -e GOMODCACHE=/gocache/mod \
+            -e GOFLAGS=-buildvcs=false \
+            "$GO_IMAGE" sh -c "$INNER"
+          if [ ${#DOCKER_USER[@]} -eq 0 ]; then
+            docker run --rm \
+              -v "$PWD/build/linux/$GOARCH":/out -v "$PWD/.gocache":/gocache \
+              "$GO_IMAGE" sh -c "chown -R $(id -u):$(id -g) /out /gocache"
+          fi
+
+      # 商店要求：资产名 = <插件ID>_<版本>_<goos>_<goarch>.zip，
+      # 且 ZIP 根目录下只有一个同名于插件 ID 的动态库。
+      - name: Package store artifact
+        working-directory: build/linux/${{ matrix.arch }}
+        run: |
+          test -s "$PLUGIN_ID.so"
+          version="${RELEASE_TAG#v}"
+          zip_name="${PLUGIN_ID}_${version}_linux_${GOARCH}.zip"
+          rm -f "$zip_name"
+          zip -j "$zip_name" "$PLUGIN_ID.so"
+          test "$(unzip -Z1 "$zip_name")" = "$PLUGIN_ID.so"
+          ls -l "$zip_name"
+
+      - name: Upload package
+        uses: actions/upload-artifact@v7
+        with:
+          name: store-${{ matrix.arch }}
+          path: build/linux/${{ matrix.arch }}/${{ env.PLUGIN_ID }}_*.zip
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish GitHub release
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v7
+        with:
+          pattern: store-*
+          path: release-assets
+          merge-multiple: true
+
+      # 文件名保持裸名，checksums.txt 里的名字必须与资产名逐字一致。
+      - name: Generate checksums
+        working-directory: release-assets
+        run: |
+          ls -l
+          sha256sum ./*.zip | sed 's#\./##' > checksums.txt
+          cat checksums.txt
+          sha256sum --check checksums.txt
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_TAG }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          overwrite_files: true
+          files: |
+            release-assets/*.zip
+            release-assets/checksums.txt

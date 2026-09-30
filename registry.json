@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "plugins": [
+    {
+      "id": "codex-turn-state-cloud-mint",
+      "name": "Codex Turn State Cloud Mint",
+      "description": "向云端打票服务取 Codex turn-state 票与路由 Cookie 并注入业务请求，把请求钉到指定网关节点；可识别上游静默换模型并按配置拦截。",
+      "author": "Fourgetu",
+      "repository": "https://github.com/Fourgetu/SUCK_MY_ASTRA",
+      "homepage": "https://github.com/Fourgetu/SUCK_MY_ASTRA",
+      "tags": [
+        "Codex",
+        "Turn State",
+        "Cloud Mint",
+        "Routing"
+      ],
+      "install": {
+        "type": "github-release"
+      },
+      "license": "MIT"
+    }
+  ]
+}

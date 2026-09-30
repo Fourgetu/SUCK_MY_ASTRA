@@ -14,13 +14,28 @@ func TestCloudMintAccountScope(t *testing.T) {
 	}
 
 	scoped := defaultCloudMintConfig()
-	scoped.Accounts = []string{"codex-keeper.json", "  codex-second.json  "}
-	for _, allowed := range []string{"codex-keeper.json", "codex-second.json", "CODEX-KEEPER.JSON", " codex-keeper.json "} {
+	scoped.Accounts = []string{"codex-keeper@example.com.json", "  codex-second.json  "}
+	allowedIDs := []string{
+		"codex-keeper@example.com.json",
+		"codex-keeper@example.com",       // 宿主可能上报不带扩展名的 ID
+		"CODEX-KEEPER@EXAMPLE.COM.JSON",  // 大小写不敏感
+		" codex-keeper@example.com.json ", // 首尾空白不算差异
+		"/root/.cli-proxy-api/codex-keeper@example.com.json", // 带目录前缀也能对上
+		"codex-second.json",
+	}
+	for _, allowed := range allowedIDs {
 		if !scoped.accountInScope(allowed) {
 			t.Fatalf("listed account %q must be allowed", allowed)
 		}
 	}
-	for _, blocked := range []string{"codex-other.json", "", "codex-keeper.json.bak", "keeper.json"} {
+	blockedIDs := []string{
+		"codex-other@example.com.json",
+		"",
+		"codex-keeper@example.com.json.bak",
+		"keeper@example.com.json",
+		"codex-second.json.bak",
+	}
+	for _, blocked := range blockedIDs {
 		if scoped.accountInScope(blocked) {
 			t.Fatalf("unlisted account %q must be passed through without cloud mint", blocked)
 		}

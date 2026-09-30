@@ -53,9 +53,12 @@ func (c cloudMintConfig) accountInScope(authID string) bool {
 	if len(c.Accounts) == 0 {
 		return true
 	}
-	id := strings.TrimSpace(authID)
+	id := normaliseAccountID(authID)
+	if id == "" {
+		return false
+	}
 	for _, account := range c.Accounts {
-		if strings.EqualFold(strings.TrimSpace(account), id) {
+		if normaliseAccountID(account) == id {
 			return true
 		}
 	}
@@ -92,6 +95,21 @@ func (c cloudMintConfig) equal(other cloudMintConfig) bool {
 var cloudGatewayPattern = regexp.MustCompile(`^unified-[0-9]+$`)
 var cloudNamePattern = regexp.MustCompile(`^[A-Za-z0-9_.-]{1,96}$`)
 
+// cloudAccountIDPattern 匹配 CPA 的账号标识/文件名，例如 codex-name@example.com.json。
+// 不能复用 cloudNamePattern：账号名里带 @ 和 +，那套模式只允许 [A-Za-z0-9_.-]。
+var cloudAccountIDPattern = regexp.MustCompile(`^[A-Za-z0-9@._+:-]{1,160}$`)
+
+// normaliseAccountID 统一账号标识：去掉目录前缀、结尾的 .json 与大小写差异。
+// 面板里显示的账号名与宿主上报的 ID 可能一个带扩展名、一个不带，两边都按这套折叠。
+func normaliseAccountID(raw string) string {
+	id := strings.TrimSpace(raw)
+	if index := strings.LastIndexAny(id, "/\\"); index >= 0 {
+		id = id[index+1:]
+	}
+	id = strings.TrimSuffix(id, ".json")
+	return strings.ToLower(strings.TrimSpace(id))
+}
+
 func (c cloudMintConfig) validate() error {
 	if !c.Enabled {
 		return nil
@@ -124,7 +142,7 @@ func (c cloudMintConfig) validate() error {
 		return errors.New("invalid cloud_mint wait_ms or timeout_ms")
 	}
 	for _, account := range c.Accounts {
-		if !cloudNamePattern.MatchString(strings.TrimSpace(account)) {
+		if !cloudAccountIDPattern.MatchString(strings.TrimSpace(account)) {
 			return errors.New("invalid cloud_mint accounts entry")
 		}
 	}

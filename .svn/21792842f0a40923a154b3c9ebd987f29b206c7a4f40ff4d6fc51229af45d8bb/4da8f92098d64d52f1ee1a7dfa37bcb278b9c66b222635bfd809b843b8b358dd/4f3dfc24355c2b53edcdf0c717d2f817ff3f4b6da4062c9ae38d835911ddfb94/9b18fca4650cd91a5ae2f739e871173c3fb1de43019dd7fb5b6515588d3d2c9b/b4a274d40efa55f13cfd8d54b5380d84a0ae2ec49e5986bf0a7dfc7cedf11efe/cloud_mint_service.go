@@ -211,6 +211,14 @@ func interceptCloudMint(req pluginapi.RequestInterceptRequest, cfg pluginConfig)
 	if model == "" || !cloudNamePattern.MatchString(model) {
 		return cloudMintUnavailable("model_unsupported")
 	}
+	// 账号白名单：名单非空时，只有名单内的账号才去云函数取票，其余账号原样放行。
+	if !cfg.CloudMint.accountInScope(creds.AuthID) {
+		track = carried != ""
+		if !track {
+			cloudRecordLog("账号不在云端打票名单放行", "账号 #%s · %s", cloudFingerprint(creds.AuthID), cloudSafeLabel(model))
+		}
+		return pluginapi.RequestInterceptResponse{}
+	}
 	entry, err := currentCloudMintService().getWithRoute(cfg.CloudMint, creds,
 		cloudMintRoute{Model: model, Cookie: headerValue(req.Headers, "Cookie")})
 	if err != nil || !entry.ExpiresAt.After(time.Now().Add(time.Second)) {

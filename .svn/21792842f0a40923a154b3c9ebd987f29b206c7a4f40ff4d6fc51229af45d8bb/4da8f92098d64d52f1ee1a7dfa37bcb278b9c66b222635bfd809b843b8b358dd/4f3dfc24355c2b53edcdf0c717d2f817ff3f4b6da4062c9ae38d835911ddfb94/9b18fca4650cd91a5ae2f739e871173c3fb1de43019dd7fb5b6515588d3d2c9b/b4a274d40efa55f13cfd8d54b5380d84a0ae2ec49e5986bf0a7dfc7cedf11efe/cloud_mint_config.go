@@ -27,6 +27,10 @@ type cloudMintConfig struct {
 	MintModel string `yaml:"mint_model"`
 
 	FailClosed bool `yaml:"fail_closed"`
+
+	// Accounts 限定哪些账号可以走云端打票（按账号文件名/ID，忽略大小写）；
+	// 留空表示不限制。名单外的账号直接放行，不会向云函数发送凭据。
+	Accounts []string `yaml:"accounts"`
 }
 
 func defaultCloudMintConfig() cloudMintConfig {
@@ -41,6 +45,21 @@ func (c cloudMintConfig) mintModel() string {
 		return m
 	}
 	return "gpt-6-astra"
+}
+
+// accountInScope 报告该账号是否允许走云端打票。名单为空表示不限制（向后兼容）；
+// 名单非空时，不在名单里的账号一律放行，不把凭据发往云函数。
+func (c cloudMintConfig) accountInScope(authID string) bool {
+	if len(c.Accounts) == 0 {
+		return true
+	}
+	id := strings.TrimSpace(authID)
+	for _, account := range c.Accounts {
+		if strings.EqualFold(strings.TrimSpace(account), id) {
+			return true
+		}
+	}
+	return false
 }
 
 var cloudGatewayPattern = regexp.MustCompile(`^unified-[0-9]+$`)
@@ -76,6 +95,11 @@ func (c cloudMintConfig) validate() error {
 	}
 	if c.WaitMS < 1 || c.WaitMS > 10000 || c.TimeoutMS < c.WaitMS || c.TimeoutMS > 180000 {
 		return errors.New("invalid cloud_mint wait_ms or timeout_ms")
+	}
+	for _, account := range c.Accounts {
+		if !cloudNamePattern.MatchString(strings.TrimSpace(account)) {
+			return errors.New("invalid cloud_mint accounts entry")
+		}
 	}
 	return nil
 }

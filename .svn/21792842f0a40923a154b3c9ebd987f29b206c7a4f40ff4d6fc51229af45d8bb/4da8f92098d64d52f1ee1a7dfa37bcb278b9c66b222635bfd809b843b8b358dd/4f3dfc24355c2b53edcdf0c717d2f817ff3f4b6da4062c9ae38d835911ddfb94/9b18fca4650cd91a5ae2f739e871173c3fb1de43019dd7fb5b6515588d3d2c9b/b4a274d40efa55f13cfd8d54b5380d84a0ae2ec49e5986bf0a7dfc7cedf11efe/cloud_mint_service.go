@@ -69,10 +69,11 @@ type cloudMintWork struct {
 	model, key, id, group string
 	proxyURL              string
 	seedCookie            string
+	endpoint              string
 }
 
 func (w cloudMintWork) cacheKey() string {
-	raw, _ := json.Marshal([]any{w.cfg, w.creds.AuthID, w.creds.AccessToken, w.creds.AccountID, w.model, w.key, w.proxyURL, w.seedCookie})
+	raw, _ := json.Marshal([]any{w.cfg, w.creds.AuthID, w.creds.AccessToken, w.creds.AccountID, w.model, w.key, w.proxyURL, w.seedCookie, w.endpoint})
 	sum := sha256.Sum256(raw)
 	return hex.EncodeToString(sum[:])
 }
@@ -99,7 +100,12 @@ func (s *cloudMintService) getWithRoute(cfg cloudMintConfig, creds cloudMintCred
 		return cloudMintEntry{}, err
 	}
 
-	work := cloudMintWork{proxyURL: proxyURL, seedCookie: seed, cfg: cfg, creds: creds, model: cfg.mintModel(), key: key, group: cloudFingerprint(creds.AuthID + "\x00" + creds.AccessToken)}
+	endpoints := cfg.endpoints()
+	endpoint := pickCloudEndpoint(endpoints, time.Now())
+	if endpoint == "" {
+		return cloudMintEntry{}, errors.New("no cloud mint endpoint configured")
+	}
+	work := cloudMintWork{endpoint: endpoint, proxyURL: proxyURL, seedCookie: seed, cfg: cfg, creds: creds, model: cfg.mintModel(), key: key, group: cloudFingerprint(creds.AuthID + "\x00" + creds.AccessToken)}
 	work.id = work.cacheKey()
 	job, hit, err := s.start(work)
 	if err != nil {
@@ -147,7 +153,7 @@ func (s *cloudMintService) run(work cloudMintWork, job *cloudMintJob) {
 	cfg, creds, model, id, group := work.cfg, work.creds, work.model, work.id, work.group
 	ctx, cancel := context.WithTimeout(s.ctx, time.Duration(cfg.TimeoutMS)*time.Millisecond)
 	defer cancel()
-	cloudRecordLog("云端打票开始", "账号 #%s · %s · %s", cloudFingerprint(creds.AuthID), cloudSafeLabel(model), cfg.Transport)
+	cloudRecordLog("云端打票开始", "账号 #%s · %s · %s · %s", cloudFingerprint(creds.AuthID), cloudSafeLabel(model), cfg.Transport, cloudEndpointLabel(work.endpoint))
 	entry, err := requestCloudMint(ctx, work)
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -172,7 +178,10 @@ func (s *cloudMintService) run(work cloudMintWork, job *cloudMintJob) {
 		s.cache[id] = cloudMintCached{entry: entry, err: err, until: until, row: job.row}
 	}
 	if err != nil {
-		cloudRecordLog("云端打票失败", "账号 #%s · %s · %s", cloudFingerprint(creds.AuthID), cloudSafeLabel(model), err)
+		markCloudEndpointFailed(cfg.endpoints(), work.endpoint, time.Now(), err.Error())
+		cloudRecordLog("云端打票失败", "账号 #%s · %s · %s · %s", cloudFingerprint(creds.AuthID), cloudSafeLabel(model), cloudEndpointLabel(work.endpoint), err)
+	} else {
+		markCloudEndpointOK(work.endpoint)
 	}
 	close(job.done)
 }

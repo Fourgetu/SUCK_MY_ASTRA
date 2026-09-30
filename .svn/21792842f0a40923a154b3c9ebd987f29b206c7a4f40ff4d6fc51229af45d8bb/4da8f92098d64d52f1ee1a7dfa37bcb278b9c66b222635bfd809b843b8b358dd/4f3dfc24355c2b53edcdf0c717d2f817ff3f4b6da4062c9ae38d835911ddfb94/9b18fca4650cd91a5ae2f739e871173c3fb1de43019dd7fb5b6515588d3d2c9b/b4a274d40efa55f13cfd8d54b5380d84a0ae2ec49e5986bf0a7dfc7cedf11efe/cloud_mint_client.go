@@ -45,7 +45,11 @@ type cloudMintEntry struct {
 
 func requestCloudMint(ctx context.Context, work cloudMintWork) (cloudMintEntry, error) {
 	cfg, creds, model, key := work.cfg, work.creds, work.model, work.key
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, cfg.URL, nil)
+	endpoint := strings.TrimSpace(work.endpoint)
+	if endpoint == "" {
+		endpoint = strings.TrimSpace(cfg.URL)
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, endpoint, nil)
 	if err != nil {
 		return cloudMintEntry{}, errors.New("invalid cloud endpoint")
 	}

@@ -14,6 +14,9 @@ import (
 type cloudMintConfig struct {
 	Enabled      bool   `yaml:"enabled"`
 	URL          string `yaml:"url"`
+	// URLs 是多个云函数地址（可选）：某个地址铸不出满血票时短期跳过它、换下一个地址。
+	// 填了 urls 就以 urls 为准，url 仅作兜底。
+	URLs []string `yaml:"urls"`
 	ProxyURL     string `yaml:"proxy_url"`
 	ProxyEnv     string `yaml:"proxy_env"`
 	KeyEnv       string `yaml:"key_env"`
@@ -81,13 +84,9 @@ func (c cloudMintConfig) equal(other cloudMintConfig) bool {
 		c.TimeoutMS != other.TimeoutMS ||
 		c.MintModel != other.MintModel ||
 		c.FailClosed != other.FailClosed ||
-		len(c.Accounts) != len(other.Accounts) {
+		!sameStringList(c.Accounts, other.Accounts) ||
+		!sameStringList(c.URLs, other.URLs) {
 		return false
-	}
-	for index := range c.Accounts {
-		if c.Accounts[index] != other.Accounts[index] {
-			return false
-		}
 	}
 	return true
 }
@@ -110,18 +109,70 @@ func normaliseAccountID(raw string) string {
 	return strings.ToLower(strings.TrimSpace(id))
 }
 
-func (c cloudMintConfig) validate() error {
-	if !c.Enabled {
-		return nil
+// endpoints 返回可用的云函数地址：填了 urls 就用 urls，否则用 url；去空白、去重、保序。
+func (c cloudMintConfig) endpoints() []string {
+	raw := make([]string, 0, len(c.URLs)+1)
+	for _, item := range c.URLs {
+		if trimmed := strings.TrimSpace(item); trimmed != "" {
+			raw = append(raw, trimmed)
+		}
 	}
-	u, err := url.Parse(c.URL)
+	if len(raw) == 0 {
+		if trimmed := strings.TrimSpace(c.URL); trimmed != "" {
+			raw = append(raw, trimmed)
+		}
+	}
+	seen := make(map[string]bool, len(raw))
+	out := make([]string, 0, len(raw))
+	for _, item := range raw {
+		if seen[item] {
+			continue
+		}
+		seen[item] = true
+		out = append(out, item)
+	}
+	return out
+}
+
+// validateEndpoint 校验单个云函数地址：必须 HTTPS（回环地址可 HTTP），且不带凭据/query/fragment。
+func (c cloudMintConfig) validateEndpoint(raw string) error {
+	u, err := url.Parse(raw)
 	if err != nil || u.Host == "" || u.User != nil || u.RawQuery != "" || u.Fragment != "" || u.Opaque != "" {
-		return errors.New("cloud_mint.url must be an HTTPS URL without credentials/query/fragment")
+		return errors.New("cloud_mint url must be an HTTPS URL without credentials/query/fragment")
 	}
 	ip := net.ParseIP(u.Hostname())
 	local := u.Hostname() == "localhost" || (ip != nil && ip.IsLoopback())
 	if u.Scheme != "https" && !(u.Scheme == "http" && local) {
-		return errors.New("cloud_mint.url requires HTTPS (HTTP only on loopback)")
+		return errors.New("cloud_mint url requires HTTPS (HTTP only on loopback)")
+	}
+	return nil
+}
+
+// sameStringList 逐项比较字符串切片：结构体要逐字段比较，切片不能直接用 !=。
+func sameStringList(left, right []string) bool {
+	if len(left) != len(right) {
+		return false
+	}
+	for index := range left {
+		if left[index] != right[index] {
+			return false
+		}
+	}
+	return true
+}
+
+func (c cloudMintConfig) validate() error {
+	if !c.Enabled {
+		return nil
+	}
+	endpoints := c.endpoints()
+	if len(endpoints) == 0 {
+		return errors.New("cloud_mint needs cloud_mint.url or cloud_mint.urls")
+	}
+	for _, endpoint := range endpoints {
+		if err := c.validateEndpoint(endpoint); err != nil {
+			return err
+		}
 	}
 	if err := c.validateProxy(); err != nil {
 		return err

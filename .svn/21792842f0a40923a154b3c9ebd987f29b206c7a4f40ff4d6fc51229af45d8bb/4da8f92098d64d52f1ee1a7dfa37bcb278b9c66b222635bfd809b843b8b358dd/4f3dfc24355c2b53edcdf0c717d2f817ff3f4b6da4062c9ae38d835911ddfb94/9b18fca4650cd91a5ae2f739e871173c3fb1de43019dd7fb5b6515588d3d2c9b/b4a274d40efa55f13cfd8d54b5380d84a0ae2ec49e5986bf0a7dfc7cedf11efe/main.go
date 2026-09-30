@@ -586,7 +586,7 @@ func pluginRegistration() registration {
 		SchemaVersion: pluginabi.SchemaVersion,
 		Metadata: pluginapi.Metadata{
 			Name:             "Codex Cloud Mint",
-			Version:          "0.3.5-account-scope",
+			Version:          "0.3.8-endpoint-rotation",
 			Author:           "arden-aaai",
 			GitHubRepository: "https://github.com/arden-aaai/cpa-plugin-codex-turn-state",
 			ConfigFields: []pluginapi.ConfigField{
@@ -660,7 +660,7 @@ func pluginRegistration() registration {
 				{
 					Name:        "cloud_mint",
 					Type:        pluginapi.ConfigFieldTypeObject,
-					Description: "云端打票（默认关闭）：enabled/url/proxy_url/proxy_env/key_env/transport/gateway/ticket_length/ttl_seconds/wait_ms/timeout_ms/accounts。accounts 为账号白名单（按账号文件名/ID，忽略大小写；留空=不限制），名单外账号原样放行、不向云函数发送凭据。密钥只从环境变量读取；冷启动短等待，未就绪返回 503。",
+					Description: "云端打票（默认关闭）：enabled/url/urls/proxy_url/proxy_env/key_env/transport/gateway/ticket_length/ttl_seconds/wait_ms/timeout_ms/accounts。urls 可填多个云函数地址，某个地址铸不出满血票时会短期跳过它、换下一个；accounts 为账号白名单（按账号文件名/ID，忽略大小写；留空=不限制），名单外账号原样放行、不向云函数发送凭据。密钥只从环境变量读取；冷启动短等待，未就绪返回 503。",
 				},
 			},
 		},

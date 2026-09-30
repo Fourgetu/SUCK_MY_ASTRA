@@ -1,0 +1,442 @@
+Unable to find image 'golang:1.26' locally
+1.26: Pulling from library/golang
+6eefb2f5d3e9: Pulling fs layer
+42f0cc32f2e3: Pulling fs layer
+38985a14f2b1: Pulling fs layer
+7209c5137051: Pulling fs layer
+2cb3e687d353: Pulling fs layer
+69d7981efcf2: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+7209c5137051: Waiting
+2cb3e687d353: Waiting
+69d7981efcf2: Waiting
+4f4fb700ef54: Waiting
+42f0cc32f2e3: Verifying Checksum
+42f0cc32f2e3: Download complete
+6eefb2f5d3e9: Verifying Checksum
+6eefb2f5d3e9: Download complete
+38985a14f2b1: Verifying Checksum
+38985a14f2b1: Download complete
+69d7981efcf2: Verifying Checksum
+69d7981efcf2: Download complete
+4f4fb700ef54: Verifying Checksum
+4f4fb700ef54: Download complete
+2cb3e687d353: Verifying Checksum
+2cb3e687d353: Download complete
+7209c5137051: Verifying Checksum
+6eefb2f5d3e9: Pull complete
+42f0cc32f2e3: Pull complete
+38985a14f2b1: Pull complete
+7209c5137051: Pull complete
+2cb3e687d353: Pull complete
+69d7981efcf2: Pull complete
+4f4fb700ef54: Pull complete
+Digest: sha256:0f063af2d465d8dcae54cce04278ada488b96f77b42449c8d071e47d016cc65a
+Status: Downloaded newer image for golang:1.26
+go: downloading github.com/router-for-me/CLIProxyAPI/v7 v7.3.4
+go: downloading gopkg.in/yaml.v3 v3.0.1
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerUsesProviderNotFilename812870165/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerRefusesCodexNamedForeignCredential103809638/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerRefusesAuthAbsentFromCatalog515616215/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerFallsBackToFilenameWhenCatalogDown2361808636/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerMatchesBySelectedAuthIndex3141296647/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerAttributesByIndexAlone2599044480/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSoleAccountInferenceVerifiedByCatalog1323427132/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSoleAccountInferenceRefusedByCatalog794227694/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestBlockDegradedStreamWithheld2647521604/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 未改写 · cookie - · 票 未带票 → #Z1PDa7Rm · 模型 gpt-6-astra → 未返回
+返回网关 未返回 · Set-Cookie 无 · 票长 780
+2026/09/30 14:59:12 [codex-turn-state] 业务模型确认 · 未改写 · cookie - · 票 未带票 → #Z1PDa7Rm · 模型 gpt-6-astra → gpt-5.6-luna
+返回网关 未返回 · Set-Cookie 无 · 票长 780
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestBlockDegradedOffDeliversNormally922559591/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 未改写 · cookie - · 票 未带票 → #Z1PDa7Rm · 模型 gpt-6-astra → 未返回
+返回网关 未返回 · Set-Cookie 无 · 票长 780
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestBlockDegradedNonStreamBodyReplaced3466717494/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 未改写 · cookie - · 票 未带票 → #Z1PDa7Rm · 模型 gpt-6-astra → 未返回
+返回网关 未返回 · Set-Cookie 无 · 票长 780
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #vfScPDiC · gpt-6-astra · sse · 127.0.0.1:44357
+2026/09/30 14:59:12 [codex-turn-state] 云端票注入 · 裸打/未注入票 · 得到 网关未知 · 票长 780 · #t_DG8oP- · 这张票龄 0s · 模型 gpt-6-astra · 网关变化未知
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #vfScPDiC · gpt-6-astra · sse · 127.0.0.1:1
+2026/09/30 14:59:12 [codex-turn-state] 云端打票失败 · 账号 #vfScPDiC · gpt-6-astra · 127.0.0.1:1 · cloud mint unavailable or timed out
+2026/09/30 14:59:12 [codex-turn-state] 打票未就绪放行 · 账号 #vfScPDiC · gpt-6-sol
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · 127.0.0.1:32927
+2026/09/30 14:59:12 [codex-turn-state] 云端票注入 · 裸打/未注入票 · 得到 网关未知 · 票长 780 · #t_DG8oP- · 这张票龄 0s · 模型 gpt-6-astra · 网关变化未知
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · 127.0.0.1:33575
+2026/09/30 14:59:12 [codex-turn-state] 云端打票失败 · 账号 #VZrq0IJk · gpt-6-astra · 127.0.0.1:33575 · cloud mint canceled or timed out
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · 127.0.0.1:38671
+2026/09/30 14:59:12 [codex-turn-state] 云端打票失败 · 账号 #VZrq0IJk · gpt-6-astra · 127.0.0.1:38671 · cloud mint response is not JSON
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · 127.0.0.1:41325
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · 127.0.0.1:41325
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · localhost:4444
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · 127.0.0.1:42501
+2026/09/30 14:59:12 [codex-turn-state] 云端打票失败 · 账号 #VZrq0IJk · gpt-6-astra · 127.0.0.1:42501 · cloud mint response is not JSON
+2026/09/30 14:59:12 http: TLS handshake error from 127.0.0.1:45454: remote error: tls: bad certificate
+2026/09/30 14:59:12 http: TLS handshake error from 127.0.0.1:60854: remote error: tls: bad certificate
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · localhost:4444
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #VZrq0IJk · gpt-6-astra · sse · localhost:4444
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #jFhTeFE_ · gpt-6-astra · sse · 127.0.0.1:38015
+2026/09/30 14:59:12 [codex-turn-state] 已拦截 · 请求模型 gpt-6-sol · 本地 HTTP 503 · 未发送上游
+2026/09/30 14:59:12 [codex-turn-state] 云端票注入 · 裸打/未注入票 · 得到 网关未知 · 票长 780 · #t_DG8oP- · 这张票龄 0s · 模型 gpt-6-astra · 网关变化未知
+2026/09/30 14:59:12 [codex-turn-state] 换云函数地址 · a.example 铸票失败，暂时跳过它（90s） · 未知
+2026/09/30 14:59:12 [codex-turn-state] 换云函数地址 · b.example 铸票失败，暂时跳过它（90s）
+2026/09/30 14:59:12 [codex-turn-state] 换云函数地址 · c.example 铸票失败，暂时跳过它（90s）
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #MAH3VN1g · gpt-6-astra · sse · 127.0.0.1:46801
+2026/09/30 14:59:12 [codex-turn-state] 云端票注入 · 裸打/未注入票 · 得到 网关未知 · 票长 780 · #t_DG8oP- · 这张票龄 0s · 模型 gpt-6-astra · 网关变化未知
+2026/09/30 14:59:12 [codex-turn-state] 路由 Cookie 拒绝 · incomplete route cookie pair
+2026/09/30 14:59:12 [codex-turn-state] 已拦截 · 请求模型 gpt-6-sol · 本地 HTTP 503 · 未发送上游
+--- FAIL: TestCloudMintSeedValidationAndCacheIsolation (0.00s)
+    cloud_mint_seed_test.go:89: valid pair not normalized
+--- FAIL: TestCloudMintValidateFailsClosed (0.00s)
+    cloud_mint_test.go:41: cloud target gateway mismatch
+--- FAIL: TestCloudMintValidateAcceptsAnyGateway (0.00s)
+    cloud_mint_test.go:84: empty FC gateway did not fall back to cookie label: <nil> ""
+--- FAIL: TestCloudMintLogNeverLeaksTicketOrCookie (0.00s)
+    cloud_mint_test.go:95: missing "unified-XX" in cookie #未知 · 票长 780 · #4cQgSzST · 网关未知 · 得到 网关未知 · 票长 780 · #6pnoRk51 · 这张票龄 22s · 未见模型 · 网关变化未知
+2026/09/30 14:59:12 [codex-turn-state] 凭据归属不明放行 · credential lookup unavailable
+2026/09/30 14:59:12 [codex-turn-state] 已拦截 · 请求模型 未知 · 本地 HTTP 503 · 未发送上游
+2026/09/30 14:59:12 [codex-turn-state] 云端打票开始 · 账号 #vfScPDiC · gpt-6-astra · sse · 127.0.0.1:36487
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 沿用 · cookie - · 票 #t_DG8oP- → 未返回 · 模型 gpt-6-sol → 未返回
+返回网关 未返回 · Set-Cookie 有 __cf_bm · 票长 未返回 · 缓冲 gpt-6-luna
+2026/09/30 14:59:12 [codex-turn-state] 业务模型确认 · 沿用 · cookie - · 票 #t_DG8oP- → 未返回 · 模型 gpt-6-sol → gpt-6-sol
+返回网关 未返回 · Set-Cookie 有 __cf_bm · 票长 未返回 · 缓冲 gpt-6-luna · tier premium
+--- FAIL: TestCloudRequestLogReusedTicketAndBufferingAreSeparate (0.00s)
+    cloud_request_log_test.go:57: missing "cookie unified-XX": cookie - · 票 #t_DG8oP- → 未返回 · 模型 gpt-6-sol → gpt-6-sol
+        返回网关 未返回 · Set-Cookie 有 __cf_bm · 票长 未返回 · 缓冲 gpt-6-luna · tier premium
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 注入 · cookie unified-XX · 票 #soDANMbV → 未返回 · 模型 gpt-6-sol → 未返回
+返回网关 未返回 · Set-Cookie 无 · 票长 未返回
+2026/09/30 14:59:12 [codex-turn-state] 业务模型确认 · 注入 · cookie unified-XX · 票 #soDANMbV → 未返回 · 模型 gpt-6-sol → gpt-6-sol
+返回网关 未返回 · Set-Cookie 无 · 票长 未返回
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 关联未知 · cookie - · 票 未知 → 未返回 · 模型 - → gpt-6-sol
+返回网关 未返回 · Set-Cookie 无 · 票长 未返回
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-00
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-01
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-02
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-03
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-04
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-05
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-06
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-07
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-08
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-09
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-10
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-11
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-12
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-13
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-14
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-15
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-16
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-17
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-18
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-19
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-20
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-21
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-22
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-23
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-24
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-25
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-26
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-27
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-28
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-29
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-30
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-31
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-32
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-33
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-34
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-35
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-36
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-37
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-38
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-39
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-40
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-41
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-42
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-43
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-44
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-45
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-46
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-47
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-48
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-49
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-50
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-51
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-52
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-53
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-54
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-55
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-56
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-57
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-58
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-59
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-60
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-61
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-62
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-63
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-64
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-65
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-66
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-67
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-68
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-69
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-70
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-71
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-72
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-73
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-74
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-75
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-76
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-77
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-78
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-79
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-80
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-81
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-82
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-83
+2026/09/30 14:59:12 [codex-turn-state] 本地测试 · row-84
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 注入 · cookie - · 票 #RtSN-yUE → 未返回 · 模型 gpt-6-sol → 未返回
+返回网关 未返回 · Set-Cookie 无 · 票长 未返回
+2026/09/30 14:59:12 [codex-turn-state] 业务模型确认 · 注入 · cookie - · 票 #RtSN-yUE → 未返回 · 模型 gpt-6-sol → gpt-6-luna
+返回网关 未返回 · Set-Cookie 无 · 票长 未返回 · tier premium
+2026/09/30 14:59:12 [codex-turn-state] WS 续链观测 · 沿用 · cookie - · 票 #QrplUEqW → 未观测 · 模型 gpt-6-sol → gpt-6-sol
+返回网关 未返回 · Set-Cookie 未观测 · 票长 未观测
+previous #-5p4sfOu · response #hTsM7_ik · WS created
+2026/09/30 14:59:12 [codex-turn-state] WS 续链观测 · 沿用 · cookie - · 票 #QrplUEqW → 未观测 · 模型 gpt-6-sol → gpt-6-sol
+返回网关 未返回 · Set-Cookie 未观测 · 票长 未观测
+previous #-5p4sfOu · response #hTsM7_ik · WS completed
+2026/09/30 14:59:12 [codex-turn-state] WS 续链观测 · 未改写 · cookie - · 票 未带票 → 未观测 · 模型 gpt-6-sol → gpt-6-sol
+返回网关 未返回 · Set-Cookie 未观测 · 票长 未观测
+previous 未带 · response #dEVC7c9G · WS created
+2026/09/30 14:59:12 [codex-turn-state] WS 续链观测 · 未改写 · cookie - · 票 未带票 → 未观测 · 模型 gpt-6-sol → gpt-6-sol
+返回网关 未返回 · Set-Cookie 未观测 · 票长 未观测
+previous 未带 · response #dEVC7c9G · WS incomplete
+2026/09/30 14:59:12 [codex-turn-state] WS 续链观测 · 未改写 · cookie - · 票 未带票 → 未观测 · 模型 gpt-6-sol → gpt-6-sol
+返回网关 未返回 · Set-Cookie 未观测 · 票长 未观测
+previous 未带 · response #suQQT4YV · WS created
+2026/09/30 14:59:12 [codex-turn-state] WS 续链观测 · 关联未知 · cookie - · 票 未知 → 未观测 · 模型 - → gpt-6-sol
+返回网关 未返回 · Set-Cookie 未观测 · 票长 未观测
+previous 未带 · response #Jb1IKHex · WS completed
+2026/09/30 14:59:12 [codex-turn-state] WS 续链观测 · 未改写 · cookie - · 票 未带票 → 未观测 · 模型 gpt-6-sol → gpt-6-sol
+返回网关 未返回 · Set-Cookie 未观测 · 票长 未观测
+previous 未带 · response #suQQT4YV · WS id_mismatch
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessSurfaceIsPinned1745384885/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+--- FAIL: TestCloudDisplayGatewayBoundaries (0.00s)
+    --- FAIL: TestCloudDisplayGatewayBoundaries/concrete_gateway (0.00s)
+        gateway_any_test.go:25: cloudDisplayGateway("unified-XX"): want "unified-XX", got "网关未知"
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessActionRequiresConfirm3099264851/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessClearRequiresConfirm691005818/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessActionRejectsNonGet3313354223/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessDryRunTogglesAndPersists1232794692/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] dry_run set to false via dashboard (keyless)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessDryRunTogglesAndPersists1232794692/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool kept)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessDryRunRejectsBadValue712956444/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessRoleSwitchesAndPersists1890849382/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] role set to business via dashboard (keyless)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestKeylessRoleSwitchesAndPersists1890849382/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool kept)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessRoleRejectsUnknownValue3784933175/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessClearOneBucket1396426197/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] cleared 1 bucket observation(s)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestKeylessClearAll1476837222/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] cleared route-cookie pool and all observations
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestRuntimeOverrideLayeredOnConfigure2901915697/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] ignoring malformed runtime.json: invalid character 'n' looking for beginning of object key string
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestRuntimeOverrideMalformedIsIgnored840635584/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestBusinessRoleDeclaresResponseHooks1938253749/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestBusinessRoleHarvestsFromLiveResponse531732210/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestInBandHarvestAttributesByRequestID1139715393/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 未改写 · cookie - · 票 未带票 → #9_9uDsY5 · 模型 gpt-5.5 → 未返回
+返回网关 未返回 · Set-Cookie 无 · 票长 292
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool kept)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestConfigureRoleValidationprobe_and_business_are_both_accepted2462369784/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestConfigureRoleValidationprobe_and_business_are_both_accepted2462369784/002" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool kept)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool kept)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:9317" probe_management_key=unset scope_from=config.yaml (pool kept)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestManagementStatusNeverLeaksTokenValues990119820/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestResourceShellIsStaticAndDataFree1194716534/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestRegistrationAdvertisesManagementAPI2168461568/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestRegistrationAdvertisesManagementAPI2168461568/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool kept)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestManagementDataRoutesCarryNoMenu2646195579/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestManagementRegisterExposesExactlyOneMenuResource4170143943/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestManagementRegisterExposesAnonymousStatusResource3016091854/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestAnonymousStatusResourceNeverLeaksTokenValues1380496694/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestClearBucketRejectsPathTraversal2328031811/001/store" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestClearBucketRejectsMalformedBody4167042494/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestSelftestWorksRegardlessOfRoleprobe189125800/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] selftest could not run: no host callback table
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestSelftestWorksRegardlessOfRolebusiness3462868164/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] selftest could not run: no host callback table
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestSelftestRejectsUnconfiguredModel132937758/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] selftest could not run: no host callback table
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestSelftestFailsClosedWithoutHostAPI2898957791/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] selftest could not run: no host callback table
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestSelftestRejectsMalformedBody3835751495/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestSelftestRejectsUnsafeAuthID1544990288/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] selftest could not run: no host callback table
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestManagementUnknownPathReturns4043390775566/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestManagementRejectsWrongMethod835140378/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestManagementHandleSurvivesMalformedInput1937144030/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestManagementCountersTrackDecisions4194189453/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusReflectsConfiguredValues164951262/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusBucketLenIsALengthNotAValue1160631136/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusReportsDegradedAccountSource820466325/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusMatrixCoversEveryTarget37198064/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusMatrixCoversEveryTarget37198064/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=3 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool kept)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusBucketOrderIsStable1082204787/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusEmptyStoreStillNamesItsSource558559915/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusShowsProbeProxiesInTheClear2144797387/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeRunRoutesAreKeylessResourcesGuardedByConfirm1343810643/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestChoicesIsAKeylessResourceNeedingNoConfirm1251479541/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:33917" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestChoicesListsCPACredentialsAndMarksTheScope2159343978/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:43795" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestChoicesListsCPACredentialsAndMarksTheScope (0.00s)
+    management_test.go:1626: accounts = [user@test.invalid user@test.invalid user@test.invalid], want exactly [user@test.invalid user@test.invalid] (a .bak copy or a non-Codex credential leaked into the menu)
+--- FAIL: TestMaskAuthLabel (0.00s)
+    management_test.go:1731: the normal codex-<hex>-<email>-<tier>.json shape: maskAuthLabel("user@test.invalid") = "…", want "620f5a42…pro"
+    management_test.go:1731: extra dashes around the email: maskAuthLabel("user@test.invalid") = "…", want "620f5a42…pro"
+    management_test.go:1731: email in the final position: maskAuthLabel("user@test.invalid") = "…", want "620f5a42"
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestChoicesDegradesWhenCredentialListUnavailablemanagement_key_2982732290/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:44559" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] choices: credential list unavailable: probe_management_key is not set, so CPA's credential list cannot be read; set it in config.yaml and reload, or keep listing probe_accounts by hand
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestChoicesDegradesWhenCredentialListUnavailablecpa_rejects_the2770528663/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:43561" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+2026/09/30 14:59:12 [codex-turn-state] choices: credential list unavailable: could not read CPA's credential list: GET /v0/management/auth-files: 401 unauthorized -- probe_management_key is wrong or not accepted; this is an auth failure, not a bad path
+2026/09/30 14:59:12 [codex-turn-state] configured role=probe store_dir="/tmp/TestChoicesDoesNotHangOnUnresponsiveCPA2664771295/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:39159" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] choices: credential list unavailable: could not read CPA's credential list: Get "http://127.0.0.1:39159/v0/management/auth-files": context deadline exceeded
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestStreamedModelMismatchRecordsDowngrade2168608407/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 未改写 · cookie - · 票 未带票 → #Z1PDa7Rm · 模型 gpt-6-astra → 未返回
+返回网关 未返回 · Set-Cookie 无 · 票长 780
+2026/09/30 14:59:12 [codex-turn-state] 业务模型确认 · 未改写 · cookie - · 票 未带票 → #Z1PDa7Rm · 模型 gpt-6-astra → gpt-5.6-luna
+返回网关 未返回 · Set-Cookie 无 · 票长 780
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestStreamedModelMatchRecordsNothing918697411/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:12 [codex-turn-state] 业务回源观测 · 未改写 · cookie - · 票 未带票 → #Z1PDa7Rm · 模型 gpt-5.5 → 未返回
+返回网关 未返回 · Set-Cookie 无 · 票长 780
+2026/09/30 14:59:12 [codex-turn-state] configured role=business store_dir="/tmp/TestStreamedChunkWithoutWatchIsIgnored1594075619/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] observations.json is version 3, want 2; observation counts restart from empty
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestHarvestPathRecordsTheDegradedObservation3438462089/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestDryRunDecisionIsNotCountedAsAnInjection1127784855/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusCarriesObservationsOnTheBucketRow1164325713/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusOmitsObservationsForUnseenBuckets819098779/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestStatusGivesARowToAnObservedButUnconfiguredModel255384659/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=2 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeRunStartRefusesIncompleteConfigno_accounts2038681073/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:1" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeRunStartRefusesIncompleteConfigno_models377134960/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:1" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeRunStartRefusesIncompleteConfigno_management_key1394469189/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:1" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestProbeRunStartRefusesIncompleteConfig (0.00s)
+    --- FAIL: TestProbeRunStartRefusesIncompleteConfig/no_models (0.00s)
+        probe_runner_test.go:401: the refusal does not name models: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+    --- FAIL: TestProbeRunStartRefusesIncompleteConfig/no_management_key (0.00s)
+        probe_runner_test.go:401: the refusal does not name probe_management_key: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeRunStartIsSingleFlight4131500852/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:36511" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestProbeRunStartIsSingleFlight (0.00s)
+    probe_runner_test.go:440: probeRunStart refused a complete config: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbePoolsTheMintedPair685895153/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:40155" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestProbePoolsTheMintedPair (0.00s)
+    probe_runner_test.go:460: probeRunStart refused a complete config: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeSkipsThrottled3123414555459/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:44095" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestProbeSkipsThrottled312 (0.00s)
+    probe_runner_test.go:498: probeRunStart refused a complete config: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeSkipsExpiredTokenWithoutRefreshing441026572/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:39389" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestProbeSkipsExpiredTokenWithoutRefreshing (0.00s)
+    probe_runner_test.go:522: probeRunStart refused a complete config: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+2026/09/30 14:59:13 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeUnreadableTokenIsSkipped4106811636/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:39037" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:13 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestProbeUnreadableTokenIsSkipped (0.00s)
+    probe_runner_test.go:544: probeRunStart refused a complete config: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: http=200 via http://127.0.0.1:35043 answered degraded (len=312) (pair still pooled: lb-ef22ee31) — this exit's IP is throttled, trying next
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: pooled a lb-ef22ee31 pair via http://127.0.0.1:36693
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: http=200 via http://127.0.0.1:45867 answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: http=200 via http://127.0.0.1:44787 answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: http=200 via http://127.0.0.1:46601 answered degraded (len=312) (pair still pooled: lb-ef22ee31) — this exit's IP is throttled, trying next
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: http=200 via http://127.0.0.1:41085 answered degraded (len=312) (pair still pooled: lb-ef22ee31) — this exit's IP is throttled, trying next
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: pooled a lb-ef22ee31 pair via http://127.0.0.1:39691
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: http=429 — upstream is rate limiting this credential, not this exit; stopping the walk and resting the account for 10m0s
+2026/09/30 14:59:13 [codex-turn-state] probe … m-1: http=200 via (direct) but no __cflb/__oailb was set
+2026/09/30 14:59:13 [codex-turn-state] probe … m-2: http=200 via (direct) but no __cflb/__oailb was set
+2026/09/30 14:59:13 [codex-turn-state] probe … m-3: http=200 via (direct) but no __cflb/__oailb was set
+2026/09/30 14:59:13 [codex-turn-state] probe … gpt-runner-1: exit http://127.0.0.1:1 failed at transport, trying next: Post "http://127.0.0.1:36161": proxyconnect tcp: dial tcp 127.0.0.1:1: connect: connection refused
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: pooled a lb-ef22ee31 pair via (direct)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeRenewsBucketNearingExpiry793083706/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:40587" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestProbeRenewsBucketNearingExpiry (0.00s)
+    probe_runner_test.go:803: probeRunStart refused a complete config: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestProbeRunNeverLeaksAProxyPassword3129723994/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=1 probe_accounts=0 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:37451" probe_management_key=set scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "user@test.invalid" is not a Codex credential filename (expected codex-*.json)
+--- FAIL: TestProbeRunNeverLeaksAProxyPassword (0.00s)
+    probe_runner_test.go:819: probeRunStart refused a complete config: probe_accounts is empty, so there is nothing to probe; refusing to widen an empty selection to every credential
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) (pair still pooled: lb-ef22ee31) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) (pair still pooled: lb-ef22ee31) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: pooled a lb-ef22ee31 pair via (direct)
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: rotating pool gave 4 address(es), none of them a 292; resting this bucket for 1h0m0s
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via (direct) answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: rotating pool gave 4 address(es), none of them a 292; resting this bucket for 1ns
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=429 — upstream is rate limiting this credential, not this exit; stopping the walk and resting the account for 10m0s
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via http://127.0.0.1:38141 but no __cflb/__oailb was set
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: rotating pool gave 1 address(es), none of them a 292; resting this bucket for 1m0s
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: http=200 via http://127.0.0.1:43211 answered degraded (len=312) (pair still pooled: lb-ef22ee31) — this exit's IP is throttled, trying next
+2026/09/30 14:59:15 [codex-turn-state] probe … gpt-runner-1: pooled a lb-ef22ee31 pair via http://127.0.0.1:42233
+--- FAIL: TestMaskProxyURLNeverEchoesUserinfo (0.00s)
+    --- FAIL: TestMaskProxyURLNeverEchoesUserinfo/user_without_password_still_masked (0.00s)
+        probe_scope_test.go:38: maskProxyURL("http://user@test.invalid:8080") = "http://***@test.invalid:8080", want "http://***@exit.invalid:8080"
+2026/09/30 14:59:15 [codex-turn-state] configured role=business store_dir="/tmp/TestConfigureNeverFailsOnBadProbeScope1009959700/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] config error (probe scope, not fatal): probe_accounts: "not-a-codex-file.txt" is not a Codex credential filename (expected codex-*.json)
+2026/09/30 14:59:15 [codex-turn-state] config error (probe scope, not fatal): probe_proxies: unsupported scheme "ftp" in ftp://exit.invalid:21 (want http, https, socks5 or socks5h)
+2026/09/30 14:59:15 [codex-turn-state] configured role=business store_dir="/tmp/TestBusinessSteersForAnAccountOutsideTheProbeScope1608326937/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] configured role=business store_dir="/tmp/TestProbeScopeNeverCreatesABucket2472195851/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=0 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestScopeSaveRequiresConfirm4259613893/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestScopeSaveRequiresFields1299812218/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestScopeSaveWritesFileAndAppliesLive2710871896/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] probe scope saved: accounts=2 models=2 proxies=1 rotating=0 (fields=accounts,models)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestScopeSaveOnlyReplacesNamedFields1132158970/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] probe scope saved: accounts=1 models=1 proxies=1 rotating=0 (fields=models)
+2026/09/30 14:59:15 [codex-turn-state] probe scope saved: accounts=1 models=1 proxies=0 rotating=0 (fields=proxies)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestSavedScopeOverridesConfigYAML599580831/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=1 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=probe-scope.json (saved 2026-09-18T00:00:00Z) (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] configured role=business store_dir="/tmp/TestScopeSaveKeepsThePool94403849/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=false models=1 probe_accounts=1 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] probe scope saved: accounts=1 models=1 proxies=0 rotating=0 (fields=accounts)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestScopeSaveRoundTripsTheRotatingPool3744856944/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] probe scope saved: accounts=1 models=1 proxies=1 rotating=2 (fields=rotating)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestScopeSaveRoundTripsTheRotatingPool3744856944/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=2 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=probe-scope.json (saved 2026-09-30T14:59:15Z) (pool kept)
+2026/09/30 14:59:15 [codex-turn-state] configured role=probe store_dir="/tmp/TestScopeSaveRejectsAnUnknownField659900158/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=1 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:15 [codex-turn-state] configured role=business store_dir="/tmp/TestProxyCheckRequiresConfirm515319238/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestProxyCheckEmptyPoolChecksTheDirectExit789264507/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] proxy check: 1 entr(ies) -> 1 ok, 0 refused, 0 unreachable, 0 other; 0 misdeclared; 1 distinct static address(es) in 0ms
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestProxyCheckCountsDistinctExitAddresses3570033606/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=2 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] proxy check: 2 entr(ies) -> 2 ok, 0 refused, 0 unreachable, 0 other; 0 misdeclared; 1 distinct static address(es) in 1ms
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestProxyCheckNeverLeaksAProxyPassword1511194751/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestProxyCheckFlagsARotatingEntryDeclaredStatic382628448/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=1 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] proxy check: 1 entr(ies) -> 1 ok, 0 refused, 0 unreachable, 0 other; 1 misdeclared; 1 distinct static address(es) in 1ms
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestProxyCheckDoesNotFlagASteadyRotatingEntry1886053363/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=1 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] proxy check: 1 entr(ies) -> 1 ok, 0 refused, 0 unreachable, 0 other; 0 misdeclared; 0 distinct static address(es) in 1ms
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestProxyCheckCountsDistinctAddressesForTheStaticPoolOnly3819490517/001" template_length=292 replace_length=312 ttl_seconds=3900 dry_run=true models=1 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=1 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] proxy check: 1 entr(ies) -> 1 ok, 0 refused, 0 unreachable, 0 other; 0 misdeclared; 0 distinct static address(es) in 0ms
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestHarvestDeletionEvictsTheCarriedPair3336019197/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestHarvestDeletionLeavesOtherPairsAlone1627134485/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerAttachesThePoolPair1403314412/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerAttachesWithoutAClientTicket3645972850/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestSteerRefusesNonCodexAccount4018607551/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestPoolServesEveryCodexAccount403030883/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestDryRunAttachesNothing1578445827/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=true models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestNoLivePairNoWrite3467114093/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestHarvestPoolsThePair2909646159/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestHarvestPoolsOnSilentAndDegradedResponses1682171533/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestHarvestPoolsWithoutAttribution1951667349/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] configured role=business store_dir="/tmp/TestSteeredPairGetsOutcomeMarks3763075654/001" template_length=292 replace_length=312 ttl_seconds=3600 dry_run=false models=0 probe_accounts=0 probe_proxies=0 probe_proxies_rotating=0 probe_base_url="http://127.0.0.1:8317" probe_management_key=unset scope_from=config.yaml (pool cleared)
+2026/09/30 14:59:16 [codex-turn-state] probe … gpt-runner-1: pooled a lb-96ac4fd3 pair via (direct)
+2026/09/30 14:59:16 [codex-turn-state] probe … gpt-runner-2: pooled a lb-96ac4fd3 pair via (direct)
+2026/09/30 14:59:16 [codex-turn-state] probe … gpt-runner-1: pooled a lb-ef22ee31 pair via http://127.0.0.1:33411
+2026/09/30 14:59:16 [codex-turn-state] probe … gpt-runner-1: http=200 via http://127.0.0.1:40989 answered degraded (len=312) — this exit's IP is throttled, trying next
+2026/09/30 14:59:16 [codex-turn-state] probe acct model: http=200 via (direct) answered degraded (len=312) (pair still pooled: lb-ef22ee31) — this exit's IP is throttled, trying next
+2026/09/30 14:59:16 [codex-turn-state] probe … gpt-runner-1: pooled a lb-ba2e085f pair via (direct) (turn-state len=780)
+FAIL
+FAIL	github.com/arden-aaai/cpa-plugin-codex-turn-state	3.729s
+FAIL
